@@ -11,7 +11,7 @@ Frontend:
 Backend:
 	-Node.js
 	-Express
-	-GaphQl
+	-GraphQl
 
 DB:
 	-Mongo DB?
