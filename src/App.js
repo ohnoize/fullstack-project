@@ -17,13 +17,23 @@ const secondsParser = ({ days, hours, minutes, seconds }) => {
 
 
 const App = () => {
-  const { days, hours, minutes, seconds, start, pause, reset } = useStopwatch()
+  const { days, hours, minutes, seconds, start, pause, reset, isRunning } = useStopwatch()
+  const [ nowPracticing, setNowPracticing ] = useState('');
+  const [ subject, setSubject ] = useState('');
   const [ practiceTime, setPracticeTime ] = useState({
     chords: 0,
     scales: 0
   });
-  const handleStart = () => {
+  const handleStart = (subject) => {
+    setNowPracticing(subject);
     start();
+  }
+  console.log(nowPracticing);
+
+  const handleChange = (event) => {
+    event.preventDefault();
+    console.log(event.target.value);
+    setSubject(event.target.value);
   }
   const handleStopChords = () => {
     pause();
@@ -44,14 +54,28 @@ const App = () => {
     reset();
   }
 
-  const handleStopNew = () => {
+  const handleStartNew = () => {
+    setNowPracticing(subject);
+    start();
+  }
+
+  const handleStopNew = (event) => {
+    event.preventDefault()
     pause();
     const finalSeconds = secondsParser({ days, hours, minutes, seconds })
-    setPracticeTime((prevState) => ({
-      ...prevState,
-      newSubject: finalSeconds
-    }));
-    reset();
+    if (practiceTime.hasOwnProperty(subject)) {
+      setPracticeTime((prevState) => ({
+        ...prevState,
+        [subject]: prevState[subject] + finalSeconds
+      }));
+      reset();
+    } else {
+      setPracticeTime((prevState) => ({
+        ...prevState,
+        [subject]: finalSeconds
+      }));
+      reset();
+    }
   }
 
   const totalTime = () => {
@@ -59,17 +83,23 @@ const App = () => {
     const formattedTime = new Date(time * 1000).toISOString().substr(11, 8)
     return formattedTime;
   }
-  
+  console.log(isRunning);
   return (
     <div>
       <p>Practice clock</p>
-      <p>{Number(minutes).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}:{Number(seconds).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}</p>  
-      <p>Practice chords: <button onClick={handleStart}>Start</button>
+      { isRunning 
+        ? <p>Now practicing {nowPracticing} {Number(minutes).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}:{Number(seconds).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}</p> 
+        : null}
+        
+      <p>Practice chords: <button onClick={() => handleStart('chords')}>Start</button>
       <button onClick={handleStopChords}>Stop</button></p>
-      <p>Practice scales: <button onClick={handleStart}>Start</button>
+      <p>Practice scales: <button onClick={() => handleStart('scales')}>Start</button>
       <button onClick={handleStopScales}>Stop</button></p>
-      <p>Practice newSubject: <button onClick={handleStart}>Start</button>
-      <button onClick={handleStopNew}>Stop</button></p>
+      
+        <p>Practice something else: <input placeholder='What?' name='subject' onChange={handleChange} />
+        <button onClick={handleStartNew}>Start</button>
+        <button onClick={handleStopNew}>Stop</button></p>
+      
       <p>Time spent:</p>
       {Object.entries(practiceTime).map(([key, value]) => 
         <p key={key}>{key}: {new Date(value * 1000).toISOString().substr(11, 8)}</p>)}
