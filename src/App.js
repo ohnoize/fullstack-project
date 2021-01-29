@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useStopwatch } from 'react-timer-hook'
+import { useStopwatch } from 'react-timer-hook';
 
 const secondsParser = ({ days, hours, minutes, seconds }) => {
   if (minutes) {
@@ -20,41 +20,34 @@ const App = () => {
   const { days, hours, minutes, seconds, start, pause, reset, isRunning } = useStopwatch()
   const [ nowPracticing, setNowPracticing ] = useState('');
   const [ subject, setSubject ] = useState('');
-  const [ practiceTime, setPracticeTime ] = useState({
-    chords: 0,
-    scales: 0
-  });
-  const handleStart = (subject) => {
-    setNowPracticing(subject);
-    start();
-  }
+  const [ practiceTime, setPracticeTime ] = useState({});
+  const [ fieldVisible, setFieldVisible ] = useState(false);
+  
   console.log(nowPracticing);
+
+  const handleDropDown = (event) => {
+    event.preventDefault;
+    if (event.target.value === 'other') {
+      setFieldVisible(true)
+    } else {
+      setFieldVisible(false)
+      setSubject(event.target.value)
+    }
+  };
+
+  console.log(fieldVisible);
 
   const handleChange = (event) => {
     event.preventDefault();
     console.log(event.target.value);
     setSubject(event.target.value);
   }
-  const handleStopChords = () => {
-    pause();
-    const finalSeconds = secondsParser({ days, hours, minutes, seconds })
-    setPracticeTime((prevState) => ({
-      ...prevState,
-      chords: prevState.chords + finalSeconds 
-    }));
-    reset();
-  }
-  const handleStopScales = () => {
-    pause();
-    const finalSeconds = secondsParser({ days, hours, minutes, seconds })
-    setPracticeTime((prevState) => ({
-      ...prevState,
-      scales: prevState.scales + finalSeconds 
-    }));
-    reset();
-  }
-
+  
   const handleStartNew = () => {
+    if (!subject) {
+      window.alert('Pick a subject!')
+      return;
+    }
     setNowPracticing(subject);
     start();
   }
@@ -69,6 +62,8 @@ const App = () => {
         [subject]: prevState[subject] + finalSeconds
       }));
       reset();
+      setSubject('');
+      setFieldVisible(false);
     } else {
       setPracticeTime((prevState) => ({
         ...prevState,
@@ -79,31 +74,63 @@ const App = () => {
   }
 
   const totalTime = () => {
-    const time = Object.values(practiceTime).reduce((a, b) => a + b)
-    const formattedTime = new Date(time * 1000).toISOString().substr(11, 8)
-    return formattedTime;
+    if (Object.keys(practiceTime).length !== 0) {
+      const time = Object.values(practiceTime).reduce((a, b) => a + b)
+      return time;
+    } else return null;
   }
   console.log(isRunning);
+
+  const handleFinish = () => {
+    if (window.confirm('Do you really want to end the practice session?')) {
+      console.log('Session over!');
+      const sessionInfo = {
+        individualSubjects: {
+          ...practiceTime,
+        },
+        id: Math.random() * 1000,
+        totalLength: totalTime(),
+        user: 'olli'
+      }
+      setPracticeTime({
+        chords: 0,
+        scales: 0
+      })
+      console.log(sessionInfo);
+    }
+  }
+
+  const options = [
+    { value: 'scales', label: 'Scales' },
+    { value: 'chords', label: 'Chords' }
+  ]
+
   return (
     <div>
       <p>Practice clock</p>
       { isRunning 
         ? <p>Now practicing {nowPracticing} {Number(minutes).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}:{Number(seconds).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}</p> 
         : null}
-        
-      <p>Practice chords: <button onClick={() => handleStart('chords')}>Start</button>
-      <button onClick={handleStopChords}>Stop</button></p>
-      <p>Practice scales: <button onClick={() => handleStart('scales')}>Start</button>
-      <button onClick={handleStopScales}>Stop</button></p>
+
+      <p>Pick a subject to practice:</p>
+      <select onChange={handleDropDown}>
+        <option value='chords'>Chords</option>
+        <option value='scales'>Scales</option>
+        <option value='other'>Something else</option>
+      </select>
+      { fieldVisible
+          ? <input placeholder='What?' name='subject' onChange={handleChange} />
+          : null
+      }
       
-        <p>Practice something else: <input placeholder='What?' name='subject' onChange={handleChange} />
-        <button onClick={handleStartNew}>Start</button>
-        <button onClick={handleStopNew}>Stop</button></p>
+      <p><button onClick={handleStartNew}>Start</button>
+      <button onClick={handleStopNew}>Stop</button></p>
       
       <p>Time spent:</p>
       {Object.entries(practiceTime).map(([key, value]) => 
         <p key={key}>{key}: {new Date(value * 1000).toISOString().substr(11, 8)}</p>)}
-      <p>Total time: {totalTime()}</p>
+      <p>Total time: {new Date(totalTime() * 1000).toISOString().substr(11, 8)}</p>
+      <p><button onClick={handleFinish}>Finish session</button></p>
     </div>
   );
 };
