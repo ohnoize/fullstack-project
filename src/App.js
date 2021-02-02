@@ -1,11 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import { 
+  Container, 
+  Typography, 
+  Button,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+  TextField,
+  Box,
+  Grid
+  } from '@material-ui/core';
 import { useStopwatch } from 'react-timer-hook';
 import axios from 'axios';
 
 const sessionsURL = 'http://localhost:3001/api/sessions';
 const subjectsURL = 'http://localhost:3001/api/subjects';
+
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+  mainContainer: {
+    flexDirection: 'row'
+  },
+  header: {
+    marginBottom: 20
+  },
+  boxStyle: {
+    marginTop: 20,
+    marginBottom: 20,
+    padding: 5
+  },
+}));
 
 const secondsParser = ({ days, hours, minutes, seconds }) => {
   if (minutes) {
@@ -21,7 +53,6 @@ const secondsParser = ({ days, hours, minutes, seconds }) => {
 }
 
 
-
 const App = () => {
   const { days, hours, minutes, seconds, start, pause, reset, isRunning } = useStopwatch()
   const [ nowPracticing, setNowPracticing ] = useState('');
@@ -31,6 +62,8 @@ const App = () => {
   const [ sessions, setSessions ] = useState([]);
   const [ subjects, setSubjects ] = useState([]);
   const [ notes, setNotes ] = useState('');
+
+  const classes = useStyles();
 
   useEffect(() => {
     axios
@@ -42,20 +75,9 @@ const App = () => {
   }, [])
   
   const handleDropDown = (event) => {
-    event.preventDefault;
-    if (event.target.value === 'other') {
-      setFieldVisible(true)
-    } else {
-      setFieldVisible(false)
-      setSubject(event.target.value)
-    }
+    setSubject(event.target.value)
   };
 
-  const handleChange = (event) => {
-    event.preventDefault();
-    console.log(event.target.value);
-    setSubject(event.target.value);
-  }
 
   const handleNotes = (event) => {
     event.preventDefault();
@@ -121,38 +143,48 @@ const App = () => {
     }
   }
 
+
   return (
-    <Container>
-    <div>
-    <Typography>
-      <h1>Practice clock</h1>
+    <Container maxWidth='sm'>
+    <Grid 
+        container
+        direction="column"
+        justify="space-evenly"
+        alignItems="flex-start"
+      >
+      <Typography variant='h2' className={classes.header}>Practice clock</Typography>
       { isRunning 
-        ? <p>Now practicing {nowPracticing} {Number(minutes).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}:{Number(seconds).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}</p> 
+        ? <Typography variant='body1'>Now practicing {nowPracticing} {Number(minutes).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}:{Number(seconds).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}</Typography> 
         : null}
 
-      <p>Pick a subject to practice:</p>
-      <select onChange={handleDropDown}>
-        <option value=''>Choose one</option>
-        {subjects.map(s => 
-          <option key={s.id} value={s.name}>{s.name}</option>
-        )}
-      </select>
-      { fieldVisible
-          ? <input placeholder='What?' name='subject' onChange={handleChange} />
-          : null
-      }
-      
-      <p><button onClick={handleStartNew}>Start</button>
-      <button onClick={handleStopNew}>Stop</button></p>
-      
-      <p><b>Time spent:</b></p>
+      <Typography variant='body1'>Pick a subject to practice:</Typography>
+      <FormControl className={classes.formControl}>
+        <InputLabel id='subject-label'>Choose one</InputLabel>
+        <Select 
+          labelId='subject-label'
+          id='subjectMenu'
+          value={subject}
+          onChange={handleDropDown}>
+          {subjects.map(s => 
+            <MenuItem key={s.id} value={s.name}>{s.name}</MenuItem>
+          )}
+        </Select>
+      </FormControl>
+      <br />
+      <Box className={classes.boxStyle}>
+      <Button variant='outlined' onClick={handleStartNew}>Start</Button>
+      <Button variant='outlined' onClick={handleStopNew}>Stop</Button>
+      </Box>
+      <Box className={classes.boxStyle}>
+      <Typography variant='body1'>Time spent:</Typography>
       {Object.entries(practiceTime).map(([key, value]) => 
-        <p key={key}>{key}: {new Date(value * 1000).toISOString().substr(11, 8)}</p>)}
-      <p>Total: {new Date(totalTime() * 1000).toISOString().substr(11, 8)}</p>
-      <p><input value={notes} placeholder='Add notes (optional)' onChange={handleNotes} /></p>
-      <p><button onClick={handleFinish}>Finish session</button></p>
-      </Typography>
-    </div>
+        <Typography variant='body1' key={key}>{key}: {new Date(value * 1000).toISOString().substr(11, 8)}</Typography>)}
+      <Typography variant='body1'>Total: {new Date(totalTime() * 1000).toISOString().substr(11, 8)}</Typography>
+      </Box>
+      
+        <TextField placeholder='Add notes (optional)' onChange={handleNotes} />
+        <Button onClick={handleFinish}>Finish session</Button>
+      </Grid>
     </Container>
   );
 };
