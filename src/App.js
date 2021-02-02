@@ -10,7 +10,8 @@ import {
   FormControl,
   TextField,
   Box,
-  Grid
+  Grid,
+  Paper
   } from '@material-ui/core';
 import { useStopwatch } from 'react-timer-hook';
 import axios from 'axios';
@@ -37,6 +38,11 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 20,
     padding: 5
   },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
 }));
 
 const secondsParser = ({ days, hours, minutes, seconds }) => {
@@ -58,7 +64,6 @@ const App = () => {
   const [ nowPracticing, setNowPracticing ] = useState('');
   const [ subject, setSubject ] = useState('');
   const [ practiceTime, setPracticeTime ] = useState({});
-  const [ fieldVisible, setFieldVisible ] = useState(false);
   const [ sessions, setSessions ] = useState([]);
   const [ subjects, setSubjects ] = useState([]);
   const [ notes, setNotes ] = useState('');
@@ -104,7 +109,6 @@ const App = () => {
       }));
       reset();
       setSubject('');
-      setFieldVisible(false);
     } else {
       setPracticeTime((prevState) => ({
         ...prevState,
@@ -133,10 +137,7 @@ const App = () => {
         user: 'olli',
         notes: notes
       }
-      setPracticeTime({
-        chords: 0,
-        scales: 0
-      })
+      setPracticeTime({})
       setNotes('')
       console.log(sessionInfo);
       axios.post(sessionsURL, sessionInfo);
@@ -145,47 +146,52 @@ const App = () => {
 
 
   return (
-    <Container maxWidth='sm'>
     <Grid 
         container
-        direction="column"
+        direction="row"
         justify="space-evenly"
-        alignItems="flex-start"
+        alignItems="center"
       >
-      <Typography variant='h2' className={classes.header}>Practice clock</Typography>
-      { isRunning 
-        ? <Typography variant='body1'>Now practicing {nowPracticing} {Number(minutes).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}:{Number(seconds).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}</Typography> 
-        : null}
-
-      <Typography variant='body1'>Pick a subject to practice:</Typography>
-      <FormControl className={classes.formControl}>
-        <InputLabel id='subject-label'>Choose one</InputLabel>
-        <Select 
-          labelId='subject-label'
-          id='subjectMenu'
-          value={subject}
-          onChange={handleDropDown}>
-          {subjects.map(s => 
-            <MenuItem key={s.id} value={s.name}>{s.name}</MenuItem>
-          )}
-        </Select>
-      </FormControl>
-      <br />
-      <Box className={classes.boxStyle}>
-      <Button variant='outlined' onClick={handleStartNew}>Start</Button>
-      <Button variant='outlined' onClick={handleStopNew}>Stop</Button>
-      </Box>
-      <Box className={classes.boxStyle}>
-      <Typography variant='body1'>Time spent:</Typography>
-      {Object.entries(practiceTime).map(([key, value]) => 
-        <Typography variant='body1' key={key}>{key}: {new Date(value * 1000).toISOString().substr(11, 8)}</Typography>)}
-      <Typography variant='body1'>Total: {new Date(totalTime() * 1000).toISOString().substr(11, 8)}</Typography>
-      </Box>
-      
+      <Grid item>
+        <Typography variant='h2' className={classes.header}>Practice clock</Typography>       
+        <Typography variant='body1'>Pick a subject to practice:</Typography>
+        <FormControl className={classes.formControl}>
+          <InputLabel id='subject-label'>Choose one</InputLabel>
+          <Select 
+            labelId='subject-label'
+            id='subjectMenu'
+            value={subject}
+            onChange={handleDropDown}>
+            {subjects.map(s => 
+              <MenuItem key={s.id} value={s.name}>{s.name}</MenuItem>
+            )}
+          </Select>
+        </FormControl>
+        <br />
+        <Box className={classes.boxStyle}>
+          <Button variant='outlined' onClick={handleStartNew}>Start</Button>
+          <Button variant='outlined' onClick={handleStopNew}>Stop</Button>
+        </Box>
+        
+        <Box className={classes.boxStyle}>
+          <Typography variant='body1'>Time spent:</Typography>
+          {Object.entries(practiceTime).map(([key, value]) => 
+            <Typography variant='body1' key={key}>{key}: {new Date(value * 1000).toISOString().substr(11, 8)}</Typography>)}
+          <Typography variant='body1'>Total: {new Date(totalTime() * 1000).toISOString().substr(11, 8)}</Typography>
+        </Box>
+        <Box className={classes.boxStyle}>
         <TextField placeholder='Add notes (optional)' onChange={handleNotes} />
+        </Box>
+        <Box className={classes.boxStyle}>
         <Button onClick={handleFinish}>Finish session</Button>
+        </Box>
       </Grid>
-    </Container>
+      <Grid item>
+          { isRunning 
+          ? <Typography variant='h6'>Now practicing {nowPracticing} {Number(minutes).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}:{Number(seconds).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}</Typography> 
+          : <Typography variant='h6'>Pick a subject and click start!</Typography>}
+      </Grid>
+      </Grid>
   );
 };
 
