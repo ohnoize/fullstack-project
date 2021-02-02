@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
 import { useStopwatch } from 'react-timer-hook';
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:3001/api/sessions';
+const sessionsURL = 'http://localhost:3001/api/sessions';
+const subjectsURL = 'http://localhost:3001/api/subjects';
 
 const secondsParser = ({ days, hours, minutes, seconds }) => {
   if (minutes) {
@@ -25,9 +28,19 @@ const App = () => {
   const [ subject, setSubject ] = useState('');
   const [ practiceTime, setPracticeTime ] = useState({});
   const [ fieldVisible, setFieldVisible ] = useState(false);
-  
-  console.log(nowPracticing);
+  const [ sessions, setSessions ] = useState([]);
+  const [ subjects, setSubjects ] = useState([]);
+  const [ notes, setNotes ] = useState('');
 
+  useEffect(() => {
+    axios
+      .get(sessionsURL)
+      .then(res => setSessions(res.data))
+    axios
+      .get(subjectsURL)
+      .then(res => setSubjects(res.data))
+  }, [])
+  
   const handleDropDown = (event) => {
     event.preventDefault;
     if (event.target.value === 'other') {
@@ -38,12 +51,15 @@ const App = () => {
     }
   };
 
-  console.log(fieldVisible);
-
   const handleChange = (event) => {
     event.preventDefault();
     console.log(event.target.value);
     setSubject(event.target.value);
+  }
+
+  const handleNotes = (event) => {
+    event.preventDefault();
+    setNotes(event.target.value);
   }
   
   const handleStartNew = () => {
@@ -92,34 +108,34 @@ const App = () => {
           ...practiceTime,
         },
         totalLength: totalTime(),
-        user: 'olli'
+        user: 'olli',
+        notes: notes
       }
       setPracticeTime({
         chords: 0,
         scales: 0
       })
+      setNotes('')
       console.log(sessionInfo);
-      axios.post(baseUrl, sessionInfo);
+      axios.post(sessionsURL, sessionInfo);
     }
   }
 
-  const options = [
-    { value: 'scales', label: 'Scales' },
-    { value: 'chords', label: 'Chords' }
-  ]
-
   return (
+    <Container>
     <div>
-      <p>Practice clock</p>
+    <Typography>
+      <h1>Practice clock</h1>
       { isRunning 
         ? <p>Now practicing {nowPracticing} {Number(minutes).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}:{Number(seconds).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}</p> 
         : null}
 
       <p>Pick a subject to practice:</p>
       <select onChange={handleDropDown}>
-        <option value='chords'>Chords</option>
-        <option value='scales'>Scales</option>
-        <option value='other'>Something else</option>
+        <option value=''>Choose one</option>
+        {subjects.map(s => 
+          <option key={s.id} value={s.name}>{s.name}</option>
+        )}
       </select>
       { fieldVisible
           ? <input placeholder='What?' name='subject' onChange={handleChange} />
@@ -129,12 +145,15 @@ const App = () => {
       <p><button onClick={handleStartNew}>Start</button>
       <button onClick={handleStopNew}>Stop</button></p>
       
-      <p>Time spent:</p>
+      <p><b>Time spent:</b></p>
       {Object.entries(practiceTime).map(([key, value]) => 
         <p key={key}>{key}: {new Date(value * 1000).toISOString().substr(11, 8)}</p>)}
-      <p>Total time: {new Date(totalTime() * 1000).toISOString().substr(11, 8)}</p>
+      <p>Total: {new Date(totalTime() * 1000).toISOString().substr(11, 8)}</p>
+      <p><input value={notes} placeholder='Add notes (optional)' onChange={handleNotes} /></p>
       <p><button onClick={handleFinish}>Finish session</button></p>
+      </Typography>
     </div>
+    </Container>
   );
 };
 
