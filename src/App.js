@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useStopwatch } from 'react-timer-hook';
+import axios from 'axios';
+
+const baseUrl = 'http://localhost:3001/api/sessions';
 
 const secondsParser = ({ days, hours, minutes, seconds }) => {
   if (minutes) {
@@ -88,7 +91,6 @@ const App = () => {
         individualSubjects: {
           ...practiceTime,
         },
-        id: Math.random() * 1000,
         totalLength: totalTime(),
         user: 'olli'
       }
@@ -97,6 +99,7 @@ const App = () => {
         scales: 0
       })
       console.log(sessionInfo);
+      axios.post(baseUrl, sessionInfo);
     }
   }
 
