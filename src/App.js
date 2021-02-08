@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { gql, useQuery } from '@apollo/client'
+import { GET_SUBJECTS } from './graphql/queries'
 import { makeStyles } from '@material-ui/core/styles';
 import { 
   Container, 
@@ -65,19 +67,22 @@ const App = () => {
   const [ subject, setSubject ] = useState('');
   const [ practiceTime, setPracticeTime ] = useState({});
   const [ sessions, setSessions ] = useState([]);
-  const [ subjects, setSubjects ] = useState([]);
+  // const [ subjects, setSubjects ] = useState([]);
   const [ notes, setNotes ] = useState('');
 
+  const subjects = useQuery(GET_SUBJECTS)
+  
+  
   const classes = useStyles();
 
-  useEffect(() => {
-    axios
-      .get(sessionsURL)
-      .then(res => setSessions(res.data))
-    axios
-      .get(subjectsURL)
-      .then(res => setSubjects(res.data))
-  }, [])
+  // useEffect(() => {
+  //   axios
+  //     .get(sessionsURL)
+  //     .then(res => setSessions(res.data))
+  //   axios
+  //     .get(subjectsURL)
+  //     .then(res => setSubjects(res.data))
+  // }, [])
   
   const handleDropDown = (event) => {
     setSubject(event.target.value)
@@ -144,6 +149,11 @@ const App = () => {
     }
   }
 
+  if (subjects.loading) {
+    return (
+      <div>Loading...</div>
+    )
+  }
 
   return (
     <Grid 
@@ -162,7 +172,7 @@ const App = () => {
             id='subjectMenu'
             value={subject}
             onChange={handleDropDown}>
-            {subjects.map(s => 
+            {subjects.data.allSubjects.map(s => 
               <MenuItem key={s.id} value={s.name}>{s.name}</MenuItem>
             )}
           </Select>
