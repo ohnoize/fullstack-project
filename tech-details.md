@@ -23,9 +23,10 @@ Schemas:
 	-Session
 	-Subject
 
-	User: { id, username, totalTime, subjectsStudied: { id, time } }
-	Session: { id, totalLength, individualSubjects: { id, length }, notes }
+	User: { id, username, totalTime, subjectsStudied: { id, time }, instrument }
+	Session: { id, totalLength, individualSubjects: { id, length }, notes, userID }
 	Subject: { id, name, description, timePracticed }
+	
 
 Backend
 

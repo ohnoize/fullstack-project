@@ -9,3 +9,4 @@
 | 2.2 | 4h | Setting up backend endpoints for sessions and subjects, implementing material-ui for the frontend |
 | 2.2 | 2h | Configuring layout |
 | 4.2 | 8h | Switched the backend to use graphql and updated the code to ES6 |
+| 8.2 | 7h | Configuring graphql for front- and backend |
