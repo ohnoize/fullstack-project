@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { gql, useQuery } from '@apollo/client'
-import { GET_SUBJECTS } from './graphql/queries'
+import { gql, useQuery, useMutation } from '@apollo/client'
+import { GET_SUBJECTS, GET_USERS } from './graphql/queries'
+import { ADD_SESSION } from './graphql/mutations'
 import { makeStyles } from '@material-ui/core/styles';
 import { 
   Container, 
@@ -18,8 +19,9 @@ import {
 import { useStopwatch } from 'react-timer-hook';
 import axios from 'axios';
 
-const sessionsURL = 'http://localhost:3001/api/sessions';
-const subjectsURL = 'http://localhost:3001/api/subjects';
+
+// const sessionsURL = 'http://localhost:3001/api/sessions';
+// const subjectsURL = 'http://localhost:3001/api/subjects';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -71,7 +73,9 @@ const App = () => {
   const [ notes, setNotes ] = useState('');
 
   const subjects = useQuery(GET_SUBJECTS)
-  
+  const users = useQuery(GET_USERS)
+
+  const [ addSession ] = useMutation(ADD_SESSION)
   
   const classes = useStyles();
 
@@ -134,18 +138,18 @@ const App = () => {
   const handleFinish = () => {
     if (window.confirm('Do you really want to end the practice session?')) {
       console.log('Session over!');
+      console.log(Object.entries(practiceTime))
       const sessionInfo = {
-        individualSubjects: {
-          ...practiceTime,
-        },
+        individualSubjects: Object.entries(practiceTime).map(a => ({id: a[0], length: a[1]})),
         totalLength: totalTime(),
-        user: 'olli',
+        userID: 1,
         notes: notes
       }
-      setPracticeTime({})
-      setNotes('')
+      addSession({ variables: { ...sessionInfo } });
+      setPracticeTime({});
+      setNotes('');
       console.log(sessionInfo);
-      axios.post(sessionsURL, sessionInfo);
+      // axios.post(sessionsURL, sessionInfo);
     }
   }
 

@@ -5,10 +5,10 @@ export const SESSION_ITEMS = gql`
     id
     totalLength
     notes
-    user {
-      id
-      username
-      instrument
+    userID
+    individualSubjects {
+      id,
+      length
     }
   }
 `
@@ -22,7 +22,7 @@ export const SUBJECT_ITEMS = gql`
 `
 
 export const USER_ITEMS = gql`
-  fragment UserITems on User {
+  fragment UserItems on User {
     id
     username
     instrument
