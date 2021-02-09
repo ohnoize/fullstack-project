@@ -140,7 +140,7 @@ const App = () => {
       console.log('Session over!');
       console.log(Object.entries(practiceTime))
       const sessionInfo = {
-        individualSubjects: Object.entries(practiceTime).map(a => ({id: a[0], length: a[1]})),
+        individualSubjects: Object.entries(practiceTime).map(a => ({name: a[0], length: a[1]})),
         totalLength: totalTime(),
         userID: 1,
         notes: notes

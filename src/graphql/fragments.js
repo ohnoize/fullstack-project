@@ -7,7 +7,7 @@ export const SESSION_ITEMS = gql`
     notes
     userID
     individualSubjects {
-      id,
+      name,
       length
     }
   }

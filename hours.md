@@ -10,3 +10,4 @@
 | 2.2 | 2h | Configuring layout |
 | 4.2 | 8h | Switched the backend to use graphql and updated the code to ES6 |
 | 8.2 | 7h | Configuring graphql for front- and backend |
+| 9.2 | 3h | Configured MongoDB and updated graphQL queries and mutations for it |

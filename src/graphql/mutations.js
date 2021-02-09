@@ -8,15 +8,14 @@ export const ADD_SESSION = gql`
     $userID: ID!
   ) {
     addSession(
-      session: {
         userID: $userID
         totalLength: $totalLength
         notes: $notes
         individualSubjects: $individualSubjects
-      }
   ) {
       userID
       totalLength
+      notes
     }
   }
 `
