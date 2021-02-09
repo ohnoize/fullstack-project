@@ -10,6 +10,16 @@ export const GET_SUBJECTS = gql`
 ${SUBJECT_ITEMS}
 `
 
+export const CURRENT_USER = gql`
+  query {
+    me {
+      id
+      username
+      instrument
+    }
+  }
+`
+
 export const GET_SESSIONS = gql`
   query {
     allSessions {
