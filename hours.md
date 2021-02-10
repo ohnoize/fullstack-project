@@ -12,3 +12,4 @@
 | 8.2 | 7h | Configuring graphql for front- and backend |
 | 9.2 | 3h | Configured MongoDB and updated graphQL queries and mutations for it |
 | 9.2 | 4h | Added login feature |
+| 10.2 | 4h | Trying to figure out state/context for logged user |

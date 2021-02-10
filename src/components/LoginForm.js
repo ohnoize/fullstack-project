@@ -11,7 +11,9 @@ const LoginForm = ({ setToken }) => {
   
   const [ username, setUsername ] = useState('')
   const [ password, setPassword ] = useState('')
-  const [ login, result ] = useMutation(LOGIN)
+  const [ login, result ] = useMutation(LOGIN, {
+    refetchQueries: [ { query: CURRENT_USER } ]
+  })
   const history = useHistory();
   useEffect(() => {
     if (result.data) {

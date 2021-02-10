@@ -3,6 +3,7 @@ import { gql } from '@apollo/client';
 export const SESSION_ITEMS = gql`
   fragment SessionItems on Session {
     id
+    date
     totalLength
     notes
     userID

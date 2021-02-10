@@ -19,13 +19,14 @@ const httpLink = new HttpLink({
 })
 
 const client = new ApolloClient({
+  connectToDevTools: true,
   cache: new InMemoryCache(),
   link: authLink.concat(httpLink)
 })
 
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>, 
+    <ApolloProvider client={client}> 
+        <App />
+    </ApolloProvider>,
 document.getElementById('root'));

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   BrowserRouter as Router,
   Switch, Route, Link
@@ -47,11 +47,10 @@ const App = () => {
   const [token, setToken] = useState(null);
   const classes = useStyles();
   const client = useApolloClient()
+  let currentUser = useQuery(CURRENT_USER)
 
-  const currentUser = useQuery(CURRENT_USER, {
-    pollInterval: 1000
-  })
-
+  useEffect(() => client.resetStore(), []); 
+ 
   const handleLogOut = () => {
     setToken(null);
     localStorage.clear();
@@ -75,7 +74,9 @@ const App = () => {
         </Grid>
         <Grid item>
           {token 
-            ? <Typography>Welcome back {currentUser.data.me.username}!</Typography>
+            ? currentUser.data
+                ? <Typography>Welcome back!</Typography>
+                : <Typography>Welcome back!</Typography>
             : <Link to='/login'><Typography variant='h5'>Signup/Login</Typography></Link>
           }
         </Grid>

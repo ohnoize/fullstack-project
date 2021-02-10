@@ -122,7 +122,10 @@ const MainTimer = () => {
     if (window.confirm('Do you really want to end the practice session?')) {
       console.log('Session over!');
       console.log(Object.entries(practiceTime))
+      const date = new Date();
+      console.log(date);
       const sessionInfo = {
+        date: date.toString(),
         individualSubjects: Object.entries(practiceTime).map(a => ({name: a[0], length: a[1]})),
         totalLength: totalTime(),
         userID: 1,
