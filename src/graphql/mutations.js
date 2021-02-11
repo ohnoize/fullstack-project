@@ -5,7 +5,7 @@ export const ADD_SESSION = gql`
     $totalLength: Int!,
     $individualSubjects: [sessionSubjectInput!]!,
     $notes: String,
-    $userID: ID!,
+    $userID: String!,
     $date: String!
   ) {
     addSession(
