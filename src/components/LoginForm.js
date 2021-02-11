@@ -17,7 +17,7 @@ const LoginForm = ({ setToken }) => {
   const history = useHistory();
   useEffect(() => {
     if (result.data) {
-      const token = result.data.login.value;
+      const token = result.data.login.token;
       setToken(token)
       localStorage.setItem('shed-app-user-token', token)
       history.push('/')
