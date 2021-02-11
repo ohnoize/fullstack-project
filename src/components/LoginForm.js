@@ -18,8 +18,10 @@ const LoginForm = ({ setToken }) => {
   useEffect(() => {
     if (result.data) {
       const token = result.data.login.token;
+      const user = result.data.login.user;
       setToken(token)
-      localStorage.setItem('shed-app-user-token', token)
+      localStorage.setItem('shed-app-user-token', token);
+      localStorage.setItem('shed-app-user', JSON.stringify(user));
       history.push('/')
     }
   }, [result.data])

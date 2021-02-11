@@ -6,11 +6,12 @@ import { setContext } from 'apollo-link-context';
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('shed-app-user-token')
-  console.log(token !== 'undefined');
+  console.log(token !== 'undefined' || 'null');
+  console.log(token);
   return {
     headers: {
       ...headers,
-      authorization: token !== 'undefined' ? `bearer ${token}` : null,
+      authorization: token ? `bearer ${token}` : null,
     }
   }
 })

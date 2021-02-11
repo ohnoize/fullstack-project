@@ -59,12 +59,14 @@ const secondsParser = ({ days, hours, minutes, seconds }) => {
 }
 
 
-const MainTimer = () => {
+const MainTimer = ({ currentUser }) => {
   const { days, hours, minutes, seconds, start, pause, reset, isRunning } = useStopwatch()
   const [ nowPracticing, setNowPracticing ] = useState('');
   const [ subject, setSubject ] = useState('');
   const [ practiceTime, setPracticeTime ] = useState({});
   const [ notes, setNotes ] = useState('');
+
+
 
   const subjects = useQuery(GET_SUBJECTS)
   
@@ -117,7 +119,7 @@ const MainTimer = () => {
     } else return null;
   }
   // console.log(isRunning);
-
+  console.log('currentuser in timer:', currentUser);
   const handleFinish = () => {
     if (window.confirm('Do you really want to end the practice session?')) {
       console.log('Session over!');
@@ -128,10 +130,11 @@ const MainTimer = () => {
         date: date.toString(),
         individualSubjects: Object.entries(practiceTime).map(a => ({name: a[0], length: a[1]})),
         totalLength: totalTime(),
-        userID: 1,
+        userID: currentUser.id,
         notes: notes
       }
       addSession({ variables: { ...sessionInfo } });
+      console.log(sessionInfo);
       setPracticeTime({});
       setNotes('');
       console.log(sessionInfo);

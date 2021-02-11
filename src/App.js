@@ -47,9 +47,16 @@ const App = () => {
   const [token, setToken] = useState(null);
   const classes = useStyles();
   const client = useApolloClient()
-  let currentUser = useQuery(CURRENT_USER)
+  let currentUser = JSON.parse(localStorage.getItem('shed-app-user'));
 
-  useEffect(() => client.resetStore(), []); 
+  useEffect(() => {
+    const localToken = localStorage.getItem('shed-app-user-token')
+    if (localToken) {
+      setToken(localToken);
+    }
+  }, []);
+
+  console.log('Current user in app:', currentUser)
  
   const handleLogOut = () => {
     setToken(null);
@@ -74,9 +81,7 @@ const App = () => {
         </Grid>
         <Grid item>
           {token 
-            ? currentUser.data
-                ? <Typography>Welcome back!</Typography>
-                : <Typography>Welcome back!</Typography>
+            ? <Typography>Welcome back {currentUser.username}!</Typography>
             : <Link to='/login'><Typography variant='h5'>Signup/Login</Typography></Link>
           }
         </Grid>
@@ -92,7 +97,7 @@ const App = () => {
           <LoginForm setToken={setToken} />
         </Route>
         <Route path='/'>
-          <MainTimer />
+          <MainTimer currentUser={currentUser} />
         </Route>
       </Switch>
     </Grid>
