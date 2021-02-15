@@ -30,9 +30,9 @@ const Header = ({ currentUser, token, handleLogOut }) => {
         <Grid item>
           {token
             ? <>
-              <Button onClick={() => history.push('/')}>Home</Button> 
-              <Button onClick={() => history.push('/history')}>History</Button>
-              <Button href ='/' onClick={handleLogOut}>Log out</Button></>
+              <Button component={Link} to='/'>Home</Button> 
+              <Button component={Link} to='/history'>History</Button>
+              <Button component={Link} to='/' onClick={handleLogOut}>Log out</Button></>
             : null
           }
         </Grid>

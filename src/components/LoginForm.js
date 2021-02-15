@@ -1,8 +1,8 @@
 import { useMutation } from '@apollo/client';
-import { Button, Grid, TextField, makeStyles, Box, Typography } from '@material-ui/core';
+import { Button, Grid, TextField, makeStyles, Box, Typography, Link } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link as RouterLink } from 'react-router-dom';
 import { LOGIN } from '../graphql/mutations';
 import { CURRENT_USER } from '../graphql/queries';
 
@@ -77,7 +77,7 @@ const LoginForm = ({ setToken }) => {
         <Button type="submit">Login</Button>
       </Grid>
       <Grid item>
-        <Typography variant='body2'>Create account</Typography>
+        <Link variant='body2' component={RouterLink} to='/signup'>Create account</Link>
       </Grid>
       </form>
     </Grid>

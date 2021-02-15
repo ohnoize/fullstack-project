@@ -46,10 +46,10 @@ const SessionHistory = ({ currentUser }) => {
     <Box>
       {sessions.data.allSessions.map((s, index) => 
         <Card key={index} className={classes.root}>
-          <Typography key={s.date} className={classes.title}>{new Date(s.date).toLocaleDateString()}</Typography>
-          <Typography className={classes.bullet} key={s.notes}>Notes: {s.notes}</Typography>
-          <Typography className={classes.bullet} key={s.totalLength}>Total length: {timeParser(s.totalLength)}</Typography>
-          <Typography className={classes.title} key={s.userID}>Subjects practiced:</Typography>
+          <Typography className={classes.title}>{new Date(s.date).toLocaleDateString()}</Typography>
+          <Typography className={classes.bullet}>Notes: {s.notes}</Typography>
+          <Typography className={classes.bullet}>Total length: {timeParser(s.totalLength)}</Typography>
+          <Typography className={classes.title}>Subjects practiced:</Typography>
             {s.individualSubjects.map((i, index) => 
               <Typography className={classes.bullet} key={index}>{i.name} {timeParser(i.length)}</Typography>
             )}

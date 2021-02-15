@@ -12,6 +12,7 @@ import LoginForm from './components/LoginForm';
 import Header from './components/Header';
 import { useApolloClient, useQuery } from '@apollo/client';
 import SessionHistory from './components/SessionHistory';
+import SignUpForm from './components/SignUpForm';
 
 const App = () => {
   
@@ -44,6 +45,9 @@ const App = () => {
       <Switch>
         <Route path='/login'>
           <LoginForm setToken={setToken} />
+        </Route>
+        <Route path='/signup'>
+          <SignUpForm />
         </Route>
         <Route path='/history'>
             <SessionHistory currentUser={currentUser} />
