@@ -1,6 +1,8 @@
+import { useMutation } from '@apollo/client';
 import { Button, Grid, TextField, Typography, makeStyles, Link } from '@material-ui/core';
 import React, { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
+import { ADD_USER } from '../graphql/mutations';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -34,12 +36,18 @@ const SignUpForm = () => {
   const [ password, setPassword ] = useState('');
   const [ instrument, setInstrument ] = useState('');
 
+  const [ signUp ] = useMutation(ADD_USER);
+
+  const history = useHistory()
   const classes = useStyles()
 
   const handleSignUp = (e) => {
     e.preventDefault();
     const newUser = { username, password, instrument };
     console.log(newUser);
+    signUp({ variables: { ...newUser } })
+    alert('Success!')
+    history.push('/login')
   }
   return (
     <Grid
