@@ -18,6 +18,7 @@ import {
   Link
   } from '@material-ui/core';
 import { useStopwatch } from 'react-timer-hook';
+import { timeParser } from '../utils';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -180,8 +181,8 @@ const MainTimer = ({ currentUser }) => {
         <Box className={classes.boxStyle}>
           <Typography variant='body1'>Time spent:</Typography>
           {Object.entries(practiceTime).map(([key, value]) => 
-            <Typography variant='body1' key={key}>{key}: {new Date(value * 1000).toISOString().substr(11, 8)}</Typography>)}
-          <Typography variant='body1'>Total: {new Date(totalTime() * 1000).toISOString().substr(11, 8)}</Typography>
+            <Typography variant='body1' key={key}>{key}: {timeParser(value)}</Typography>)}
+          <Typography variant='body1'>Total: {timeParser(totalTime())}</Typography>
         </Box>
         <Box className={classes.boxStyle}>
         <TextField placeholder='Add notes (optional)' onChange={handleNotes} />

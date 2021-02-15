@@ -21,8 +21,8 @@ export const CURRENT_USER = gql`
 `
 
 export const GET_SESSIONS = gql`
-  query {
-    allSessions {
+  query allSessions($userID:String){
+    allSessions(userID: $userID) {
     ...SessionItems
     }
   }

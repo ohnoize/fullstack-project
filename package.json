@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/ohnoize/fullstack-project/issues"
   },
-  "homepage": "https://github.com/ohnoize/fullstack-project#readme",
+  "homepage": "",
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/polyfill": "^7.12.1",
