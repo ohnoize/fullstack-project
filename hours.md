@@ -17,3 +17,4 @@
 | 11.2 | 2h | Figured a way to connect user w/ sessions in backend/db | 
 | 11.2 | 2h | Research on React Hooks (React conf video on Youtube) |
 | 15.2 | 4h | Edited routing, added session history page |
+| 15.2 | 2h | Added passwords/encryption & signup page/possibility to add users | 

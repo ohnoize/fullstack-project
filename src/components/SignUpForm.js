@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import { Button, Grid, TextField, Typography, makeStyles, Link } from '@material-ui/core';
+import { Button, Grid, TextField, makeStyles, Link } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { ADD_USER } from '../graphql/mutations';

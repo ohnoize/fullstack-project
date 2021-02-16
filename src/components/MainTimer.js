@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { gql, useQuery, useMutation } from '@apollo/client'
-import { GET_SUBJECTS, GET_USERS } from '../graphql/queries'
+import { GET_SESSIONS, GET_SUBJECTS, GET_USERS } from '../graphql/queries'
 import { ADD_SESSION } from '../graphql/mutations'
 import { makeStyles } from '@material-ui/core/styles';
 import { 
@@ -71,7 +71,9 @@ const MainTimer = ({ currentUser }) => {
 
   const subjects = useQuery(GET_SUBJECTS)
   
-  const [ addSession ] = useMutation(ADD_SESSION)
+  const [ addSession ] = useMutation(ADD_SESSION, {
+    refetchQueries: { query: GET_SESSIONS }
+  })
   
   const classes = useStyles();
 
