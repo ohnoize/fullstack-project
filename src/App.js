@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {
   BrowserRouter as Router,
-  Switch, Route, useHistory
+  Switch, Route, useHistory, useRouteMatch
 } from "react-router-dom"
 
 import { 
@@ -13,6 +13,7 @@ import Header from './components/Header';
 import { useApolloClient, useQuery } from '@apollo/client';
 import SessionHistory from './components/SessionHistory';
 import SignUpForm from './components/SignUpForm';
+import SubjectForm from './components/SubjectForm';
 
 const App = () => {
   
@@ -40,6 +41,7 @@ const App = () => {
     <Grid
       container
       direction="column"
+      margin="40"
     >
       <Header currentUser={currentUser} token={token} handleLogOut={handleLogOut} />
       <Switch>
@@ -49,10 +51,16 @@ const App = () => {
         <Route path='/signup'>
           <SignUpForm />
         </Route>
+        <Route path='/addsubject'>
+          <SubjectForm />
+        </Route>
         <Route path='/history'>
             <SessionHistory currentUser={currentUser} />
         </Route>
         <Route path='/'>
+          <MainTimer currentUser={currentUser} />
+        </Route>
+        <Route path='/*'>
           <MainTimer currentUser={currentUser} />
         </Route>
       </Switch>

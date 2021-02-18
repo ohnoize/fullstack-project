@@ -79,6 +79,9 @@ const LoginForm = ({ setToken }) => {
       <Grid item>
         <Link variant='body2' component={RouterLink} to='/signup'>Create account</Link>
       </Grid>
+      <Grid item>  
+        <Link variant='body2' component={RouterLink} to='/'>Cancel</Link>
+      </Grid>
       </form>
     </Grid>
   )

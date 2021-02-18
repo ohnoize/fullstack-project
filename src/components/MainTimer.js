@@ -3,6 +3,7 @@ import { gql, useQuery, useMutation } from '@apollo/client'
 import { GET_SESSIONS, GET_SUBJECTS, GET_USERS } from '../graphql/queries'
 import { ADD_SESSION } from '../graphql/mutations'
 import { makeStyles } from '@material-ui/core/styles';
+import { Link as RouterLink } from 'react-router-dom';
 import { 
   Container, 
   Typography, 
@@ -72,13 +73,14 @@ const MainTimer = ({ currentUser }) => {
   const subjects = useQuery(GET_SUBJECTS)
   
   const [ addSession ] = useMutation(ADD_SESSION, {
-    refetchQueries: { query: GET_SESSIONS }
+    refetchQueries: [ { query: GET_SESSIONS } ]
   })
   
   const classes = useStyles();
 
   const handleDropDown = (event) => {
-    setSubject(event.target.value)
+    const value = event.target.value;
+    setSubject(value)
   };
 
   const handleNotes = (event) => {
@@ -91,7 +93,8 @@ const MainTimer = ({ currentUser }) => {
       window.alert('Pick a subject!')
       return;
     }
-    setNowPracticing(subject);
+    const fullSubject = subjects.data.allSubjects.find(s => s.name === subject)
+    setNowPracticing(fullSubject);
     start();
   }
 
@@ -175,6 +178,7 @@ const MainTimer = ({ currentUser }) => {
           </Select>
         </FormControl>
         <br />
+        <Link variant='body2' component={RouterLink} to='/addsubject'>Add subject</Link>
         <Box className={classes.boxStyle}>
           <Button variant='outlined' onClick={handleStartNew}>Start</Button>
           <Button variant='outlined' onClick={handleStopNew}>Stop</Button>
@@ -195,7 +199,8 @@ const MainTimer = ({ currentUser }) => {
       </Grid>
       <Grid item>
           { isRunning 
-          ? <Typography variant='h6'>Now practicing {nowPracticing} {Number(minutes).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}:{Number(seconds).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}</Typography> 
+          ? <><Typography variant='h6'>Now practicing {nowPracticing.name} {Number(minutes).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}:{Number(seconds).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}</Typography>
+            <Typography variant='body2'>Description: {nowPracticing.description}</Typography></>
           : <Typography variant='h6'>Pick a subject and click start!</Typography>}
       </Grid>
       </Grid>

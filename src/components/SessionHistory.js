@@ -42,7 +42,7 @@ const SessionHistory = ({ currentUser }) => {
         justify="space-evenly"
         alignItems="center"
       >
-    <Typography variant='h5'>Previous sessions of {currentUser.username}</Typography>
+    <Typography variant='h5'>Your previous sessions</Typography>
     <Box>
       {sessions.data.allSessions.map((s, index) => 
         <Card key={index} className={classes.root}>

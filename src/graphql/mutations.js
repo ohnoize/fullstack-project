@@ -32,6 +32,16 @@ export const ADD_USER = gql`
   }
 `
 
+export const ADD_SUBJECT = gql`
+  mutation addSubject($name: String!, $description: String) {
+    addSubject(name: $name, description: $description) {
+      name
+      description
+      id
+    }
+  }
+`
+
 export const LOGIN = gql`
   mutation login($username: String!, $password: String!) {
     login(
