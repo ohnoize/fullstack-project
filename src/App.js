@@ -18,6 +18,7 @@ import SubjectForm from './components/SubjectForm';
 const App = () => {
   
   const [token, setToken] = useState(null);
+  const [ practiceTime, setPracticeTime ] = useState({});
   const client = useApolloClient();
   let currentUser = JSON.parse(localStorage.getItem('shed-app-user'));
   const history = useHistory();
@@ -58,7 +59,7 @@ const App = () => {
             <SessionHistory currentUser={currentUser} />
         </Route>
         <Route path='/'>
-          <MainTimer currentUser={currentUser} />
+          <MainTimer currentUser={currentUser} practiceTime={practiceTime} setPracticeTime={setPracticeTime} />
         </Route>
         <Route path='/*'>
           <MainTimer currentUser={currentUser} />

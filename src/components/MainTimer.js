@@ -61,11 +61,11 @@ const secondsParser = ({ days, hours, minutes, seconds }) => {
 }
 
 
-const MainTimer = ({ currentUser }) => {
+const MainTimer = ({ currentUser, practiceTime, setPracticeTime }) => {
   const { days, hours, minutes, seconds, start, pause, reset, isRunning } = useStopwatch()
   const [ nowPracticing, setNowPracticing ] = useState('');
   const [ subject, setSubject ] = useState('');
-  const [ practiceTime, setPracticeTime ] = useState({});
+  // const [ practiceTime, setPracticeTime ] = useState({});
   const [ notes, setNotes ] = useState('');
 
 
@@ -74,16 +74,6 @@ const MainTimer = ({ currentUser }) => {
   
   const [ addSession ] = useMutation(ADD_SESSION, {
     refetchQueries: [ { query: GET_SESSIONS } ],
-    update: (store, response) => {
-      const dataInStore = store.readQuery({ query: GET_SESSIONS })
-      store.writeQuery({
-        query: GET_SESSIONS,
-        data: {
-          ...dataInStore,
-          allSessions: [ ...dataInStore.allSessions, response.data.addSession ]
-        }
-      })
-    }
   })
   
   const classes = useStyles();
