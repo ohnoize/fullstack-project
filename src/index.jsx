@@ -1,24 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import { ApolloProvider, ApolloClient, HttpLink, InMemoryCache, gql } from '@apollo/client';
+import {
+  ApolloProvider, ApolloClient, HttpLink, InMemoryCache,
+} from '@apollo/client';
 import { setContext } from 'apollo-link-context';
+import App from './App';
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('shed-app-user-token')
-  console.log(token !== 'undefined' || 'null');
-  console.log(token);
+  const token = localStorage.getItem('shed-app-user-token');
+  // console.log(token !== 'undefined' || 'null');
+  // console.log(token);
   return {
     headers: {
       ...headers,
       authorization: token ? `bearer ${token}` : null,
-    }
-  }
-})
+    },
+  };
+});
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:4000'
-})
+  uri: 'http://localhost:4000',
+});
 
 const client = new ApolloClient({
   connectToDevTools: true,
@@ -29,11 +31,11 @@ const client = new ApolloClient({
       fetchPolicy: 'cache-and-network',
     },
   },
-})
-
+});
 
 ReactDOM.render(
-    <ApolloProvider client={client}> 
-        <App />
-    </ApolloProvider>,
-document.getElementById('root'));
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>,
+  document.getElementById('root'),
+);

@@ -20,7 +20,7 @@ export const ADD_SESSION = gql`
     }
   }
 ${SESSION_ITEMS}
-`
+`;
 
 export const ADD_USER = gql`
   mutation addUser($username: String!, $instrument: String, $password: String!) {
@@ -30,7 +30,7 @@ export const ADD_USER = gql`
       instrument
     }
   }
-`
+`;
 
 export const ADD_SUBJECT = gql`
   mutation addSubject($name: String!, $description: String) {
@@ -40,7 +40,7 @@ export const ADD_SUBJECT = gql`
       id
     }
   }
-`
+`;
 
 export const LOGIN = gql`
   mutation login($username: String!, $password: String!) {
@@ -57,4 +57,4 @@ export const LOGIN = gql`
       }
     }
   }
-`
+`;

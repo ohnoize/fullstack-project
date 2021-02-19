@@ -1,12 +1,12 @@
-const path = require('path')
-const HtmlWebPackPlugin = require("html-webpack-plugin");
+const path = require('path');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 const config = {
-  entry: ['@babel/polyfill', './src/index.js'],
+  entry: ['@babel/polyfill', './src/index.jsx'],
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'main.js',
-    publicPath: '/'
+    publicPath: '/',
   },
   devServer: {
     contentBase: path.resolve(__dirname, 'build'),
@@ -18,7 +18,8 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
           presets: ['@babel/preset-react', '@babel/preset-env'],
@@ -28,18 +29,18 @@ const config = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
-  
+
     ],
   },
   resolve: {
-    extensions: ["*", ".js", ".jsx"],
+    extensions: ['*', '.js', '.jsx'],
   },
   plugins: [
     new HtmlWebPackPlugin({
-      template: "./index.html",
-      filename: "./index.html",
+      template: './index.html',
+      filename: './index.html',
     }),
-  ]
-}
+  ],
+};
 
-module.exports = config
+module.exports = config;

@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { USER_ITEMS, SUBJECT_ITEMS, SESSION_ITEMS } from './fragments'
+import { USER_ITEMS, SUBJECT_ITEMS, SESSION_ITEMS } from './fragments';
 
 export const GET_SUBJECTS = gql`
   query {
@@ -8,7 +8,7 @@ export const GET_SUBJECTS = gql`
     }
   }
 ${SUBJECT_ITEMS}
-`
+`;
 
 export const CURRENT_USER = gql`
   query {
@@ -19,7 +19,7 @@ export const CURRENT_USER = gql`
       joined
     }
   }
-`
+`;
 
 export const GET_SESSIONS = gql`
   query allSessions($userID:String){
@@ -28,7 +28,7 @@ export const GET_SESSIONS = gql`
     }
   }
 ${SESSION_ITEMS}
-`
+`;
 
 export const GET_USERS = gql`
   query {
@@ -37,5 +37,4 @@ export const GET_USERS = gql`
     }
   }
 ${USER_ITEMS}
-`
-
+`;

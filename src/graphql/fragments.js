@@ -12,7 +12,7 @@ export const SESSION_ITEMS = gql`
       length
     }
   }
-`
+`;
 
 export const SUBJECT_ITEMS = gql`
   fragment SubjectItems on Subject {
@@ -20,7 +20,7 @@ export const SUBJECT_ITEMS = gql`
     name
     description
   }
-`
+`;
 
 export const USER_ITEMS = gql`
   fragment UserItems on User {
@@ -28,4 +28,4 @@ export const USER_ITEMS = gql`
     username
     instrument
   }
-`
+`;
