@@ -18,5 +18,5 @@
 | 11.2 | 2h | Research on React Hooks (React conf video on Youtube) |
 | 15.2 | 4h | Edited routing, added session history page |
 | 15.2 | 2h | Added passwords/encryption & signup page/possibility to add users |
-
 | 19.2 | 2h | Edited main page, possibility to add subjects/login/see history while session is running |
+| 19.2 | 2,5 h | Configured eslint, fixed errors, replaced 'alert' and 'confirm' methodes with Material-UI ones |
