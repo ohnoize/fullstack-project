@@ -73,7 +73,17 @@ const MainTimer = ({ currentUser }) => {
   const subjects = useQuery(GET_SUBJECTS)
   
   const [ addSession ] = useMutation(ADD_SESSION, {
-    refetchQueries: [ { query: GET_SESSIONS } ]
+    refetchQueries: [ { query: GET_SESSIONS } ],
+    update: (store, response) => {
+      const dataInStore = store.readQuery({ query: GET_SESSIONS })
+      store.writeQuery({
+        query: GET_SESSIONS,
+        data: {
+          ...dataInStore,
+          allSessions: [ ...dataInStore.allSessions, response.data.addSession ]
+        }
+      })
+    }
   })
   
   const classes = useStyles();
@@ -190,12 +200,17 @@ const MainTimer = ({ currentUser }) => {
             <Typography variant='body1' key={key}>{key}: {timeParser(value)}</Typography>)}
           <Typography variant='body1'>Total: {timeParser(totalTime())}</Typography>
         </Box>
-        <Box className={classes.boxStyle}>
-        <TextField placeholder='Add notes (optional)' onChange={handleNotes} />
+        
+        
+        {currentUser
+          ? <><Box className={classes.boxStyle}>
+        <TextField value={notes} placeholder='Add notes (optional)' onChange={handleNotes} />
         </Box>
-        <Box className={classes.boxStyle}>
-        <Button onClick={handleFinish}>Finish session</Button>
-        </Box>
+          <Box className={classes.boxStyle}>
+          <Button onClick={handleFinish}>Finish session</Button>
+          </Box></>
+          : <Link variant='body2' component={RouterLink} to='/login'>Log in to save sessions</Link>
+        }
       </Grid>
       <Grid item>
           { isRunning 

@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import { SESSION_ITEMS } from './fragments';
 
 export const ADD_SESSION = gql`
   mutation addSession(
@@ -15,11 +16,10 @@ export const ADD_SESSION = gql`
         individualSubjects: $individualSubjects
         date: $date
   ) {
-      userID
-      totalLength
-      notes
+      ...SessionItems
     }
   }
+${SESSION_ITEMS}
 `
 
 export const ADD_USER = gql`
@@ -53,6 +53,7 @@ export const LOGIN = gql`
         id
         instrument
         username
+        joined
       }
     }
   }

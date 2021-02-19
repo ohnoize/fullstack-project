@@ -16,6 +16,7 @@ export const CURRENT_USER = gql`
       id
       username
       instrument
+      joined
     }
   }
 `

@@ -10,6 +10,9 @@ const useStyles = makeStyles({
     marginTop: 20,
     padding: 10
   },
+  text1: {
+    fontSize: 25
+  },
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
@@ -17,6 +20,7 @@ const useStyles = makeStyles({
   },
   title: {
     fontSize: 14,
+    margin: 5
   },
   pos: {
     marginBottom: 12,
@@ -34,25 +38,37 @@ const SessionHistory = ({ currentUser }) => {
       <div>Loading...</div>
     )
   }
-  console.log(sessions.data.allSessions);
+
+  const totalTime = sessions.data.allSessions
+    .map(s => s.totalLength)
+    .reduce((a, b) => a + b);
+
+  console.log(totalTime);
   return (
     <Grid 
         container
         direction="column"
         justify="space-evenly"
         alignItems="center"
-      >
+    >
+    
+    <Typography variant='h3'>{currentUser.username} - {currentUser.instrument}</Typography>
+    <br />
+    <Typography variant='caption'>Member since {new Date(currentUser.joined).toLocaleDateString()}</Typography>
+    <Typography variant='caption'>Total time practiced: {timeParser(totalTime)}</Typography>
+    <br />
     <Typography variant='h5'>Your previous sessions</Typography>
+    <br />
     <Box>
       {sessions.data.allSessions.map((s, index) => 
         <Card key={index} className={classes.root}>
           <Typography className={classes.title}>{new Date(s.date).toLocaleDateString()}</Typography>
-          <Typography className={classes.bullet}>Notes: {s.notes}</Typography>
-          <Typography className={classes.bullet}>Total length: {timeParser(s.totalLength)}</Typography>
+          <Typography className={classes.title}>Total length: {timeParser(s.totalLength)}</Typography>
           <Typography className={classes.title}>Subjects practiced:</Typography>
             {s.individualSubjects.map((i, index) => 
-              <Typography className={classes.bullet} key={index}>{i.name} {timeParser(i.length)}</Typography>
+              <ul key={index}><Typography className={classes.title} key={index}>{i.name} {timeParser(i.length)}</Typography></ul>
             )}
+          <Typography className={classes.title}>Notes: {s.notes}</Typography>
         </Card>
       )}
     </Box>

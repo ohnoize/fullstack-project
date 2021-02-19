@@ -23,7 +23,12 @@ const httpLink = new HttpLink({
 const client = new ApolloClient({
   connectToDevTools: true,
   cache: new InMemoryCache(),
-  link: authLink.concat(httpLink)
+  link: authLink.concat(httpLink),
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'cache-and-network',
+    },
+  },
 })
 
 
