@@ -21,3 +21,5 @@
 | 19.2 | 2h | Edited main page, possibility to add subjects/login/see history while session is running |
 | 19.2 | 2,5h | Configured eslint, fixed errors, replaced 'alert' and 'confirm' methodes with Material-UI ones |
 | 19.2 | 2h | Research on integration testing on Apollo Server, and trying to configure tests for the backend | 
+| 20.2 | 2h | Trying to fix a bug with Jest not quitting after succesful tests, no success |
+| 22.2 | 4h | Wrote more tests for the backend, deployed to heroku |
