@@ -24,7 +24,7 @@ export default function AlertDialog({
       >
         <DialogTitle id="alert-dialog-title">Alert</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id="alert-dialog-description" className="alert">
             {alertText}
           </DialogContentText>
         </DialogContent>

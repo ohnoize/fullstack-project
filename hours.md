@@ -23,4 +23,5 @@
 | 19.2 | 2h | Research on integration testing on Apollo Server, and trying to configure tests for the backend | 
 | 20.2 | 2h | Trying to fix a bug with Jest not quitting after succesful tests, no success |
 | 22.2 | 4h | Wrote more tests for the backend, deployed to heroku |
-| 23.2 | 1h | Set up a CI/CD pipeline for the backend with GitHub Actions |
+| 23.2 | 1h | Set up a CI/CD pipeline for the backend with GitHub Actions, backend now live! |
+| 23.2 | 3,5h | Started building unit tests for frontend |

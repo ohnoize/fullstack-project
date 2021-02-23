@@ -40,10 +40,12 @@ const SessionHistory = ({ currentUser }) => {
       <div>Loading...</div>
     );
   }
-
-  const totalTime = sessions.data.allSessions
-    .map((s) => s.totalLength)
-    .reduce((a, b) => a + b);
+  let totalTime = 0;
+  if (sessions.data.allSessions.length >= 1) {
+    totalTime = sessions.data.allSessions
+      .map((s) => s.totalLength)
+      .reduce((a, b) => a + b);
+  }
 
   // console.log(sessions.data.allSessions);
   return (
