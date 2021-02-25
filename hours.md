@@ -27,3 +27,4 @@
 | 23.2 | 3,5h | Started building unit tests for frontend |
 | 23.2 | 2,5h | Finished (mostly) unit tests for frontend |
 | 24.2 | 1h | Trying to get MockedProvider to work in unit tests - no luck |
+| 24.2 | 2h | Finally got MockedProvider to work, finished frontend unit tests |
