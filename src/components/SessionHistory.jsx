@@ -35,11 +35,13 @@ const SessionHistory = ({ currentUser }) => {
   const sessions = useQuery(GET_SESSIONS, {
     variables: { userID: currentUser.id },
   });
-  if (sessions.loading) {
+
+  if (sessions.loading || !sessions.data) {
     return (
       <div>Loading...</div>
     );
   }
+  // console.log(sessions.data.allSessions);
   let totalTime = 0;
   if (sessions.data) {
     if (sessions.data.allSessions.length >= 1) {

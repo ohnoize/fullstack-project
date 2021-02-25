@@ -26,3 +26,4 @@
 | 23.2 | 1h | Set up a CI/CD pipeline for the backend with GitHub Actions, backend now live! |
 | 23.2 | 3,5h | Started building unit tests for frontend |
 | 23.2 | 2,5h | Finished (mostly) unit tests for frontend |
+| 24.2 | 1h | Trying to get MockedProvider to work in unit tests - no luck |
