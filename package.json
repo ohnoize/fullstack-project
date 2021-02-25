@@ -7,7 +7,8 @@
     "start": "webpack serve --mode=development",
     "test": "jest --verbose",
     "build": "webpack --mode=development",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "cypress:open": "cypress open"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "@testing-library/react": "^11.2.5",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.0.1",
+    "cypress": "^6.5.0",
     "eslint": "^7.20.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.22.1",
