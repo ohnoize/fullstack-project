@@ -12,8 +12,8 @@ import MainTimer from './components/MainTimer';
 import LoginForm from './components/LoginForm';
 import Header from './components/Header';
 import SessionHistory from './components/SessionHistory';
-import SignUpForm from './components/SignUpForm';
 import SubjectForm from './components/SubjectForm';
+import SignUp from './components/SignUp';
 
 const App = () => {
   const [token, setToken] = useState(null);
@@ -48,7 +48,7 @@ const App = () => {
             <LoginForm setToken={setToken} />
           </Route>
           <Route path="/signup">
-            <SignUpForm />
+            <SignUp />
           </Route>
           <Route path="/addsubject">
             <SubjectForm />

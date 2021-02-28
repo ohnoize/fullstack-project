@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { MockedProvider } from '@apollo/client/testing';
-import SignUpForm from './SignUpForm';
+import SignUp from './SignUp';
 
 describe('<SignUpForm />', () => {
   let component;
@@ -11,7 +11,7 @@ describe('<SignUpForm />', () => {
     component = render(
       <MockedProvider>
         <MemoryRouter>
-          <SignUpForm />
+          <SignUp />
         </MemoryRouter>
       </MockedProvider>,
     );

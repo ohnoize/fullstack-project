@@ -21,7 +21,9 @@
     "url": "https://github.com/ohnoize/fullstack-project/issues"
   },
   "jest": {
-    "testPathIgnorePatterns": ["/cypress/"]
+    "testPathIgnorePatterns": [
+      "/cypress/"
+    ]
   },
   "homepage": "",
   "devDependencies": {
@@ -56,6 +58,7 @@
     "@material-ui/styles": "^4.11.3",
     "apollo-link-context": "^1.0.20",
     "axios": "^0.21.1",
+    "formik": "^2.2.6",
     "graphql": "^15.5.0",
     "pretty-ms": "^7.0.1",
     "react": "^17.0.1",
@@ -63,6 +66,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "react-select": "^4.0.2",
-    "react-timer-hook": "^2.0.7"
+    "react-timer-hook": "^2.0.7",
+    "yup": "^0.32.9"
   }
 }
