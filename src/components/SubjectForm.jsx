@@ -112,7 +112,7 @@ const SubjectForm = () => {
         <form onSubmit={formik.handleSubmit}>
           <Grid item className={classes.boxStyle}>
             <TextField
-              id="name"
+              id="subject"
               name="name"
               label="Subject"
               placeholder="Subject"

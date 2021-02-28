@@ -28,6 +28,7 @@ describe('Shed app ', function() {
     cy.contains('Create account').click()
     cy.get('#username').type('cypressUser')
     cy.get('#password').type('cypressPassword')
+    cy.get('#confirmPassword').type('cypressPassword')
     cy.get('#signup-button').click()
     cy.contains('New user cypressUser added!')
     cy.contains('Back').click()
