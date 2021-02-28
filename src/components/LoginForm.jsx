@@ -68,19 +68,19 @@ const LoginForm = ({ setToken }) => {
     >
       <form onSubmit={handleLogin}>
         <Grid item className={classes.boxStyle}>
-          <TextField placeholder="Username" value={username} onChange={({ target }) => setUsername(target.value)} />
+          <TextField id="username" placeholder="Username" value={username} onChange={({ target }) => setUsername(target.value)} />
         </Grid>
         <Grid item className={classes.boxStyle}>
-          <TextField placeholder="Password" value={password} type="password" onChange={({ target }) => setPassword(target.value)} />
+          <TextField id="password" placeholder="Password" value={password} type="password" onChange={({ target }) => setPassword(target.value)} />
         </Grid>
         <Grid item className={classes.boxStyle}>
-          <Button type="submit">Login</Button>
+          <Button id="login-button" type="submit">Login</Button>
         </Grid>
         <Grid item>
           <Link variant="body2" component={RouterLink} to="/signup">Create account</Link>
         </Grid>
         <Grid item>
-          <Link variant="body2" component={RouterLink} to="/">Cancel</Link>
+          <Link id="cancel-button" variant="body2" component={RouterLink} to="/">Cancel</Link>
         </Grid>
       </form>
     </Grid>

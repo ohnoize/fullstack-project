@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { SESSION_ITEMS } from './fragments';
+import { SESSION_ITEMS, SUBJECT_ITEMS } from './fragments';
 
 export const ADD_SESSION = gql`
   mutation addSession(
@@ -20,6 +20,34 @@ export const ADD_SESSION = gql`
     }
   }
 ${SESSION_ITEMS}
+`;
+
+export const DELETE_SESSION = gql`
+  mutation deleteSession($id: String!) {
+    deleteSession(id: $id) {
+      ...sessionItems
+    }
+  }
+${SESSION_ITEMS}
+`;
+
+export const DELETE_SUBJECT = gql`
+  mutation deleteSubject($name: String!) {
+    deleteSubject(name: $name) {
+      ...subjectItems
+    }
+  }
+${SUBJECT_ITEMS}
+`;
+
+export const DELETE_USER = gql`
+  mutation deleteUser($id: String!) {
+    deleteUser(id: $id) {
+      id
+      username
+      instrument
+    }
+  }
 `;
 
 export const ADD_USER = gql`

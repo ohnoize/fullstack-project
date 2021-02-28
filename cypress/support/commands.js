@@ -1,25 +1,54 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+const deleteTestSubject = `
+  mutation {
+    deleteSubject(name: "testSubject") {
+      id
+      name
+      description
+    }
+  }
+`
+
+const deleteTestUser = `
+  mutation {
+    deleteUserByName(username: "cypressUser") {
+      id
+      username
+    }
+  }
+`
+
+const deleteTestSession = `
+  mutation {
+    deleteSessionByNotes(notes: "cypressSession") {
+      id
+      notes
+      date
+  }
+}
+`
+
+const apiUrl = 'https://shed-app-api.herokuapp.com/'
+
+Cypress.Commands.add('deleteTestSubject', () => {
+  cy.request({
+    url: apiUrl,
+    method: 'POST',
+    body: { query: deleteTestSubject }
+  })
+})
+
+Cypress.Commands.add('deleteTestSession', () => {
+  cy.request({
+    url: apiUrl,
+    method: 'POST',
+    body: { query: deleteTestSession }
+  })
+})
+
+Cypress.Commands.add('deleteTestUser', () => {
+  cy.request({
+    url: apiUrl,
+    method: 'POST',
+    body: { query: deleteTestUser }
+  })
+})

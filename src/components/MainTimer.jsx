@@ -228,7 +228,7 @@ const MainTimer = ({ currentUser, practiceTime, setPracticeTime }) => {
             ? (
               <>
                 <Box className={classes.boxStyle}>
-                  <TextField value={notes} placeholder="Add notes (optional)" onChange={handleNotes} />
+                  <TextField id="notes" value={notes} placeholder="Add notes (optional)" onChange={handleNotes} />
                 </Box>
                 <Box className={classes.boxStyle}>
                   <Button onClick={handleFinishConfirm}>Finish session</Button>

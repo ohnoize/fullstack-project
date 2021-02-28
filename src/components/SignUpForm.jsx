@@ -72,16 +72,16 @@ const SignUpForm = () => {
       >
         <form onSubmit={handleSignUp}>
           <Grid item className={classes.boxStyle}>
-            <TextField placeholder="Username" value={username} onChange={({ target }) => setUsername(target.value)} />
+            <TextField id="username" placeholder="Username" value={username} onChange={({ target }) => setUsername(target.value)} />
           </Grid>
           <Grid item className={classes.boxStyle}>
-            <TextField placeholder="Instrument" value={instrument} onChange={({ target }) => setInstrument(target.value)} />
+            <TextField id="instrument" placeholder="Instrument" value={instrument} onChange={({ target }) => setInstrument(target.value)} />
           </Grid>
           <Grid item className={classes.boxStyle}>
-            <TextField placeholder="Password" value={password} type="password" onChange={({ target }) => setPassword(target.value)} />
+            <TextField id="password" placeholder="Password" value={password} type="password" onChange={({ target }) => setPassword(target.value)} />
           </Grid>
           <Grid item className={classes.boxStyle}>
-            <Button type="submit">Create account</Button>
+            <Button id="signup-button" type="submit">Create account</Button>
           </Grid>
           <Grid item>
             <Link variant="body2" component={RouterLink} to="/">Cancel</Link>
