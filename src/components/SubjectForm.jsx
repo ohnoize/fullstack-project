@@ -73,7 +73,7 @@ const SubjectForm = () => {
   };
 
   const handleAddSubject = async (values) => {
-    console.log(values);
+    // console.log(values);
     const { name, description } = values;
     const newSubject = { name, description };
     // console.log(newSubject);

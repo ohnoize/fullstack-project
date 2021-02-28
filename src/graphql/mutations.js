@@ -82,6 +82,11 @@ export const LOGIN = gql`
         instrument
         username
         joined
+        subjectNotes {
+          subjectID
+          date
+          notes
+        }
       }
     }
   }
