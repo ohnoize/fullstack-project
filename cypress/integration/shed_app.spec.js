@@ -31,6 +31,7 @@ describe('Shed app ', function() {
     cy.get('#signup-button').click()
     cy.contains('New user cypressUser added!')
     cy.contains('Back').click()
+    cy.deleteTestUser()
   })
   describe('When logged in', function() {
     beforeEach(function() {
@@ -48,6 +49,7 @@ describe('Shed app ', function() {
       cy.contains('Back').click()
       cy.get('#subjectMenu').click()
       cy.contains('testSubject')
+      cy.deleteTestSubject()
     })
     it('Sessions can be saved', function() {
       cy.contains('Add subject').click()
@@ -67,6 +69,8 @@ describe('Shed app ', function() {
       cy.contains('History').click()
       cy.contains('testSubject')
       cy.contains('Notes: cypressSession')
+      cy.deleteTestSubject()
+      cy.deleteTestSession()
     })
   })
 })
