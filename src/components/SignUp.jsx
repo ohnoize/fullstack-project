@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 20,
   },
   boxStyle: {
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: 10,
+    marginBottom: 10,
     padding: 5,
   },
   paper: {
@@ -67,10 +67,16 @@ const SignUp = () => {
   const classes = useStyles();
   const [alertText, setAlertText] = useState('');
   const [alertOpen, setAlertOpen] = useState(false);
+  const [errorText, setErrorText] = useState('');
+  const [errorOpen, setErrorOpen] = useState(false);
   const [signUp] = useMutation(ADD_USER);
   const handleAlert = (text) => {
     setAlertText(text);
     setAlertOpen(true);
+  };
+  const handleError = (text) => {
+    setErrorText(text);
+    setErrorOpen(true);
   };
   const handleSignUp = async (values) => {
     const { username, password, instrument } = values;
@@ -80,7 +86,7 @@ const SignUp = () => {
       await signUp({ variables: { ...newUser } });
       handleAlert(`New user ${newUser.username} added!`);
     } catch (e) {
-      throw new Error(e.message);
+      handleError(e.message);
     }
   };
   const formik = useFormik({
@@ -98,13 +104,19 @@ const SignUp = () => {
         open={alertOpen}
         action={() => history.push('/login')}
       />
+      <AlertDialog
+        alertText={errorText}
+        setOpen={setErrorOpen}
+        open={errorOpen}
+        action={() => null}
+      />
       <Grid
         container
         direction="column"
         justify="space-evenly"
         alignItems="center"
       >
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={formik.handleSubmit} autoComplete="off">
           <Grid item className={classes.boxStyle}>
             <TextField
               id="username"
