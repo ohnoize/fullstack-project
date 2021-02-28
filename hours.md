@@ -28,3 +28,4 @@
 | 23.2 | 2,5h | Finished (mostly) unit tests for frontend |
 | 24.2 | 1h | Trying to get MockedProvider to work in unit tests - no luck |
 | 24.2 | 2h | Finally got MockedProvider to work, finished frontend unit tests |
+| 27.2 | 4h | Configured Cypress for e2e tests, build a simple GitHub pipeline |
