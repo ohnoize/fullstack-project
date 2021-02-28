@@ -20,6 +20,9 @@
   "bugs": {
     "url": "https://github.com/ohnoize/fullstack-project/issues"
   },
+  "jest": {
+    "testPathIgnorePatterns": ["/cypress/"]
+  },
   "homepage": "",
   "devDependencies": {
     "@babel/core": "^7.12.10",
