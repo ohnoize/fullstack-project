@@ -84,9 +84,9 @@ const MainTimer = ({ practiceTime, setPracticeTime }) => {
   });
   const [addNote] = useMutation(ADD_NOTE, {
     update: (store, response) => {
-      const dataInStore = store.readQuery({ query: CURRENT_USER });
-      console.log(response.data.editUser);
-      console.log(dataInStore.me);
+      // const dataInStore = store.readQuery({ query: CURRENT_USER });
+      // console.log(response.data.editUser);
+      // console.log(dataInStore.me);
       store.writeQuery({
         query: CURRENT_USER,
         data: {
@@ -254,7 +254,7 @@ const MainTimer = ({ practiceTime, setPracticeTime }) => {
             </Typography>
           </Box>
 
-          {currentUser
+          {(currentUser.data && currentUser.data.me)
             ? (
               <>
                 <Box className={classes.boxStyle}>
