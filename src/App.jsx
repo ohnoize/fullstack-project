@@ -52,7 +52,7 @@ const App = () => {
             <SubjectForm />
           </Route>
           <Route path="/history">
-            <SessionHistory currentUser={currentUser} />
+            <SessionHistory />
           </Route>
           <Route path="/">
             <MainTimer

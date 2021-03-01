@@ -1,9 +1,9 @@
 import { useQuery } from '@apollo/client';
 import {
-  Box, Card, Grid, Typography, makeStyles,
+  Card, Grid, Typography, makeStyles,
 } from '@material-ui/core';
 import React from 'react';
-import { GET_SESSIONS } from '../graphql/queries';
+import { CURRENT_USER, GET_SUBJECTS } from '../graphql/queries';
 import { timeParser } from '../utils';
 
 const useStyles = makeStyles({
@@ -29,23 +29,46 @@ const useStyles = makeStyles({
   },
 });
 
-const SessionHistory = ({ currentUser }) => {
+const SessionHistory = () => {
   const classes = useStyles();
-  if (!currentUser) return null;
-  const sessions = useQuery(GET_SESSIONS, {
-    variables: { userID: currentUser.id },
-  });
-
-  if (sessions.loading || !sessions.data) {
+  // if (!currentUser) return null;
+  const userQuery = useQuery(CURRENT_USER);
+  const subjects = useQuery(GET_SUBJECTS);
+  if (userQuery.loading || subjects.loading) {
     return (
       <div>Loading...</div>
     );
   }
-  // console.log(sessions.data.allSessions);
+  const { sessions } = userQuery.data.me;
+  const { subjectNotes } = userQuery.data.me;
+  const currentUser = userQuery.data.me;
+  const subjectsPracticed = sessions
+    .map((s) => s.individualSubjects.map((i) => i.name))
+    .reduce((a, b) => a.concat(b));
+  const subjectTimes = sessions.map((s) => s.individualSubjects);
+  // console.log(subjectTimes);
+  const subjectTimeParser = (subjectName) => {
+    const times = subjectTimes.map((s) => s.filter((n) => n.name === subjectName));
+    return times
+      .filter((t) => t.length > 0)
+      .map((t) => t
+        .map((s) => s.length)
+        .reduce((a, b) => a + b))
+      .reduce((a, b) => a + b);
+  };
+  // console.log(subjectTimeParser('scales'));
+  const subjectArr = [];
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < subjectsPracticed.length; i++) {
+    if (!subjectArr.includes(subjectsPracticed[i])) {
+      subjectArr.push(subjectsPracticed[i]);
+    }
+  }
+  // console.log(subjectArr);
   let totalTime = 0;
-  if (sessions.data) {
-    if (sessions.data.allSessions.length >= 1) {
-      totalTime = sessions.data.allSessions
+  if (sessions) {
+    if (sessions.length >= 1) {
+      totalTime = sessions
         .map((s) => s.totalLength)
         .reduce((a, b) => a + b);
     }
@@ -79,39 +102,70 @@ const SessionHistory = ({ currentUser }) => {
         {timeParser(totalTime)}
       </Typography>
       <br />
-      <Typography variant="h5">Your previous sessions</Typography>
-      <br />
-      <Box>
-        {sessions.data.allSessions.map((s) => (
-          <Card key={s.id} className={classes.root}>
-            <Typography
-              className={classes.title}
-            >
-              {new Date(s.date).toLocaleDateString()}
-            </Typography>
-            <Typography className={classes.title}>
-              Total length:
-              {' '}
-              {timeParser(s.totalLength)}
-            </Typography>
-            <Typography className={classes.title}>Subjects practiced:</Typography>
-            {s.individualSubjects.map((i) => (
-              <ul key={i.name}>
-                <Typography className={classes.title}>
-                  {i.name}
+      <Grid
+        container
+        direction="row"
+        justify="space-evenly"
+        alignItems="flex-start"
+      >
+        <Grid item>
+          <Typography variant="h5">Your previous sessions:</Typography>
+          {sessions.map((s) => (
+            <Card key={s.id} className={classes.root}>
+              <Typography
+                className={classes.title}
+              >
+                {new Date(s.date).toLocaleDateString()}
+              </Typography>
+              <Typography className={classes.title}>
+                Total length:
+                {' '}
+                {timeParser(s.totalLength)}
+              </Typography>
+              <Typography className={classes.title}>Subjects practiced:</Typography>
+              {s.individualSubjects.map((i) => (
+                <ul key={i.name}>
+                  <Typography className={classes.title}>
+                    {i.name}
+                    {' '}
+                    {timeParser(i.length)}
+                  </Typography>
+                </ul>
+              ))}
+              <Typography className={classes.title}>
+                Notes:
+                {' '}
+                {s.notes}
+              </Typography>
+            </Card>
+          ))}
+        </Grid>
+        <Grid item>
+          <Typography variant="h5">Subjects:</Typography>
+          <br />
+          {subjects.data.allSubjects
+            .filter((s) => subjectArr.includes(s.name))
+            .map((s) => (
+              <Card key={s.id} className={classes.root}>
+                <Typography key={s.id} variant="h6">{s.name}</Typography>
+                <Typography variant="body2">
+                  Total time:
                   {' '}
-                  {timeParser(i.length)}
+                  {timeParser(subjectTimeParser(s.name))}
                 </Typography>
-              </ul>
+                {subjectNotes
+                  .filter((n) => n.subjectID === s.id)
+                  .map((n) => (
+                    <Typography variant="body2" key={n.date}>
+                      {new Date(n.date).toLocaleDateString()}
+                      :
+                      {n.notes}
+                    </Typography>
+                  ))}
+              </Card>
             ))}
-            <Typography className={classes.title}>
-              Notes:
-              {' '}
-              {s.notes}
-            </Typography>
-          </Card>
-        ))}
-      </Box>
+        </Grid>
+      </Grid>
     </Grid>
   );
 };
