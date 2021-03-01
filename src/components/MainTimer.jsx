@@ -192,7 +192,7 @@ const MainTimer = ({ practiceTime, setPracticeTime }) => {
     );
   }
   if (currentUser.data) {
-    console.log('User from query in maintimer', currentUser.data.me);
+    // console.log('User from query in maintimer', currentUser.data.me);
   }
 
   return (

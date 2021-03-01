@@ -20,7 +20,7 @@ describe('Shed app ', function() {
     cy.get('#login-button').click()
     cy.contains('Welcome back testUser!')
     cy.contains('Log out').click()
-    cy.wait(500)
+    cy.wait(1000)
     cy.contains('Signup/Login')
     cy.contains('Pick a subject to practice:')
     cy.contains('Log in to save sessions')
