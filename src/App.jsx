@@ -14,7 +14,6 @@ import Header from './components/Header';
 import SessionHistory from './components/SessionHistory';
 import SubjectForm from './components/SubjectForm';
 import SignUp from './components/SignUp';
-// import { CURRENT_USER } from './graphql/queries';
 
 const App = () => {
   const [token, setToken] = useState(null);
@@ -27,7 +26,6 @@ const App = () => {
       setToken(localToken);
     }
   }, []);
-  // console.log('Current user in app:', currentUser)
 
   const handleLogOut = () => {
     setToken(null);

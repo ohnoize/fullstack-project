@@ -9,7 +9,6 @@ import App from './App';
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('shed-app-user-token');
   // console.log(token !== 'undefined' || 'null');
-  // console.log(token);
   return {
     headers: {
       ...headers,
@@ -19,7 +18,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const httpLink = new HttpLink({
-  uri: 'https://shed-app-api.herokuapp.com/',
+  uri: 'https://shed-app-api.herokuapp.com',
 });
 
 const client = new ApolloClient({

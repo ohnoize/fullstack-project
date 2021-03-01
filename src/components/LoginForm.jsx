@@ -7,7 +7,6 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useHistory, Link as RouterLink } from 'react-router-dom';
 import { LOGIN } from '../graphql/mutations';
-import { CURRENT_USER } from '../graphql/queries';
 import AlertDialog from './Alert';
 
 const useStyles = makeStyles((theme) => ({
@@ -55,9 +54,7 @@ const validationSchema = yup.object({
 const LoginForm = ({ setToken }) => {
   const [errorText, setErrorText] = useState('');
   const [errorOpen, setErrorOpen] = useState(false);
-  const [login, result] = useMutation(LOGIN, {
-    refetchQueries: [{ query: CURRENT_USER }],
-  });
+  const [login, result] = useMutation(LOGIN);
   const handleError = (text) => {
     setErrorText(text);
     setErrorOpen(true);

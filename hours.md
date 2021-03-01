@@ -30,3 +30,4 @@
 | 24.2 | 2h | Finally got MockedProvider to work, finished frontend unit tests |
 | 27.2 | 4h | Configured Cypress for e2e tests, build a simple GitHub pipeline |
 | 28.2 | 4h | Configured forms with Formik, started to add private notes to subjects |
+| 1.3 | 80h | Total hours so far, 4.57op

@@ -63,10 +63,7 @@ const secondsParser = ({
   return finalSeconds;
 };
 
-const MainTimer = ({ currentUser, practiceTime, setPracticeTime }) => {
-  const userFromQuery = useQuery(CURRENT_USER, {
-    fetchPolicy: 'cache-and-network',
-  });
+const MainTimer = ({ practiceTime, setPracticeTime }) => {
   const {
     days, hours, minutes, seconds, start, pause, reset, isRunning,
   } = useStopwatch();
@@ -79,13 +76,24 @@ const MainTimer = ({ currentUser, practiceTime, setPracticeTime }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [confirmText, setConfirmText] = useState('');
   const subjects = useQuery(GET_SUBJECTS);
+  const currentUser = useQuery(CURRENT_USER);
   // console.log(currentUser);
   // console.log(nowPracticing);
   const [addSession] = useMutation(ADD_SESSION, {
     refetchQueries: [{ query: GET_SESSIONS }],
   });
   const [addNote] = useMutation(ADD_NOTE, {
-    refetchQueries: [{ query: CURRENT_USER }],
+    update: (store, response) => {
+      const dataInStore = store.readQuery({ query: CURRENT_USER });
+      console.log(response.data.editUser);
+      console.log(dataInStore.me);
+      store.writeQuery({
+        query: CURRENT_USER,
+        data: {
+          me: response.data.editUser,
+        },
+      });
+    },
   });
 
   const classes = useStyles();
@@ -157,7 +165,7 @@ const MainTimer = ({ currentUser, practiceTime, setPracticeTime }) => {
       date: date.toString(),
       individualSubjects: Object.entries(practiceTime).map((a) => ({ name: a[0], length: a[1] })),
       totalLength: totalTime(),
-      userID: currentUser.id,
+      userID: currentUser.data.me.id,
       notes,
     };
     addSession({ variables: { ...sessionInfo } });
@@ -169,7 +177,7 @@ const MainTimer = ({ currentUser, practiceTime, setPracticeTime }) => {
 
   const addSubjectNote = () => {
     const entry = {
-      id: currentUser.id,
+      id: currentUser.data.me.id,
       subjectNotes: {
         notes: subjectNote,
         subjectID: nowPracticing.id,
@@ -178,13 +186,13 @@ const MainTimer = ({ currentUser, practiceTime, setPracticeTime }) => {
     addNote({ variables: { ...entry } });
   };
 
-  if (subjects.loading) {
+  if (subjects.loading || currentUser.loading) {
     return (
       <div>Loading...</div>
     );
   }
-  if (userFromQuery.data) {
-    console.log('User from query in maintimer', userFromQuery.data.me);
+  if (currentUser.data) {
+    console.log('User from query in maintimer', currentUser.data.me);
   }
 
   return (
@@ -278,10 +286,10 @@ const MainTimer = ({ currentUser, practiceTime, setPracticeTime }) => {
                   {nowPracticing.description}
                 </Typography>
                 <Typography variant="h6">Personal notes on this subject:</Typography>
-                {currentUser.subjectNotes
+                {currentUser.data.me.subjectNotes
                   .filter((n) => n.subjectID === nowPracticing.id)
                   .map((n) => (
-                    <Typography variant="body2" key={n.notes}>
+                    <Typography variant="body2" key={n.date}>
                       {new Date(n.date).toLocaleDateString()}
                       :
                       {n.notes}
