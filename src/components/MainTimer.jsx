@@ -63,7 +63,7 @@ const secondsParser = ({
   return finalSeconds;
 };
 
-const MainTimer = ({ practiceTime, setPracticeTime }) => {
+const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
   const {
     days, hours, minutes, seconds, start, pause, reset, isRunning,
   } = useStopwatch();
@@ -254,7 +254,7 @@ const MainTimer = ({ practiceTime, setPracticeTime }) => {
             </Typography>
           </Box>
 
-          {(currentUser.data && currentUser.data.me)
+          { token
             ? (
               <>
                 <Box className={classes.boxStyle}>

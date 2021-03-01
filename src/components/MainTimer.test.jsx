@@ -197,7 +197,7 @@ describe('<MainTimer />', () => {
       component = render(
         <MockedProvider mocks={loggedMocks} addTypename={false}>
           <MemoryRouter>
-            <MainTimer practiceTime={mockPracticeTime} />
+            <MainTimer practiceTime={mockPracticeTime} token />
           </MemoryRouter>
         </MockedProvider>,
       );

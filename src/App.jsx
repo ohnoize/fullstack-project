@@ -56,13 +56,17 @@ const App = () => {
           </Route>
           <Route path="/">
             <MainTimer
-              currentUser={currentUser}
+              token={token}
               practiceTime={practiceTime}
               setPracticeTime={setPracticeTime}
             />
           </Route>
           <Route path="/*">
-            <MainTimer currentUser={currentUser} />
+            <MainTimer
+              token={token}
+              practiceTime={practiceTime}
+              setPracticeTime={setPracticeTime}
+            />
           </Route>
         </Switch>
       </Grid>
