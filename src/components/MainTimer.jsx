@@ -15,8 +15,8 @@ import {
   Link,
 } from '@material-ui/core';
 import { useStopwatch } from 'react-timer-hook';
-import { ADD_SESSION } from '../graphql/mutations';
-import { GET_SESSIONS, GET_SUBJECTS } from '../graphql/queries';
+import { ADD_NOTE, ADD_SESSION } from '../graphql/mutations';
+import { CURRENT_USER, GET_SESSIONS, GET_SUBJECTS } from '../graphql/queries';
 import { timeParser } from '../utils';
 import AlertDialog from './Alert';
 import ConfirmDialog from './Confirm';
@@ -64,20 +64,28 @@ const secondsParser = ({
 };
 
 const MainTimer = ({ currentUser, practiceTime, setPracticeTime }) => {
+  const userFromQuery = useQuery(CURRENT_USER, {
+    fetchPolicy: 'cache-and-network',
+  });
   const {
     days, hours, minutes, seconds, start, pause, reset, isRunning,
   } = useStopwatch();
   const [nowPracticing, setNowPracticing] = useState('');
   const [subject, setSubject] = useState('');
   const [notes, setNotes] = useState('');
+  const [subjectNote, setSubjectNote] = useState('');
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertText, setAlertText] = useState('');
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [confirmText, setConfirmText] = useState('');
   const subjects = useQuery(GET_SUBJECTS);
-
+  // console.log(currentUser);
+  // console.log(nowPracticing);
   const [addSession] = useMutation(ADD_SESSION, {
     refetchQueries: [{ query: GET_SESSIONS }],
+  });
+  const [addNote] = useMutation(ADD_NOTE, {
+    refetchQueries: [{ query: CURRENT_USER }],
   });
 
   const classes = useStyles();
@@ -159,10 +167,24 @@ const MainTimer = ({ currentUser, practiceTime, setPracticeTime }) => {
     // console.log(sessionInfo);
   };
 
+  const addSubjectNote = () => {
+    const entry = {
+      id: currentUser.id,
+      subjectNotes: {
+        notes: subjectNote,
+        subjectID: nowPracticing.id,
+      },
+    };
+    addNote({ variables: { ...entry } });
+  };
+
   if (subjects.loading) {
     return (
       <div>Loading...</div>
     );
+  }
+  if (userFromQuery.data) {
+    console.log('User from query in maintimer', userFromQuery.data.me);
   }
 
   return (
@@ -241,7 +263,7 @@ const MainTimer = ({ currentUser, practiceTime, setPracticeTime }) => {
           { isRunning
             ? (
               <>
-                <Typography variant="h6">
+                <Typography variant="h5">
                   Now practicing
                   {' '}
                   {nowPracticing.name}
@@ -250,11 +272,23 @@ const MainTimer = ({ currentUser, practiceTime, setPracticeTime }) => {
                   :
                   {Number(seconds).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}
                 </Typography>
-                <Typography variant="body2">
+                <Typography variant="subtitle1">
                   Description:
                   {' '}
                   {nowPracticing.description}
                 </Typography>
+                <Typography variant="h6">Personal notes on this subject:</Typography>
+                {currentUser.subjectNotes
+                  .filter((n) => n.subjectID === nowPracticing.id)
+                  .map((n) => (
+                    <Typography variant="body2" key={n.notes}>
+                      {new Date(n.date).toLocaleDateString()}
+                      :
+                      {n.notes}
+                    </Typography>
+                  ))}
+                <TextField onChange={(event) => setSubjectNote(event.target.value)} id="subjectNotes" placeholder="Add note" />
+                <Button onClick={addSubjectNote}>Add note</Button>
               </>
             )
             : <Typography variant="h6">Pick a subject and click start!</Typography>}

@@ -29,3 +29,4 @@
 | 24.2 | 1h | Trying to get MockedProvider to work in unit tests - no luck |
 | 24.2 | 2h | Finally got MockedProvider to work, finished frontend unit tests |
 | 27.2 | 4h | Configured Cypress for e2e tests, build a simple GitHub pipeline |
+| 28.2 | 4h | Configured forms with Formik, started to add private notes to subjects |

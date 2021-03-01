@@ -27,5 +27,15 @@ export const USER_ITEMS = gql`
     id
     username
     instrument
+    joined
+    subjectNotes {
+      subjectID
+      date
+      notes
+    }
+    sessions {
+      ...SessionItems
+    }
   }
+${SESSION_ITEMS}
 `;

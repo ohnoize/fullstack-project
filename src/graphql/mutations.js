@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { SESSION_ITEMS, SUBJECT_ITEMS } from './fragments';
+import { SESSION_ITEMS, SUBJECT_ITEMS, USER_ITEMS } from './fragments';
 
 export const ADD_SESSION = gql`
   mutation addSession(
@@ -20,6 +20,18 @@ export const ADD_SESSION = gql`
     }
   }
 ${SESSION_ITEMS}
+`;
+
+export const ADD_NOTE = gql`
+  mutation editUser($id: String!, $subjectNotes: subjectNotesInput!) {
+    editUser(
+      id: $id
+      subjectNotes: $subjectNotes
+    ) {
+      ...UserItems
+    }
+  }
+${USER_ITEMS}
 `;
 
 export const DELETE_SESSION = gql`
@@ -78,16 +90,9 @@ export const LOGIN = gql`
     ) {
       token
       user {
-        id
-        instrument
-        username
-        joined
-        subjectNotes {
-          subjectID
-          date
-          notes
-        }
+        ...UserItems
       }
     }
   }
+${USER_ITEMS}
 `;

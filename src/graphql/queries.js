@@ -13,12 +13,10 @@ ${SUBJECT_ITEMS}
 export const CURRENT_USER = gql`
   query {
     me {
-      id
-      username
-      instrument
-      joined
+      ...UserItems
     }
   }
+${USER_ITEMS}
 `;
 
 export const GET_SESSIONS = gql`
