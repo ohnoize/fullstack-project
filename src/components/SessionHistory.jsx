@@ -47,6 +47,7 @@ const SessionHistory = () => {
     .reduce((a, b) => a.concat(b));
   const subjectTimes = sessions.map((s) => s.individualSubjects);
   // console.log(subjectTimes);
+  // Following function finds all the sessions with entered subject and returns it's combined time
   const subjectTimeParser = (subjectName) => {
     const times = subjectTimes.map((s) => s.filter((n) => n.name === subjectName));
     return times
@@ -109,11 +110,11 @@ const SessionHistory = () => {
         alignItems="flex-start"
       >
         <Grid item>
-          <Typography variant="h5">Your previous sessions:</Typography>
+          <Typography variant="h5">Sessions:</Typography>
           {sessions.map((s) => (
             <Card key={s.id} className={classes.root}>
               <Typography
-                className={classes.title}
+                variant="h6"
               >
                 {new Date(s.date).toLocaleDateString()}
               </Typography>
@@ -122,7 +123,7 @@ const SessionHistory = () => {
                 {' '}
                 {timeParser(s.totalLength)}
               </Typography>
-              <Typography className={classes.title}>Subjects practiced:</Typography>
+              <Typography variant="button" className={classes.title}>Subjects practiced:</Typography>
               {s.individualSubjects.map((i) => (
                 <ul key={i.name}>
                   <Typography className={classes.title}>
@@ -141,24 +142,27 @@ const SessionHistory = () => {
           ))}
         </Grid>
         <Grid item>
-          <Typography variant="h5">Subjects:</Typography>
+          <Typography variant="h5">Subjects practiced:</Typography>
           <br />
           {subjects.data.allSubjects
             .filter((s) => subjectArr.includes(s.name))
             .map((s) => (
               <Card key={s.id} className={classes.root}>
                 <Typography key={s.id} variant="h6">{s.name}</Typography>
-                <Typography variant="body2">
+                <br />
+                <Typography variant="button" className={classes.title}>
                   Total time:
                   {' '}
                   {timeParser(subjectTimeParser(s.name))}
                 </Typography>
+                <br />
                 {subjectNotes
                   .filter((n) => n.subjectID === s.id)
                   .map((n) => (
-                    <Typography variant="body2" key={n.date}>
+                    <Typography variant="body2" key={n.date} className={classes.title}>
                       {new Date(n.date).toLocaleDateString()}
                       :
+                      {' '}
                       {n.notes}
                     </Typography>
                   ))}

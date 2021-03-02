@@ -33,3 +33,5 @@
 | 1.3 | 80h | Total hours so far, 4.57op |
 | 1.3 | 2,5h | Added an option to add private notes to individual subjects, figured out current user hook instead of local storage |
 | 1.3 | 1h | Fixed rendering issue when logging out, cypress tests are passing again |
+| 1.3 | 2h | Added subject notes and total times to session history page |
+| 2.3 | 8h | Migrated backend to TypeScript (phew!) |
