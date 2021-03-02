@@ -42,11 +42,12 @@ const SessionHistory = () => {
   const { sessions } = userQuery.data.me;
   const { subjectNotes } = userQuery.data.me;
   const currentUser = userQuery.data.me;
+  if (!sessions) return null;
   const subjectsPracticed = sessions
     .map((s) => s.individualSubjects.map((i) => i.name))
     .reduce((a, b) => a.concat(b));
   const subjectTimes = sessions.map((s) => s.individualSubjects);
-  // console.log(subjectTimes);
+
   // Following function finds all the sessions with entered subject and returns it's combined time
   const subjectTimeParser = (subjectName) => {
     const times = subjectTimes.map((s) => s.filter((n) => n.name === subjectName));

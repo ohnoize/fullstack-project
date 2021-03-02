@@ -99,22 +99,26 @@ const loggedMocks = [
     result: {
       data: {
         me: {
+          __typename: 'User',
           id: '602ed9c12f630c7dfcbf384f',
           username: 'herbie',
           instrument: 'piano',
           joined: 'Thu Feb 18 2021 16:18:57 GMT-0500 (Eastern Standard Time)',
           subjectNotes: [
             {
+              __typename: 'SubjectNote',
               subjectID: '602db0d92290af5340dff611',
               date: 'Mon Mar 01 2021 18:52:44 GMT+0000 (Coordinated Universal Time)',
               notes: 'Bebop is hard',
             },
             {
+              __typename: 'SubjectNote',
               subjectID: '602db47c2290af5340dff61a',
               date: 'Mon Mar 01 2021 18:52:53 GMT+0000 (Coordinated Universal Time)',
               notes: 'Triads are good!',
             },
             {
+              __typename: 'SubjectNote',
               subjectID: '602db0d92290af5340dff611',
               date: 'Mon Mar 01 2021 18:53:12 GMT+0000 (Coordinated Universal Time)',
               notes: 'Bebop is good',
@@ -122,6 +126,7 @@ const loggedMocks = [
           ],
           sessions: [
             {
+              __typename: 'Session',
               date: 'Thu Feb 18 2021 16:39:47 GMT-0500 (Eastern Standard Time)',
               id: '602edea32f630c7dfcbf385f',
               totalLength: 10,
@@ -129,12 +134,14 @@ const loggedMocks = [
               userID: '602ed9c12f630c7dfcbf384f',
               individualSubjects: [
                 {
+                  __typename: 'SessionSubject',
                   name: 'Wayne Shorter tunes',
                   length: 10,
                 },
               ],
             },
             {
+              __typename: 'Session',
               date: 'Mon Mar 01 2021 13:53:20 GMT-0500 (Eastern Standard Time)',
               id: '603d3821f5e5df00155a49d9',
               totalLength: 30,
@@ -142,10 +149,12 @@ const loggedMocks = [
               userID: '602ed9c12f630c7dfcbf384f',
               individualSubjects: [
                 {
+                  __typename: 'SessionSubject',
                   name: 'Triads',
                   length: 17,
                 },
                 {
+                  __typename: 'SessionSubject',
                   name: 'Bebop scales',
                   length: 13,
                 },
