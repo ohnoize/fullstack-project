@@ -35,3 +35,5 @@
 | 1.3 | 1h | Fixed rendering issue when logging out, cypress tests are passing again |
 | 1.3 | 2h | Added subject notes and total times to session history page |
 | 2.3 | 8h | Migrated backend to TypeScript (phew!) |
+| 2.3 | 1h | Fixed bug in session history unit test |
+| 4.3 | 9h | Reconfigured backend schema to make keeping track of users notes and practice subjects simpler. Was harder than expected |
