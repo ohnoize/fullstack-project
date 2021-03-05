@@ -37,3 +37,4 @@
 | 2.3 | 8h | Migrated backend to TypeScript (phew!) |
 | 2.3 | 1h | Fixed bug in session history unit test |
 | 4.3 | 9h | Reconfigured backend schema to make keeping track of users notes and practice subjects simpler. Was harder than expected |
+| 5.3 | 4,5h | Fixed frontend to display correct information from the new backend config, and fixed some errors on saving sessions |
