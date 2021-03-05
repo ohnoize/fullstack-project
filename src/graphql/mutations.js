@@ -73,8 +73,8 @@ export const ADD_USER = gql`
 `;
 
 export const ADD_SUBJECT = gql`
-  mutation addSubject($name: String!, $description: String) {
-    addSubject(name: $name, description: $description) {
+  mutation addSubject($name: String!, $description: String, $userID: String) {
+    addSubject(name: $name, description: $description, userID: $userID) {
       name
       description
       id

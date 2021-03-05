@@ -33,7 +33,6 @@ export const USER_ITEMS = gql`
       subjectName
       timePracticed
       subjectNotes {
-        subjectID
         date
         notes
       }

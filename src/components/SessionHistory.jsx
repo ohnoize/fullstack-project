@@ -3,7 +3,7 @@ import {
   Card, Grid, Typography, makeStyles,
 } from '@material-ui/core';
 import React from 'react';
-import { CURRENT_USER, GET_SUBJECTS } from '../graphql/queries';
+import { CURRENT_USER } from '../graphql/queries';
 import { timeParser } from '../utils';
 
 const useStyles = makeStyles({
@@ -33,8 +33,7 @@ const SessionHistory = () => {
   const classes = useStyles();
   // if (!currentUser) return null;
   const userQuery = useQuery(CURRENT_USER);
-  const subjects = useQuery(GET_SUBJECTS);
-  if (userQuery.loading || subjects.loading) {
+  if (userQuery.loading) {
     return (
       <div>Loading...</div>
     );
@@ -43,7 +42,6 @@ const SessionHistory = () => {
   const { sessions } = userQuery.data.me;
   const { mySubjects } = userQuery.data.me;
   const currentUser = userQuery.data.me;
-  console.log(mySubjects);
   if (!sessions) return null;
 
   let totalTime = 0;

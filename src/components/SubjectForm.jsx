@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import {
   Button, Grid, TextField, makeStyles, Link,
 } from '@material-ui/core';
@@ -7,7 +7,7 @@ import { Link as RouterLink, useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { ADD_SUBJECT } from '../graphql/mutations';
-import { GET_SUBJECTS } from '../graphql/queries';
+import { CURRENT_USER, GET_SUBJECTS } from '../graphql/queries';
 import AlertDialog from './Alert';
 
 const useStyles = makeStyles((theme) => ({
@@ -56,10 +56,10 @@ const SubjectForm = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [errorText, setErrorText] = useState('');
   const [errorOpen, setErrorOpen] = useState(false);
+  const userQuery = useQuery(CURRENT_USER);
   const [addSubject] = useMutation(ADD_SUBJECT, {
     refetchQueries: [{ query: GET_SUBJECTS }],
   });
-
   const history = useHistory();
   const classes = useStyles();
 
@@ -75,8 +75,11 @@ const SubjectForm = () => {
   const handleAddSubject = async (values) => {
     // console.log(values);
     const { name, description } = values;
-    const newSubject = { name, description };
-    // console.log(newSubject);
+    let userID;
+    if (userQuery.data) {
+      userID = userQuery.data.me.id;
+    }
+    const newSubject = { name, description, userID };
     try {
       await addSubject({ variables: { ...newSubject } });
       handleAlert(`${name} added as subject!`);
