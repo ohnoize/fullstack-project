@@ -159,10 +159,8 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
     // console.log('Session over!');
     // console.log(Object.entries(practiceTime));
     setConfirmOpen(false);
-    const date = new Date();
     // console.log(date);
     const sessionInfo = {
-      date: date.toString(),
       individualSubjects: Object.entries(practiceTime).map((a) => ({ name: a[0], length: a[1] })),
       totalLength: totalTime(),
       userID: currentUser.data.me.id,
@@ -286,15 +284,15 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
                   {nowPracticing.description}
                 </Typography>
                 <Typography variant="h6">Personal notes on this subject:</Typography>
-                {currentUser.data.me.subjectNotes
+                {currentUser.data.me.mySubjects
                   .filter((n) => n.subjectID === nowPracticing.id)
-                  .map((n) => (
-                    <Typography variant="body2" key={n.date}>
-                      {new Date(n.date).toLocaleDateString()}
-                      :
-                      {n.notes}
+                  .map((n) => n.subjectNotes.map((m) => (
+                    <Typography variant="body2" key={m.date}>
+                      {new Date(m.date).toLocaleDateString()}
+                      {' '}
+                      {m.notes}
                     </Typography>
-                  ))}
+                  )))}
                 <TextField onChange={(event) => setSubjectNote(event.target.value)} id="subjectNotes" placeholder="Add note" />
                 <Button onClick={addSubjectNote}>Add note</Button>
               </>

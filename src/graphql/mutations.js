@@ -7,14 +7,12 @@ export const ADD_SESSION = gql`
     $individualSubjects: [sessionSubjectInput!]!,
     $notes: String,
     $userID: String!,
-    $date: String!
   ) {
     addSession(
         userID: $userID
         totalLength: $totalLength
         notes: $notes
         individualSubjects: $individualSubjects
-        date: $date
   ) {
       ...SessionItems
     }
