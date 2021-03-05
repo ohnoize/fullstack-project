@@ -39,34 +39,13 @@ const SessionHistory = () => {
       <div>Loading...</div>
     );
   }
-  const { sessions } = userQuery.data.me;
-  const { subjectNotes } = userQuery.data.me;
-  const currentUser = userQuery.data.me;
-  if (!sessions) return null;
-  const subjectsPracticed = sessions
-    .map((s) => s.individualSubjects.map((i) => i.name))
-    .reduce((a, b) => a.concat(b));
-  const subjectTimes = sessions.map((s) => s.individualSubjects);
 
-  // Following function finds all the sessions with entered subject and returns it's combined time
-  const subjectTimeParser = (subjectName) => {
-    const times = subjectTimes.map((s) => s.filter((n) => n.name === subjectName));
-    return times
-      .filter((t) => t.length > 0)
-      .map((t) => t
-        .map((s) => s.length)
-        .reduce((a, b) => a + b))
-      .reduce((a, b) => a + b);
-  };
-  // console.log(subjectTimeParser('scales'));
-  const subjectArr = [];
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < subjectsPracticed.length; i++) {
-    if (!subjectArr.includes(subjectsPracticed[i])) {
-      subjectArr.push(subjectsPracticed[i]);
-    }
-  }
-  // console.log(subjectArr);
+  const { sessions } = userQuery.data.me;
+  const { mySubjects } = userQuery.data.me;
+  const currentUser = userQuery.data.me;
+  console.log(mySubjects);
+  if (!sessions) return null;
+
   let totalTime = 0;
   if (sessions) {
     if (sessions.length >= 1) {
@@ -145,20 +124,18 @@ const SessionHistory = () => {
         <Grid item>
           <Typography variant="h5">Subjects practiced:</Typography>
           <br />
-          {subjects.data.allSubjects
-            .filter((s) => subjectArr.includes(s.name))
+          {mySubjects
             .map((s) => (
-              <Card key={s.id} className={classes.root}>
-                <Typography key={s.id} variant="h6">{s.name}</Typography>
+              <Card key={s.subjectID} className={classes.root}>
+                <Typography key={s.id} variant="h6">{s.subjectName}</Typography>
                 <br />
                 <Typography variant="button" className={classes.title}>
                   Total time:
                   {' '}
-                  {timeParser(subjectTimeParser(s.name))}
+                  {timeParser(s.timePracticed)}
                 </Typography>
                 <br />
-                {subjectNotes
-                  .filter((n) => n.subjectID === s.id)
+                {s.subjectNotes
                   .map((n) => (
                     <Typography variant="body2" key={n.date} className={classes.title}>
                       {new Date(n.date).toLocaleDateString()}
