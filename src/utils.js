@@ -6,7 +6,7 @@ export const timeParser = (seconds) => {
 };
 
 // Following gives an array of the names of all the subjects practiced in sessions
-const subjectsPracticed = (sessions) => {
+export const subjectsPracticed = (sessions) => {
   const allSubjects = sessions
     .map((s) => s.individualSubjects.map((i) => i.name))
     .reduce((a, b) => a.concat(b));
@@ -22,7 +22,7 @@ const subjectsPracticed = (sessions) => {
 };
 
 // Following function finds all the sessions with entered subject and returns it's combined time
-const subjectTimeParser = (sessions, subjectName) => {
+export const subjectTimeParser = (sessions, subjectName) => {
   const subjectTimes = sessions.map((s) => s.individualSubjects);
   const times = subjectTimes.map((s) => s.filter((n) => n.name === subjectName));
   return times
@@ -33,4 +33,19 @@ const subjectTimeParser = (sessions, subjectName) => {
     .reduce((a, b) => a + b);
 };
 
-export default { timeParser, subjectsPracticed, subjectTimeParser };
+// Following function receives on object with practiced
+// subjects and returns their total length combined
+
+export const totalTime = (practiceObj) => {
+  if (Object.keys(practiceObj).length !== 0) {
+    const time = Object.values(practiceObj).reduce((a, b) => a + b);
+    return time;
+  } return null;
+};
+
+export default {
+  totalTime,
+  timeParser,
+  subjectsPracticed,
+  subjectTimeParser,
+};

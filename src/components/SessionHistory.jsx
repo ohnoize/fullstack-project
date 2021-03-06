@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 import {
-  Card, Grid, Typography, makeStyles,
+  Card, Grid, Typography, makeStyles, CircularProgress,
 } from '@material-ui/core';
 import React from 'react';
 import { CURRENT_USER } from '../graphql/queries';
@@ -27,6 +27,14 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
+  centerScreen: {
+    display: 'flex',
+    flexDirection: 'column',
+    justify: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    minHeight: 100,
+  },
 });
 
 const SessionHistory = () => {
@@ -35,7 +43,9 @@ const SessionHistory = () => {
   const userQuery = useQuery(CURRENT_USER);
   if (userQuery.loading) {
     return (
-      <div>Loading...</div>
+      <div className={classes.centerScreen}>
+        <CircularProgress />
+      </div>
     );
   }
 

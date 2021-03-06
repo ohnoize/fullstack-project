@@ -13,11 +13,12 @@ import {
   Box,
   Grid,
   Link,
+  CircularProgress,
 } from '@material-ui/core';
 import { useStopwatch } from 'react-timer-hook';
 import { ADD_NOTE, ADD_SESSION } from '../graphql/mutations';
 import { CURRENT_USER, GET_SESSIONS, GET_SUBJECTS } from '../graphql/queries';
-import { timeParser } from '../utils';
+import { timeParser, totalTime } from '../utils';
 import AlertDialog from './Alert';
 import ConfirmDialog from './Confirm';
 
@@ -44,6 +45,14 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
+  },
+  centerScreen: {
+    display: 'flex',
+    flexDirection: 'column',
+    justify: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    minHeight: 100,
   },
 }));
 
@@ -84,9 +93,6 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
   });
   const [addNote] = useMutation(ADD_NOTE, {
     update: (store, response) => {
-      // const dataInStore = store.readQuery({ query: CURRENT_USER });
-      // console.log(response.data.editUser);
-      // console.log(dataInStore.me);
       store.writeQuery({
         query: CURRENT_USER,
         data: {
@@ -121,6 +127,7 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
 
   const handleStopNew = (event) => {
     event.preventDefault();
+    if (!isRunning) return;
     pause();
     const finalSeconds = secondsParser({
       days, hours, minutes, seconds,
@@ -141,18 +148,17 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
     }
   };
 
-  const totalTime = () => {
-    if (Object.keys(practiceTime).length !== 0) {
-      const time = Object.values(practiceTime).reduce((a, b) => a + b);
-      return time;
-    } return null;
-  };
   // console.log(isRunning);
   // console.log('currentuser in timer:', currentUser);
 
   const handleFinishConfirm = () => {
-    setConfirmText('Do you really want to end your session?');
-    setConfirmOpen(true);
+    if (Object.keys(practiceTime).length === 0) {
+      setAlertText('No time spent practicing yet');
+      setAlertOpen(true);
+    } else {
+      setConfirmText('Do you really want to end your session?');
+      setConfirmOpen(true);
+    }
   };
 
   const handleFinish = () => {
@@ -162,7 +168,7 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
     // console.log(date);
     const sessionInfo = {
       individualSubjects: Object.entries(practiceTime).map((a) => ({ name: a[0], length: a[1] })),
-      totalLength: totalTime(),
+      totalLength: totalTime(practiceTime),
       userID: currentUser.data.me.id,
       notes,
     };
@@ -186,7 +192,9 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
 
   if (subjects.loading || currentUser.loading) {
     return (
-      <div>Loading...</div>
+      <div className={classes.centerScreen}>
+        <CircularProgress />
+      </div>
     );
   }
   if (currentUser.data) {
@@ -248,7 +256,7 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
             <Typography variant="body1">
               Total:
               {' '}
-              {timeParser(totalTime())}
+              {timeParser(totalTime(practiceTime))}
             </Typography>
           </Box>
 
