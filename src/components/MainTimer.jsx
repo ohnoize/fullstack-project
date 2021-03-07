@@ -14,13 +14,18 @@ import {
   Grid,
   Link,
   CircularProgress,
+  Snackbar,
 } from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 import { useStopwatch } from 'react-timer-hook';
 import { ADD_NOTE, ADD_SESSION } from '../graphql/mutations';
 import { CURRENT_USER, GET_SESSIONS, GET_SUBJECTS } from '../graphql/queries';
 import { timeParser, totalTime } from '../utils';
 import AlertDialog from './Alert';
 import ConfirmDialog from './Confirm';
+
+// eslint-disable-next-line react/jsx-props-no-spreading
+const Alert = (props) => <MuiAlert elevation={6} variant="filled" {...props} />;
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -84,6 +89,7 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
   const [alertText, setAlertText] = useState('');
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [confirmText, setConfirmText] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const subjects = useQuery(GET_SUBJECTS);
   const currentUser = useQuery(CURRENT_USER);
   // console.log(currentUser);
@@ -176,6 +182,8 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
     // console.log(sessionInfo);
     setPracticeTime({});
     setNotes('');
+    setSubject('');
+    setSnackbarOpen(true);
     // console.log(sessionInfo);
   };
 
@@ -215,6 +223,11 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
         open={confirmOpen}
         action={handleFinish}
       />
+      <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={() => setSnackbarOpen(false)}>
+        <Alert onClose={() => setSnackbarOpen(false)}>
+          Session saved!
+        </Alert>
+      </Snackbar>
       <Grid
         container
         direction="row"
@@ -286,12 +299,16 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
                   :
                   {Number(seconds).toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}
                 </Typography>
+                <br />
                 <Typography variant="subtitle1">
                   Description:
                   {' '}
                   {nowPracticing.description}
                 </Typography>
-                <Typography variant="h6">Personal notes on this subject:</Typography>
+                <br />
+                <br />
+                <Typography variant="body1">Personal notes on this subject:</Typography>
+                <br />
                 {currentUser.data.me.mySubjects
                   .filter((n) => n.subjectID === nowPracticing.id)
                   .map((n) => n.subjectNotes.map((m) => (
@@ -301,6 +318,7 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
                       {m.notes}
                     </Typography>
                   )))}
+                <br />
                 <TextField onChange={(event) => setSubjectNote(event.target.value)} id="subjectNotes" placeholder="Add note" />
                 <Button onClick={addSubjectNote}>Add note</Button>
               </>

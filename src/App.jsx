@@ -29,6 +29,7 @@ const App = () => {
 
   const handleLogOut = () => {
     setToken(null);
+    setPracticeTime({});
     localStorage.clear();
     client.resetStore();
   };
