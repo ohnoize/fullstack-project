@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
 import { CURRENT_USER } from '../graphql/queries';
-import SessionHistory from './SessionHistory';
+import AccountPage from './AccountPage';
 
 const mocks = [
   {
@@ -67,7 +67,7 @@ const mocks = [
               id: '604172b361c1360ea386c55d',
               date: 'Thu Mar 04 2021 18:52:19 GMT-0500 (Eastern Standard Time)',
               totalLength: 1200,
-              notes: 'Test sesh another another',
+              notes: 'Test session 1',
               userID: '6041727761c1360ea386c558',
               individualSubjects: [
                 {
@@ -85,7 +85,7 @@ const mocks = [
               id: '604172ca61c1360ea386c560',
               date: 'Thu Mar 04 2021 18:52:42 GMT-0500 (Eastern Standard Time)',
               totalLength: 1200,
-              notes: 'Test sesh another danother',
+              notes: 'Test session 2',
               userID: '6041727761c1360ea386c558',
               individualSubjects: [
                 {
@@ -105,7 +105,7 @@ const mocks = [
               id: '604176d5cfb0e50f303147e8',
               date: 'Thu Mar 04 2021 19:09:57 GMT-0500 (Eastern Standard Time)',
               totalLength: 1200,
-              notes: 'Test sesh another dund another',
+              notes: 'Test session 3',
               userID: '6041727761c1360ea386c558',
               individualSubjects: [
                 {
@@ -125,7 +125,7 @@ const mocks = [
               id: '60417ad85518f91056e19f06',
               date: 'Thu Mar 04 2021 19:27:04 GMT-0500 (Eastern Standard Time)',
               totalLength: 1200,
-              notes: 'Test sesh another dund',
+              notes: 'Test session 4',
               userID: '6041727761c1360ea386c558',
               individualSubjects: [
                 {
@@ -145,7 +145,7 @@ const mocks = [
               id: '60417be6aa751010a566b0c8',
               date: 'Thu Mar 04 2021 19:31:34 GMT-0500 (Eastern Standard Time)',
               totalLength: 1200,
-              notes: 'test session',
+              notes: 'test session 5',
               userID: '6041727761c1360ea386c558',
               individualSubjects: [
                 {
@@ -167,22 +167,22 @@ const mocks = [
   },
 ];
 
-describe('<SessionHistory />', () => {
+describe('<AccountPage />', () => {
   it('Renders full page initally', async () => {
     const { getByText, findByText } = render(
       <MockedProvider
         mocks={mocks}
         addTypename={false}
       >
-        <SessionHistory />
+        <AccountPage />
       </MockedProvider>,
     );
     // const tree = component.toJSON();
     // expect(getByText('Loading...')).toBeInTheDocument();
-    const sessionNotes = await findByText(/Sessions/ig);
+    const sessionNotes = await findByText(/Member since/ig);
     expect(sessionNotes).toBeInTheDocument();
-    expect(getByText(/notes for 1/ig)).toBeInTheDocument();
-    expect(getByText(/test sesh another another/ig)).toBeInTheDocument();
-    expect(getByText(/just kidding/ig)).toBeInTheDocument();
+    expect(getByText(/test session 1/ig)).toBeInTheDocument();
+    expect(getByText(/Member since/ig)).toBeInTheDocument();
+    expect(getByText(/test session 2/ig)).toBeInTheDocument();
   });
 });

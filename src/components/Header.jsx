@@ -39,7 +39,7 @@ const Header = ({ currentUser, token, handleLogOut }) => {
           ? (
             <>
               <Button component={Link} to="/">Home</Button>
-              <Button component={Link} to="/history">History</Button>
+              <Button component={Link} to="/account">Account</Button>
               <Button component={Link} to="/" onClick={handleLogOut}>Log out</Button>
             </>
           )

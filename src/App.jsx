@@ -11,9 +11,9 @@ import { useApolloClient } from '@apollo/client';
 import MainTimer from './components/MainTimer';
 import LoginForm from './components/LoginForm';
 import Header from './components/Header';
-import SessionHistory from './components/SessionHistory';
 import SubjectForm from './components/SubjectForm';
 import SignUp from './components/SignUp';
+import AccountPage from './components/AccountPage';
 
 const App = () => {
   const [token, setToken] = useState(null);
@@ -51,8 +51,8 @@ const App = () => {
           <Route path="/addsubject">
             <SubjectForm />
           </Route>
-          <Route path="/history">
-            <SessionHistory />
+          <Route path="/account">
+            <AccountPage />
           </Route>
           <Route path="/">
             <MainTimer

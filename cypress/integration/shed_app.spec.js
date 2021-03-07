@@ -85,7 +85,7 @@ describe('Shed app ', function() {
       cy.get('#notes').type('cypressSession')
       cy.contains('Finish session').click()
       cy.contains('Yes').click()
-      cy.contains('History').click()
+      cy.contains('Account').click()
       cy.contains('testSubject2')
       cy.contains('Notes: cypressSession')
       cy.deleteTestUser()

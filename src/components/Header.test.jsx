@@ -25,7 +25,7 @@ describe('<Header />', () => {
       expect(component.getByText(/welcome back/ig)).toBeInTheDocument();
       expect(component.getByText(/testuser/ig)).toBeInTheDocument();
       expect(component.getByText('Home')).toBeInTheDocument();
-      expect(component.getByText('History')).toBeInTheDocument();
+      expect(component.getByText('Account')).toBeInTheDocument();
       expect(component.getByText('Log out')).toBeInTheDocument();
       expect(component.queryByText('Signup/Login')).toBeNull();
     });
