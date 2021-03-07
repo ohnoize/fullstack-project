@@ -41,3 +41,4 @@
 | 5.3 | 1h | Fixing little errors on the frontend |
 | 6.3 | 4h | Adding loading animation, backend tests broken for some reason, trying to fix |
 | 6.3 | 4h | Had a hard time to find the bug, as tests passed and then failed without changing anything. Added a missing 'await' and updated dependencies. Fixed ensuing errors in frontend unit- and e2e-tests |
+| 7.3 | 117h | Total hours so far, 6.69op |

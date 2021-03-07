@@ -53,7 +53,8 @@ const SessionHistory = () => {
   const { mySubjects } = userQuery.data.me;
   const currentUser = userQuery.data.me;
   if (!sessions) return null;
-
+  const sessionsArr = sessions.slice();
+  const mySubjectsArr = mySubjects.slice();
   let totalTime = 0;
   if (sessions) {
     if (sessions.length >= 1) {
@@ -99,40 +100,43 @@ const SessionHistory = () => {
       >
         <Grid item>
           <Typography variant="h5">Sessions:</Typography>
-          {sessions.map((s) => (
-            <Card key={s.id} className={classes.root}>
-              <Typography
-                variant="h6"
-              >
-                {new Date(s.date).toLocaleDateString()}
-              </Typography>
-              <Typography className={classes.title}>
-                Total length:
-                {' '}
-                {timeParser(s.totalLength)}
-              </Typography>
-              <Typography variant="button" className={classes.title}>Subjects practiced:</Typography>
-              {s.individualSubjects.map((i) => (
-                <ul key={i.name}>
-                  <Typography className={classes.title}>
-                    {i.name}
-                    {' '}
-                    {timeParser(i.length)}
-                  </Typography>
-                </ul>
-              ))}
-              <Typography className={classes.title}>
-                Notes:
-                {' '}
-                {s.notes}
-              </Typography>
-            </Card>
-          ))}
+          {sessionsArr
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .map((s) => (
+              <Card key={s.id} className={classes.root}>
+                <Typography
+                  variant="h6"
+                >
+                  {new Date(s.date).toLocaleDateString()}
+                </Typography>
+                <Typography className={classes.title}>
+                  Total length:
+                  {' '}
+                  {timeParser(s.totalLength)}
+                </Typography>
+                <Typography variant="button" className={classes.title}>Subjects practiced:</Typography>
+                {s.individualSubjects.map((i) => (
+                  <ul key={i.name}>
+                    <Typography className={classes.title}>
+                      {i.name}
+                      {' '}
+                      {timeParser(i.length)}
+                    </Typography>
+                  </ul>
+                ))}
+                <Typography className={classes.title}>
+                  Notes:
+                  {' '}
+                  {s.notes}
+                </Typography>
+              </Card>
+            ))}
         </Grid>
         <Grid item>
           <Typography variant="h5">Subjects practiced:</Typography>
           <br />
-          {mySubjects
+          {mySubjectsArr
+            .sort((a, b) => b.timePracticed - a.timePracticed)
             .map((s) => (
               <Card key={s.subjectID} className={classes.root}>
                 <Typography key={s.id} variant="h6">{s.subjectName}</Typography>
