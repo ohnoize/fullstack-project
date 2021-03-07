@@ -185,7 +185,7 @@ describe('<MainTimer />', () => {
       );
     });
     it('Renders correctly', async () => {
-      expect(component.getByText('Loading...'));
+      // expect(component.getByText('MuiCircularProgress-svg'));
       const subjectText = await component.findByText(/Pick a subject to practice/ig);
       expect(subjectText).toBeInTheDocument();
       expect(component.getByText('Choose one')).toBeInTheDocument();
@@ -212,7 +212,7 @@ describe('<MainTimer />', () => {
       );
     });
     it('Renders correctly', async () => {
-      expect(component.getByText('Loading...'));
+      // expect(component.getByText('Loading...'));
       const subjectText = await component.findByText(/Pick a subject to practice/ig);
       expect(subjectText).toBeInTheDocument();
       expect(component.getByText('Choose one')).toBeInTheDocument();

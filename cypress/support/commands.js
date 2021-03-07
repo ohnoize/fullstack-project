@@ -8,6 +8,16 @@ const deleteTestSubject = `
   }
 `
 
+const deleteTestSubject2 = `
+  mutation {
+    deleteSubject(name: "testSubject2") {
+      id
+      name
+      description
+    }
+  }
+`
+
 const deleteTestUser = `
   mutation {
     deleteUserByName(username: "cypressUser") {
@@ -34,6 +44,14 @@ Cypress.Commands.add('deleteTestSubject', () => {
     url: apiUrl,
     method: 'POST',
     body: { query: deleteTestSubject }
+  })
+})
+
+Cypress.Commands.add('deleteTestSubject2', () => {
+  cy.request({
+    url: apiUrl,
+    method: 'POST',
+    body: { query: deleteTestSubject2 }
   })
 })
 

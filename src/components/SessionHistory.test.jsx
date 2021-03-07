@@ -168,17 +168,6 @@ const mocks = [
 ];
 
 describe('<SessionHistory />', () => {
-  let component;
-
-  it('Renders loading page correctly', () => {
-    component = render(
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <SessionHistory />
-      </MockedProvider>,
-    );
-    expect(component.getByText('Loading...')).toBeInTheDocument();
-  });
-
   it('Renders full page initally', async () => {
     const { getByText, findByText } = render(
       <MockedProvider
@@ -189,7 +178,7 @@ describe('<SessionHistory />', () => {
       </MockedProvider>,
     );
     // const tree = component.toJSON();
-    expect(getByText('Loading...')).toBeInTheDocument();
+    // expect(getByText('Loading...')).toBeInTheDocument();
     const sessionNotes = await findByText(/Sessions/ig);
     expect(sessionNotes).toBeInTheDocument();
     expect(getByText(/notes for 1/ig)).toBeInTheDocument();
