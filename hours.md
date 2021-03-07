@@ -39,3 +39,5 @@
 | 4.3 | 9h | Reconfigured backend schema to make keeping track of users notes and practice subjects simpler. Was harder than expected |
 | 5.3 | 4,5h | Fixed frontend to display correct information from the new backend config, and fixed some errors on saving sessions |
 | 5.3 | 1h | Fixing little errors on the frontend |
+| 6.3 | 4h | Adding loading animation, backend tests broken for some reason, trying to fix |
+| 6.3 | 2h | Had a hard time to find the bug, as tests passed and then failed without changing anything. Added a missing 'await' and updated dependencies. Fingers crossed |
