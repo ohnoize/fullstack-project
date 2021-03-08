@@ -238,7 +238,7 @@ describe('<MainTimer />', () => {
         </MockedProvider>,
       );
     });
-    it('Renders correctly', async () => {
+    it('Renders correctly, irrelevant text', async () => {
       // expect(component.getByText('MuiCircularProgress-svg'));
       const subjectText = await component.findByText(/Pick a subject to practice/ig);
       expect(subjectText).toBeInTheDocument();
