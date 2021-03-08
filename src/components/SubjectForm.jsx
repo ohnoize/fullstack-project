@@ -39,6 +39,8 @@ const useStyles = makeStyles((theme) => ({
 const initialValues = {
   name: '',
   description: '',
+  url: '',
+  linkDescription: '',
 };
 
 const validationSchema = yup.object({
@@ -48,6 +50,10 @@ const validationSchema = yup.object({
     .max(30)
     .required('Subject name is required'),
   description: yup
+    .string(),
+  url: yup
+    .string().url('Enter a valid URL'),
+  linkDescription: yup
     .string(),
 });
 
@@ -74,12 +80,30 @@ const SubjectForm = () => {
 
   const handleAddSubject = async (values) => {
     // console.log(values);
-    const { name, description } = values;
+    let newSubject;
+    let links;
     let userID;
     if (userQuery.data) {
-      userID = userQuery.data.me.id;
+      try {
+        userID = userQuery.data.me.id;
+      } catch (e) {
+        handleError(e.message);
+      }
     }
-    const newSubject = { name, description, userID };
+    const { name, description } = values;
+    if (values.linkDescription && values.url) {
+      links = {
+        url: values.url,
+        description: values.linkDescription,
+      };
+      newSubject = {
+        name, description, links, userID,
+      };
+    } else {
+      newSubject = { name, description, userID };
+    }
+    console.log(values);
+    console.log(newSubject);
     try {
       await addSubject({ variables: { ...newSubject } });
       handleAlert(`${name} added as subject!`);
@@ -135,6 +159,30 @@ const SubjectForm = () => {
               onChange={formik.handleChange}
               error={formik.touched.description && Boolean(formik.errors.description)}
               helperText={formik.touched.description && formik.errors.description}
+            />
+          </Grid>
+          <Grid item className={classes.boxStyle}>
+            <TextField
+              id="url"
+              name="url"
+              label="Add link (optional)"
+              placeholder="Add link (optional)"
+              value={formik.values.url}
+              onChange={formik.handleChange}
+              error={formik.touched.url && Boolean(formik.errors.url)}
+              helperText={formik.touched.url && formik.errors.url}
+            />
+          </Grid>
+          <Grid item className={classes.boxStyle}>
+            <TextField
+              id="linkDescription"
+              name="linkDescription"
+              label="Link description (optional)"
+              placeholder="Link description (optional)"
+              value={formik.values.linkDescription}
+              onChange={formik.handleChange}
+              error={formik.touched.linkDescription && Boolean(formik.errors.linkDescription)}
+              helperText={formik.touched.linkDescription && formik.errors.linkDescription}
             />
           </Grid>
           <Grid item className={classes.boxStyle}>

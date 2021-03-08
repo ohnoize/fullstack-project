@@ -31,10 +31,10 @@ Schemas:
 		goals: {
 			id
 			description
-			subject
-			targetTime
+			subject: individual subject or overall time practiced
+			targetTime: e.g amount of seconds before deadline
 			deadline
-			passed	
+			passed: true/false
 		}
 		mySubjects: { 
 			subjectID, 

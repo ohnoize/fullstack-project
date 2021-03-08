@@ -299,7 +299,7 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
             </Select>
           </FormControl>
           <br />
-          <Link variant="body2" component={RouterLink} to="/addsubject">Add subject</Link>
+          {token ? <Link variant="body2" component={RouterLink} to="/addsubject">Add subject</Link> : null}
           <Box className={classes.boxStyle}>
             <Button variant="outlined" onClick={handleStartNew}>Start</Button>
             <Button variant="outlined" onClick={handleStopNew}>Stop</Button>
@@ -371,23 +371,30 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
                     </Link>
                   </div>
                 ))}
-                <Button variant="text" onClick={() => setAddLinkOpen(true)}>Add link</Button>
+                <br />
+                {token ? <Button variant="text" size="small" onClick={() => setAddLinkOpen(true)}>Add link</Button> : null}
                 <br />
                 <br />
-                <Typography variant="body1">Personal notes on this subject:</Typography>
-                <br />
-                {currentUser.data.me.mySubjects
-                  .filter((n) => n.subjectID === nowPracticing.id)
-                  .map((n) => n.subjectNotes.map((m) => (
-                    <Typography variant="body2" key={m.date}>
-                      {new Date(m.date).toLocaleDateString()}
-                      {' '}
-                      {m.notes}
-                    </Typography>
-                  )))}
-                <br />
-                <TextField onChange={handleNoteChange} id="subjectNotes" placeholder="Add note" />
-                <Button onClick={addSubjectNote}>Add note</Button>
+                {token
+                  ? (
+                    <>
+                      <Typography variant="body1">Personal notes on this subject:</Typography>
+                      <br />
+                      {currentUser.data.me.mySubjects
+                        .filter((n) => n.subjectID === nowPracticing.id)
+                        .map((n) => n.subjectNotes.map((m) => (
+                          <Typography variant="body2" key={m.date}>
+                            {new Date(m.date).toLocaleDateString()}
+                            {' '}
+                            {m.notes}
+                          </Typography>
+                        )))}
+                      <br />
+                      <TextField onChange={handleNoteChange} id="subjectNotes" placeholder="Add note" />
+                      <Button onClick={addSubjectNote}>Add note</Button>
+                    </>
+                  )
+                  : null}
               </>
             )
             : <Typography variant="h6">Pick a subject and click start!</Typography>}
