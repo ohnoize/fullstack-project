@@ -46,3 +46,4 @@
 | 7.3 | 6h | Added a feature to add links to individual subjects, had some issues to get the page re-render instantly but figured that out. (Reading from a variable that wasn't updating in real time)
 | 8.3 | 4,5h | Edited backend to check for tokens for most actions, added feature to frontend to add links while creating new subjects. Research into best practices of using JWT tokens. |
 | 8.3 | 2h | Fixing some tests, first deployment through AWS at https://main.d33spb18ttvwwb.amplifyapp.com/!! |
+| 8.3. | 3h | Spend some time trying to add AWS deployment to GitHub Actions, didn't work and decided to drop aws for now | 
