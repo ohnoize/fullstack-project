@@ -243,7 +243,6 @@ describe('<MainTimer />', () => {
       const subjectText = await component.findByText(/Pick a subject to practice/ig);
       expect(subjectText).toBeInTheDocument();
       expect(component.getByText('Choose one')).toBeInTheDocument();
-      expect(component.getByText('Add subject')).toBeInTheDocument();
       expect(component.getByText('Start')).toBeInTheDocument();
       expect(component.getByText('Stop')).toBeInTheDocument();
       expect(component.getByText('Time spent:')).toBeInTheDocument();
