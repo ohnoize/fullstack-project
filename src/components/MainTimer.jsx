@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link as RouterLink } from 'react-router-dom';
@@ -18,11 +18,12 @@ import {
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import { useStopwatch } from 'react-timer-hook';
-import { ADD_NOTE, ADD_SESSION } from '../graphql/mutations';
+import { ADD_LINK, ADD_NOTE, ADD_SESSION } from '../graphql/mutations';
 import { CURRENT_USER, GET_SESSIONS, GET_SUBJECTS } from '../graphql/queries';
 import { timeParser, totalTime } from '../utils';
 import AlertDialog from './Alert';
 import ConfirmDialog from './Confirm';
+import AddLinkDialog from './AddLinkDialog';
 
 // eslint-disable-next-line react/jsx-props-no-spreading
 const Alert = (props) => <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -90,23 +91,19 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [confirmText, setConfirmText] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarText, setSnackbarText] = useState('');
+  const [addLinkOpen, setAddLinkOpen] = useState(false);
+  const [url, setUrl] = useState('');
+  const [description, setDescription] = useState('');
   const subjects = useQuery(GET_SUBJECTS);
   const currentUser = useQuery(CURRENT_USER);
-  // console.log(currentUser);
-  // console.log(nowPracticing);
   const [addSession] = useMutation(ADD_SESSION, {
     refetchQueries: [{ query: GET_SESSIONS }],
   });
-  const [addNote] = useMutation(ADD_NOTE, {
-    update: (store, response) => {
-      store.writeQuery({
-        query: CURRENT_USER,
-        data: {
-          me: response.data.editUser,
-        },
-      });
-    },
+  const [addLink] = useMutation(ADD_LINK, {
+    refetchQueries: [{ query: GET_SUBJECTS }],
   });
+  const [addNote] = useMutation(ADD_NOTE);
 
   const classes = useStyles();
 
@@ -126,10 +123,21 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
       setAlertText('Pick a subject!');
       return;
     }
+    if (isRunning) {
+      setAlertOpen(true);
+      setAlertText('Already practing!');
+    }
     const fullSubject = subjects.data.allSubjects.find((s) => s.name === subject);
     setNowPracticing(fullSubject);
     start();
   };
+
+  useEffect(() => {
+    if (subjects && subjects.data && subjects.data.allSubjects) {
+      const subjectData = subjects.data.allSubjects.find((s) => s.name === subject);
+      setNowPracticing(subjectData);
+    }
+  }, [subjects.data]);
 
   const handleStopNew = (event) => {
     event.preventDefault();
@@ -183,11 +191,13 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
     setPracticeTime({});
     setNotes('');
     setSubject('');
+    setSnackbarText('Session saved!');
     setSnackbarOpen(true);
     // console.log(sessionInfo);
   };
 
-  const addSubjectNote = () => {
+  const addSubjectNote = (event) => {
+    event.preventDefault();
     const entry = {
       id: currentUser.data.me.id,
       subjectNotes: {
@@ -209,6 +219,35 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
     // console.log('User from query in maintimer', currentUser.data.me);
   }
 
+  const handleError = (text) => {
+    setAlertText(text);
+    setAlertOpen(true);
+  };
+
+  const handleAddLink = () => {
+    const newLink = {
+      url,
+      description,
+      subjectID: nowPracticing.id,
+    };
+    try {
+      addLink({ variables: { ...newLink } });
+      // setTempLinks(tempLinks.concat(newLink));
+      setAddLinkOpen(false);
+      setSnackbarOpen(true);
+      setSnackbarText('New link added!');
+      setUrl('');
+      setDescription('');
+    } catch (error) {
+      handleError(error.message);
+    }
+  };
+
+  const handleNoteChange = (e) => {
+    e.preventDefault();
+    setSubjectNote(e.target.value);
+  };
+
   return (
     <>
       <AlertDialog
@@ -225,9 +264,19 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
       />
       <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={() => setSnackbarOpen(false)}>
         <Alert onClose={() => setSnackbarOpen(false)}>
-          Session saved!
+          {snackbarText}
         </Alert>
       </Snackbar>
+      <AddLinkDialog
+        setOpen={setAddLinkOpen}
+        url={url}
+        setUrl={setUrl}
+        description={description}
+        setDescription={setDescription}
+        open={addLinkOpen}
+        subject={nowPracticing}
+        handleAddLink={handleAddLink}
+      />
       <Grid
         container
         direction="row"
@@ -306,6 +355,24 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
                   {nowPracticing.description}
                 </Typography>
                 <br />
+                <Typography variant="subtitle1">
+                  Resources:
+                </Typography>
+                {nowPracticing.links.map((l) => (
+                  <div key={l.url}>
+                    <Link
+                      href={l.url}
+                      target="_blank"
+                      rel="noopener"
+                      variant="body2"
+                      key={l.url}
+                    >
+                      {l.description}
+                    </Link>
+                  </div>
+                ))}
+                <Button variant="text" onClick={() => setAddLinkOpen(true)}>Add link</Button>
+                <br />
                 <br />
                 <Typography variant="body1">Personal notes on this subject:</Typography>
                 <br />
@@ -319,7 +386,7 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
                     </Typography>
                   )))}
                 <br />
-                <TextField onChange={(event) => setSubjectNote(event.target.value)} id="subjectNotes" placeholder="Add note" />
+                <TextField onChange={handleNoteChange} id="subjectNotes" placeholder="Add note" />
                 <Button onClick={addSubjectNote}>Add note</Button>
               </>
             )

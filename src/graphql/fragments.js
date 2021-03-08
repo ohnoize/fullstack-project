@@ -19,6 +19,11 @@ export const SUBJECT_ITEMS = gql`
     id
     name
     description
+    timePracticed
+    links {
+      url
+      description
+    }
   }
 `;
 

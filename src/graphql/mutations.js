@@ -80,6 +80,15 @@ export const ADD_SUBJECT = gql`
   }
 `;
 
+export const ADD_LINK = gql`
+  mutation addLink($url: String!, $description: String!, $subjectID: String!) {
+    addLink(url: $url, description: $description, subjectID: $subjectID) {
+      ...SubjectItems
+    }
+  }
+${SUBJECT_ITEMS}
+`;
+
 export const LOGIN = gql`
   mutation login($username: String!, $password: String!) {
     login(
