@@ -102,8 +102,7 @@ const SubjectForm = () => {
     } else {
       newSubject = { name, description, userID };
     }
-    console.log(values);
-    console.log(newSubject);
+
     try {
       await addSubject({ variables: { ...newSubject } });
       handleAlert(`${name} added as subject!`);

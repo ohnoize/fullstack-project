@@ -43,4 +43,5 @@
 | 6.3 | 4h | Had a hard time to find the bug, as tests passed and then failed without changing anything. Added a missing 'await' and updated dependencies. Fixed ensuing errors in frontend unit- and e2e-tests |
 | 7.3 | 117h | Total hours so far, 6.69op |
 | 7.3 | 3h | Added account info page that shows session history and subjects |
-| 7.3 | 6h | Added a feature to add links to individual subjects, had some issues to get the page re-render instantly but figured that out. (Reading from a variable that wasn't updating in real time) 
+| 7.3 | 6h | Added a feature to add links to individual subjects, had some issues to get the page re-render instantly but figured that out. (Reading from a variable that wasn't updating in real time)
+| 8.3 | 4,5h | Edited backend to check for tokens for most actions, added feature to frontend to add links while creating new subjects. Research into best practices of using JWT tokens. |
