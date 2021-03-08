@@ -18,31 +18,58 @@ const unloggedMocks = [
             id: '6022a2c11e57471d3cdd4b19',
             name: 'scales',
             description: 'Practice scales',
+            timePracticed: 123,
             __typename: 'Subject',
+            links: [
+              {
+                __typename: 'SubjectLink',
+                url: 'https://en.wikipedia.org/wiki/Chord_(music)',
+                description: 'Chord (music) - Wikipedia',
+              },
+              {
+                __typename: 'SubjectLink',
+                url: 'https://www.youtube.com/watch?v=K_T-jYyQCbQ',
+                description: 'Beautiful chords! (everyone should know)',
+              },
+            ],
           },
           {
             id: '6022a2cf1e57471d3cdd4b1a',
             name: 'chords',
             description: 'Practice chords',
+            timePracticed: 12442,
             __typename: 'Subject',
-          },
-          {
-            id: '602d85082290af5340dff60c',
-            name: 'repertoire',
-            description: 'Learn/work on pieces',
-            __typename: 'Subject',
-          },
-          {
-            id: '602daf862290af5340dff60d',
-            name: 'Arpeggios',
-            description: 'Study of chord tones played individually',
-            __typename: 'Subject',
+            links: [
+              {
+                __typename: 'SubjectLink',
+                url: 'https://en.wikipedia.org/wiki/Repertoire',
+                description: 'Repertoire - Wikipedia',
+              },
+              {
+                __typename: 'SubjectLink',
+                url: 'https://en.wikipedia.org/wiki/Classical_guitar_repertoire',
+                description: 'Classical guitar repertoire - Wikipedia',
+              },
+            ],
           },
           {
             id: '602db0d92290af5340dff611',
             name: 'Bebop scales',
             description: 'Eight note scales',
+            timePracticed: 124123,
             __typename: 'Subject',
+            links: [
+              {
+                __typename: 'SubjectLink',
+                url: 'https://en.wikipedia.org/wiki/Bebop_scale',
+                description: 'Bebop scale - Wikipedia',
+              },
+              {
+                __typename: 'SubjectLink',
+                url: 'https://www.youtube.com/watch?v=F8JJncSUdUU',
+                description: 'Jazz Theory with Barry Harris',
+              },
+            ],
           },
         ],
       },
@@ -62,31 +89,58 @@ const loggedMocks = [
             id: '6022a2c11e57471d3cdd4b19',
             name: 'scales',
             description: 'Practice scales',
+            timePracticed: 123,
             __typename: 'Subject',
+            links: [
+              {
+                __typename: 'SubjectLink',
+                url: 'https://en.wikipedia.org/wiki/Chord_(music)',
+                description: 'Chord (music) - Wikipedia',
+              },
+              {
+                __typename: 'SubjectLink',
+                url: 'https://www.youtube.com/watch?v=K_T-jYyQCbQ',
+                description: 'Beautiful chords! (everyone should know)',
+              },
+            ],
           },
           {
             id: '6022a2cf1e57471d3cdd4b1a',
             name: 'chords',
             description: 'Practice chords',
+            timePracticed: 2214,
             __typename: 'Subject',
-          },
-          {
-            id: '602d85082290af5340dff60c',
-            name: 'repertoire',
-            description: 'Learn/work on pieces',
-            __typename: 'Subject',
-          },
-          {
-            id: '602daf862290af5340dff60d',
-            name: 'Arpeggios',
-            description: 'Study of chord tones played individually',
-            __typename: 'Subject',
+            links: [
+              {
+                __typename: 'SubjectLink',
+                url: 'https://en.wikipedia.org/wiki/Repertoire',
+                description: 'Repertoire - Wikipedia',
+              },
+              {
+                __typename: 'SubjectLink',
+                url: 'https://en.wikipedia.org/wiki/Classical_guitar_repertoire',
+                description: 'Classical guitar repertoire - Wikipedia',
+              },
+            ],
           },
           {
             id: '602db0d92290af5340dff611',
             name: 'Bebop scales',
             description: 'Eight note scales',
+            timePracticed: 412,
             __typename: 'Subject',
+            links: [
+              {
+                __typename: 'SubjectLink',
+                url: 'https://en.wikipedia.org/wiki/Bebop_scale',
+                description: 'Bebop scale - Wikipedia',
+              },
+              {
+                __typename: 'SubjectLink',
+                url: 'https://www.youtube.com/watch?v=F8JJncSUdUU',
+                description: 'Jazz Theory with Barry Harris',
+              },
+            ],
           },
         ],
       },
