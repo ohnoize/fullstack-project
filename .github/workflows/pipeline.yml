@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - development
+  pull_request:
+    branches: [main]
+    types: [open, synchronize]
 
 jobs:
   deployment_pipeline:
