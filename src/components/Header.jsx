@@ -20,7 +20,7 @@ const Header = ({ currentUser, token, handleLogOut }) => {
       alignItems="center"
     >
       <Grid item>
-        <Typography variant="h2" className={classes.header}>Practice clock</Typography>
+        <Typography variant="h2" className={classes.header}>Shed App</Typography>
       </Grid>
       <Grid item>
         {token
