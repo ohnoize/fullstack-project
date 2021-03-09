@@ -168,7 +168,7 @@ const mocks = [
 ];
 
 describe('<AccountPage />', () => {
-  it('Renders full page initally', async () => {
+  it('Renders full page initally, random text here', async () => {
     const { getByText, findByText } = render(
       <MockedProvider
         mocks={mocks}
