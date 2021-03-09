@@ -21,7 +21,7 @@ describe('<Header />', () => {
       );
     });
     it('Renders correctly', () => {
-      expect(component.getByText('Practice clock')).toBeInTheDocument();
+      expect(component.getByText('Shed App')).toBeInTheDocument();
       expect(component.getByText(/welcome back/ig)).toBeInTheDocument();
       expect(component.getByText(/testuser/ig)).toBeInTheDocument();
       expect(component.getByText('Home')).toBeInTheDocument();
@@ -42,7 +42,7 @@ describe('<Header />', () => {
       );
     });
     it('Renders correctly', () => {
-      expect(component.getByText('Practice clock')).toBeInTheDocument();
+      expect(component.getByText('Shed App')).toBeInTheDocument();
       expect(component.queryByText(/welcome back/ig)).toBeNull();
       expect(component.queryByText('Home')).toBeNull();
       expect(component.queryByText('History')).toBeNull();

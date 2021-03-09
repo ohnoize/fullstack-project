@@ -8,7 +8,7 @@ describe('Shed app ', function() {
   })
   it('front page can be opened', function() {
     cy.contains('Pick a subject to practice:')
-    cy.contains('Practice clock')
+    cy.contains('Shed App')
     cy.contains('Start').click()
   })
   it('Login page can be accessed', function() {
