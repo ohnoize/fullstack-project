@@ -1,7 +1,8 @@
 import { useMutation, useQuery } from '@apollo/client';
 import {
-  Button, Grid, TextField, makeStyles, Link,
+  Button, Grid, TextField, makeStyles, Link, IconButton,
 } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
 import React, { useState } from 'react';
 import { Link as RouterLink, useHistory } from 'react-router-dom';
 import * as yup from 'yup';
@@ -9,6 +10,7 @@ import { useFormik } from 'formik';
 import { ADD_SUBJECT } from '../graphql/mutations';
 import { CURRENT_USER, GET_SUBJECTS } from '../graphql/queries';
 import AlertDialog from './Alert';
+import AddLinkDialog from './AddLinkDialog';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -28,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
     marginBottom: 20,
     padding: 5,
+    minWidth: 250,
   },
   paper: {
     padding: theme.spacing(2),
@@ -39,8 +42,6 @@ const useStyles = makeStyles((theme) => ({
 const initialValues = {
   name: '',
   description: '',
-  url: '',
-  linkDescription: '',
 };
 
 const validationSchema = yup.object({
@@ -51,10 +52,6 @@ const validationSchema = yup.object({
     .required('Subject name is required'),
   description: yup
     .string(),
-  url: yup
-    .string().url('Enter a valid URL'),
-  linkDescription: yup
-    .string(),
 });
 
 const SubjectForm = () => {
@@ -62,6 +59,10 @@ const SubjectForm = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [errorText, setErrorText] = useState('');
   const [errorOpen, setErrorOpen] = useState(false);
+  const [addLinkOpen, setAddLinkOpen] = useState(false);
+  const [url, setUrl] = useState('');
+  const [linkDescription, setLinkDescription] = useState('');
+  const [links, setLinks] = useState(null);
   const userQuery = useQuery(CURRENT_USER);
   const [addSubject] = useMutation(ADD_SUBJECT, {
     refetchQueries: [{ query: GET_SUBJECTS }],
@@ -81,7 +82,6 @@ const SubjectForm = () => {
   const handleAddSubject = async (values) => {
     // console.log(values);
     let newSubject;
-    let links;
     let userID;
     if (userQuery.data) {
       try {
@@ -91,11 +91,7 @@ const SubjectForm = () => {
       }
     }
     const { name, description } = values;
-    if (values.linkDescription && values.url) {
-      links = {
-        url: values.url,
-        description: values.linkDescription,
-      };
+    if (links) {
       newSubject = {
         name, description, links, userID,
       };
@@ -110,6 +106,14 @@ const SubjectForm = () => {
       handleError(error.message);
     }
   };
+  const handleAddLink = () => {
+    const newLink = { url, description: linkDescription };
+    setLinks(newLink);
+    setAddLinkOpen(false);
+    setUrl('');
+    setLinkDescription('');
+  };
+  // console.log('links: ', links);
   const formik = useFormik({
     validationSchema,
     initialValues,
@@ -129,6 +133,16 @@ const SubjectForm = () => {
         open={errorOpen}
         action={() => null}
       />
+      <AddLinkDialog
+        open={addLinkOpen}
+        setOpen={setAddLinkOpen}
+        url={url}
+        subject={null}
+        setUrl={setUrl}
+        description={linkDescription}
+        setDescription={setLinkDescription}
+        handleAddLink={handleAddLink}
+      />
       <Grid
         container
         direction="column"
@@ -142,6 +156,7 @@ const SubjectForm = () => {
               name="name"
               label="Subject"
               placeholder="Subject"
+              fullWidth
               value={formik.values.name}
               onChange={formik.handleChange}
               error={formik.touched.name && Boolean(formik.errors.name)}
@@ -150,6 +165,7 @@ const SubjectForm = () => {
           </Grid>
           <Grid item className={classes.boxStyle}>
             <TextField
+              fullWidth
               id="description"
               name="description"
               label="Description"
@@ -160,30 +176,27 @@ const SubjectForm = () => {
               helperText={formik.touched.description && formik.errors.description}
             />
           </Grid>
-          <Grid item className={classes.boxStyle}>
-            <TextField
-              id="url"
-              name="url"
-              label="Add link (optional)"
-              placeholder="Add link (optional)"
-              value={formik.values.url}
-              onChange={formik.handleChange}
-              error={formik.touched.url && Boolean(formik.errors.url)}
-              helperText={formik.touched.url && formik.errors.url}
-            />
-          </Grid>
-          <Grid item className={classes.boxStyle}>
-            <TextField
-              id="linkDescription"
-              name="linkDescription"
-              label="Link description (optional)"
-              placeholder="Link description (optional)"
-              value={formik.values.linkDescription}
-              onChange={formik.handleChange}
-              error={formik.touched.linkDescription && Boolean(formik.errors.linkDescription)}
-              helperText={formik.touched.linkDescription && formik.errors.linkDescription}
-            />
-          </Grid>
+          {!links ? (
+            <Grid item className={classes.boxStyle}>
+              <Button id="addLink-button" variant="text" size="small" onClick={() => setAddLinkOpen(true)}>Add link (optional)</Button>
+            </Grid>
+          ) : (
+            <>
+              <Link
+                href={links.url}
+                target="_blank"
+                rel="noopener"
+                variant="body2"
+                key={links.url}
+              >
+                {links.description}
+              </Link>
+              <IconButton onClick={() => setLinks(null)} aria-label="delete">
+                <DeleteIcon />
+              </IconButton>
+            </>
+          )}
+
           <Grid item className={classes.boxStyle}>
             <Button id="submit-button" type="submit">Add subject</Button>
           </Grid>
