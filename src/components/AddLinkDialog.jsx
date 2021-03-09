@@ -24,18 +24,22 @@ const AddLinkDialog = ({
     setDescription(e.target.value);
   };
 
-  if (!subject) return null;
-
   return (
     <div>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Add link</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Add a new link for subject:
-            {' '}
-            {subject.name}
-          </DialogContentText>
+          {subject ? (
+            <DialogContentText>
+              Add a new link for subject:
+              {' '}
+              {subject.name}
+            </DialogContentText>
+          ) : (
+            <DialogContentText>
+              Add a new link:
+            </DialogContentText>
+          )}
           <TextField
             autoFocus
             margin="dense"
