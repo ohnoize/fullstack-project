@@ -48,3 +48,4 @@
 | 8.3 | 2h | Fixing some tests, first deployment through AWS at https://main.d33spb18ttvwwb.amplifyapp.com/!! |
 | 8.3 | 3h | Spend some time trying to add AWS deployment to GitHub Actions, didn't work and decided to drop aws for now | 
 | 8.3 | 0.5h | Found a way to combine GitHub actions pipeline with Amplify, so decided to go with it anyway |
+| 9.3 | 6h | Added total time practiced & personal goals to backend user schema, and updated the resolvers. Trying to fix issues that arose in tests |
