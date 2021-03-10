@@ -33,6 +33,13 @@ export const USER_ITEMS = gql`
     username
     instrument
     joined
+    goals {
+      description
+      subject
+      targetTime
+      deadline
+      passed
+    }
     mySubjects {
       subjectID
       subjectName

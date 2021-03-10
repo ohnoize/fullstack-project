@@ -26,7 +26,7 @@ const AddLinkDialog = ({
 
   return (
     <div>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog fullWidth open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Add link</DialogTitle>
         <DialogContent>
           {subject ? (

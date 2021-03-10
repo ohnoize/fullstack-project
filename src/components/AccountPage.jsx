@@ -6,15 +6,17 @@ import {
   Typography,
 } from '@material-ui/core';
 import React, { useState } from 'react';
-import { CURRENT_USER } from '../graphql/queries';
+import { CURRENT_USER, GET_SUBJECTS } from '../graphql/queries';
 import { timeParser } from '../utils';
+import Goals from './Goals';
 import MySubjects from './MySubjects';
 import SessionHistory from './SessionHistory';
 
 const AccountPage = () => {
   const [page, setPage] = useState('sessions');
   const userQuery = useQuery(CURRENT_USER);
-  if (userQuery.loading) {
+  const subjectsQuery = useQuery(GET_SUBJECTS);
+  if (userQuery.loading || subjectsQuery.loading) {
     return (
       <div>
         <CircularProgress />
@@ -22,7 +24,9 @@ const AccountPage = () => {
     );
   }
   const currentUser = userQuery.data.me;
-  const { sessions, mySubjects } = userQuery.data.me;
+  const { sessions, mySubjects, goals } = userQuery.data.me;
+
+  const subjects = subjectsQuery.data.allSubjects;
 
   let totalTime = 0;
   if (sessions) {
@@ -74,7 +78,7 @@ const AccountPage = () => {
           <Grid container direction="column">
             {page === 'sessions' ? <SessionHistory sessions={sessions} /> : null}
             {page === 'subjects' ? <MySubjects mySubjects={mySubjects} /> : null}
-            {page === 'goals' ? <Typography>My goals</Typography> : null}
+            {page === 'goals' ? <Goals goals={goals} subjects={subjects} /> : null}
           </Grid>
         </Grid>
       </Grid>

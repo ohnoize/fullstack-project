@@ -49,3 +49,5 @@
 | 8.3 | 3h | Spend some time trying to add AWS deployment to GitHub Actions, didn't work and decided to drop aws for now | 
 | 8.3 | 0.5h | Found a way to combine GitHub actions pipeline with Amplify, so decided to go with it anyway |
 | 9.3 | 6h | Added total time practiced & personal goals to backend user schema, and updated the resolvers. Trying to fix issues that arose in tests |
+| 10.3 | 142h | Total hours so far, 8.11op
+| 10.3 | 3h | Finally fixed an eventually occurring error in backend tests, switched a forEach method to Map and Promise.all in addSession mutation |
