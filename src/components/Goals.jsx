@@ -1,4 +1,5 @@
 import {
+  Button,
   Card, Grid, makeStyles, Typography,
 } from '@material-ui/core';
 import React, { useState } from 'react';
@@ -35,14 +36,24 @@ const useStyles = makeStyles({
   },
 });
 
-const Goals = ({ goals, subjects }) => {
+const Goals = ({
+  goals, subjects, id, snack,
+}) => {
   const classes = useStyles();
-  const [addGoalOpen, setAddGoalOpen] = useState(true);
+  const [addGoalOpen, setAddGoalOpen] = useState(false);
   return (
     <>
-      <AddGoalDialog open={addGoalOpen} setOpen={setAddGoalOpen} subjects={subjects} />
+      <AddGoalDialog
+        open={addGoalOpen}
+        setOpen={setAddGoalOpen}
+        subjects={subjects}
+        id={id}
+        snack={snack}
+      />
+
       <Grid item>
         <Typography variant="h5">My Goals</Typography>
+        <Button id="addLink-button" variant="text" size="small" onClick={() => setAddGoalOpen(true)}>Add goal</Button>
         <br />
         <Typography variant="h6">Open</Typography>
         {goals

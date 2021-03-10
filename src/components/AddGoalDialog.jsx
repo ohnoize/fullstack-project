@@ -12,17 +12,20 @@ import {
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-  DateTimePicker
+  DateTimePicker,
 } from '@material-ui/pickers';
+import { useMutation } from '@apollo/client';
+import { ADD_GOAL } from '../graphql/mutations';
 
 const AddGoalDialog = ({
-  open, setOpen, subjects,
+  open, setOpen, subjects, id, snack,
 }) => {
   const [description, setDescription] = useState('');
   const [subject, setSubject] = useState('');
   const [deadline, setDeadline] = useState(new Date());
   const [targetTime, setTargetTime] = useState(0);
+
+  const [addGoal] = useMutation(ADD_GOAL);
 
   if (!subjects) return null;
 
@@ -40,16 +43,29 @@ const AddGoalDialog = ({
     setDescription(e.target.value);
   };
 
-  // const handleTargetTime = (e) => {
-  //   e.preventDefault();
-  //   setTargetTime(e.target.value);
-  // };
+  const handleTargetTime = (e) => {
+    e.preventDefault();
+    setTargetTime(e.target.value);
+  };
 
   const handleAddGoal = () => {
-    const newGoal = {
-      description, subject, deadline: deadline.toString(), targetTime,
+    const goal = {
+      description,
+      subject,
+      deadline: deadline.toString(),
+      targetTime: parseInt(targetTime, 10) * 3600,
     };
-    console.log(newGoal);
+    const entry = {
+      id,
+      goal,
+    };
+    addGoal({ variables: { ...entry } });
+    setDescription('');
+    setSubject('');
+    setTargetTime(0);
+    setDeadline(null);
+    handleClose();
+    snack(true);
   };
 
   return (
@@ -79,6 +95,15 @@ const AddGoalDialog = ({
                   .map((s) => <MenuItem key={s.id} value={s.name}>{s.name}</MenuItem>)}
               </Select>
             </FormControl>
+            <TextField
+              margin="dense"
+              id="targetTime"
+              label="Amount of hours"
+              value={targetTime}
+              onChange={handleTargetTime}
+              type="number"
+            />
+            <br />
             <DateTimePicker
               variant="dialog"
               margin="normal"

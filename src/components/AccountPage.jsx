@@ -3,8 +3,10 @@ import {
   Button,
   CircularProgress,
   Grid,
+  Snackbar,
   Typography,
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import React, { useState } from 'react';
 import { CURRENT_USER, GET_SUBJECTS } from '../graphql/queries';
 import { timeParser } from '../utils';
@@ -14,6 +16,7 @@ import SessionHistory from './SessionHistory';
 
 const AccountPage = () => {
   const [page, setPage] = useState('sessions');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const userQuery = useQuery(CURRENT_USER);
   const subjectsQuery = useQuery(GET_SUBJECTS);
   if (userQuery.loading || subjectsQuery.loading) {
@@ -24,7 +27,9 @@ const AccountPage = () => {
     );
   }
   const currentUser = userQuery.data.me;
-  const { sessions, mySubjects, goals } = userQuery.data.me;
+  const {
+    sessions, mySubjects, goals, id,
+  } = userQuery.data.me;
 
   const subjects = subjectsQuery.data.allSubjects;
 
@@ -37,52 +42,59 @@ const AccountPage = () => {
     }
   }
   return (
-    <Grid
-      container
-      direction="column"
-      alignItems="center"
-    >
-      <Typography variant="h3">
-        {currentUser.username}
-        {' '}
-        -
-        {' '}
-        {currentUser.instrument}
-      </Typography>
-      <br />
-      <Typography variant="caption">
-        Member since
-        {' '}
-        {new Date(currentUser.joined).toLocaleDateString()}
-      </Typography>
-      <Typography variant="caption">
-        Total time practiced:
-        {' '}
-        {timeParser(totalTime)}
-      </Typography>
-      <br />
+    <>
+      <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={() => setSnackbarOpen(false)}>
+        <Alert onClose={() => setSnackbarOpen(false)}>
+          New goal added!
+        </Alert>
+      </Snackbar>
       <Grid
         container
-        direction="row"
-        justify="space-around"
-        alignItems="flex-start"
+        direction="column"
+        alignItems="center"
       >
-        <Grid item>
-          <Grid container direction="column" alignItems="flex-start" justify="flex-start">
-            <Button onClick={() => setPage('sessions')}>Sessions</Button>
-            <Button onClick={() => setPage('subjects')}>Subjects practiced</Button>
-            <Button onClick={() => setPage('goals')}>My goals</Button>
+        <Typography variant="h3">
+          {currentUser.username}
+          {' '}
+          -
+          {' '}
+          {currentUser.instrument}
+        </Typography>
+        <br />
+        <Typography variant="caption">
+          Member since
+          {' '}
+          {new Date(currentUser.joined).toLocaleDateString()}
+        </Typography>
+        <Typography variant="caption">
+          Total time practiced:
+          {' '}
+          {timeParser(totalTime)}
+        </Typography>
+        <br />
+        <Grid
+          container
+          direction="row"
+          justify="space-around"
+          alignItems="flex-start"
+        >
+          <Grid item>
+            <Grid container direction="column" alignItems="flex-start" justify="flex-start">
+              <Button onClick={() => setPage('sessions')}>Sessions</Button>
+              <Button onClick={() => setPage('subjects')}>Subjects practiced</Button>
+              <Button onClick={() => setPage('goals')}>My goals</Button>
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid item>
-          <Grid container direction="column">
-            {page === 'sessions' ? <SessionHistory sessions={sessions} /> : null}
-            {page === 'subjects' ? <MySubjects mySubjects={mySubjects} /> : null}
-            {page === 'goals' ? <Goals goals={goals} subjects={subjects} /> : null}
+          <Grid item>
+            <Grid container direction="column">
+              {page === 'sessions' ? <SessionHistory sessions={sessions} /> : null}
+              {page === 'subjects' ? <MySubjects mySubjects={mySubjects} /> : null}
+              {page === 'goals' ? <Goals goals={goals} subjects={subjects} id={id} snack={setSnackbarOpen} /> : null}
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 };
 

@@ -32,6 +32,18 @@ export const ADD_NOTE = gql`
 ${USER_ITEMS}
 `;
 
+export const ADD_GOAL = gql`
+  mutation addGoal($id: String!, $goal: goalInput!) {
+    addGoal(
+      id: $id,
+      goal: $goal,
+    ) {
+      ...UserItems
+    }
+  }
+${USER_ITEMS}
+`;
+
 export const DELETE_SESSION = gql`
   mutation deleteSession($id: String!) {
     deleteSession(id: $id) {
