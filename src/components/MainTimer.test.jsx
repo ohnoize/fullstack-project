@@ -156,6 +156,14 @@ const loggedMocks = [
           __typename: 'User',
           id: '602ed9c12f630c7dfcbf384f',
           username: 'herbie',
+          goals: [{
+            deadline: 'Wed Mar 17 2021 16:03:00 GMT-0400 (Eastern Daylight Time)',
+            description: 'Practice Coltrane changes',
+            passed: false,
+            subject: 'Coltrane changes',
+            targetTime: 18000,
+            __typename: 'Goal',
+          }],
           instrument: 'piano',
           joined: 'Thu Feb 18 2021 16:18:57 GMT-0500 (Eastern Standard Time)',
           subjectNotes: [

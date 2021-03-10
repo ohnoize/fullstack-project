@@ -3,10 +3,78 @@ import '@testing-library/jest-dom/extend-expect';
 // import TestRenderer from 'react-test-renderer';
 import { render } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
-import { CURRENT_USER } from '../graphql/queries';
+import { CURRENT_USER, GET_SUBJECTS } from '../graphql/queries';
 import AccountPage from './AccountPage';
 
 const mocks = [
+  {
+    request: {
+      query: GET_SUBJECTS,
+    },
+    result: {
+      data: {
+        allSubjects: [
+          {
+            id: '6022a2c11e57471d3cdd4b19',
+            name: 'scales',
+            description: 'Practice scales',
+            timePracticed: 123,
+            __typename: 'Subject',
+            links: [
+              {
+                __typename: 'SubjectLink',
+                url: 'https://en.wikipedia.org/wiki/Chord_(music)',
+                description: 'Chord (music) - Wikipedia',
+              },
+              {
+                __typename: 'SubjectLink',
+                url: 'https://www.youtube.com/watch?v=K_T-jYyQCbQ',
+                description: 'Beautiful chords! (everyone should know)',
+              },
+            ],
+          },
+          {
+            id: '6022a2cf1e57471d3cdd4b1a',
+            name: 'chords',
+            description: 'Practice chords',
+            timePracticed: 12442,
+            __typename: 'Subject',
+            links: [
+              {
+                __typename: 'SubjectLink',
+                url: 'https://en.wikipedia.org/wiki/Repertoire',
+                description: 'Repertoire - Wikipedia',
+              },
+              {
+                __typename: 'SubjectLink',
+                url: 'https://en.wikipedia.org/wiki/Classical_guitar_repertoire',
+                description: 'Classical guitar repertoire - Wikipedia',
+              },
+            ],
+          },
+          {
+            id: '602db0d92290af5340dff611',
+            name: 'Bebop scales',
+            description: 'Eight note scales',
+            timePracticed: 124123,
+            __typename: 'Subject',
+            links: [
+              {
+                __typename: 'SubjectLink',
+                url: 'https://en.wikipedia.org/wiki/Bebop_scale',
+                description: 'Bebop scale - Wikipedia',
+              },
+              {
+                __typename: 'SubjectLink',
+                url: 'https://www.youtube.com/watch?v=F8JJncSUdUU',
+                description: 'Jazz Theory with Barry Harris',
+              },
+            ],
+          },
+        ],
+      },
+    },
+  },
   {
     request: {
       query: CURRENT_USER,
@@ -18,6 +86,16 @@ const mocks = [
           id: '6041727761c1360ea386c558',
           username: 'testUser',
           instrument: null,
+          goals: [
+            {
+              deadline: 'Wed Mar 17 2021 16:03:00 GMT-0400 (Eastern Daylight Time)',
+              description: 'Practice Coltrane changes',
+              passed: false,
+              subject: 'Coltrane changes',
+              targetTime: 18000,
+              __typename: 'Goal',
+            },
+          ],
           mySubjects: [
             {
               __typename: 'MySubject',
