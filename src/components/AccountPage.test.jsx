@@ -88,11 +88,13 @@ const mocks = [
           instrument: null,
           goals: [
             {
+              id: '60494fa4d8a5de0015c36b28',
               deadline: 'Wed Mar 17 2021 16:03:00 GMT-0400 (Eastern Daylight Time)',
               description: 'Practice Coltrane changes',
               passed: false,
               subject: 'Coltrane changes',
               targetTime: 18000,
+              elapsedTime: 12340,
               __typename: 'Goal',
             },
           ],
