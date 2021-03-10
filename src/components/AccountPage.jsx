@@ -53,40 +53,42 @@ const AccountPage = () => {
         direction="column"
         alignItems="center"
       >
-        <Typography variant="h3">
-          {currentUser.username}
-          {' '}
-          -
-          {' '}
-          {currentUser.instrument}
-        </Typography>
-        <br />
-        <Typography variant="caption">
-          Member since
-          {' '}
-          {new Date(currentUser.joined).toLocaleDateString()}
-        </Typography>
-        <Typography variant="caption">
-          Total time practiced:
-          {' '}
-          {timeParser(totalTime)}
-        </Typography>
+        <Grid item xs={12} container direction="column" alignItems="center">
+          <Typography variant="h3">
+            {currentUser.username}
+            {' '}
+            -
+            {' '}
+            {currentUser.instrument}
+          </Typography>
+          <br />
+          <Typography variant="caption">
+            Member since
+            {' '}
+            {new Date(currentUser.joined).toLocaleDateString()}
+          </Typography>
+          <Typography variant="caption">
+            Total time practiced:
+            {' '}
+            {timeParser(totalTime)}
+          </Typography>
+        </Grid>
         <br />
         <Grid
           container
           direction="row"
-          justify="space-around"
+          justify="space-evenly"
           alignItems="flex-start"
         >
-          <Grid item>
-            <Grid container direction="column" alignItems="flex-start" justify="flex-start">
+          <Grid item xs={6}>
+            <Grid container direction="column" alignItems="center" justify="center">
               <Button onClick={() => setPage('sessions')}>Sessions</Button>
               <Button onClick={() => setPage('subjects')}>Subjects practiced</Button>
               <Button onClick={() => setPage('goals')}>My goals</Button>
             </Grid>
           </Grid>
-          <Grid item>
-            <Grid container direction="column">
+          <Grid item xs={6}>
+            <Grid container direction="column" alignItems="center" justify="center">
               {page === 'sessions' ? <SessionHistory sessions={sessions} /> : null}
               {page === 'subjects' ? <MySubjects mySubjects={mySubjects} /> : null}
               {page === 'goals' ? <Goals goals={goals} subjects={subjects} id={id} snack={setSnackbarOpen} /> : null}

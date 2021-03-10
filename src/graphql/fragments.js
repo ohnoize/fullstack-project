@@ -34,9 +34,11 @@ export const USER_ITEMS = gql`
     instrument
     joined
     goals {
+      id
       description
       subject
       targetTime
+      elapsedTime
       deadline
       passed
     }

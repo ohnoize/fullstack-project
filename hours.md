@@ -51,3 +51,4 @@
 | 9.3 | 6h | Added total time practiced & personal goals to backend user schema, and updated the resolvers. Trying to fix issues that arose in tests |
 | 10.3 | 142h | Total hours so far, 8.11op
 | 10.3 | 3h | Finally fixed an eventually occurring error in backend tests, switched a forEach method to Map and Promise.all in addSession mutation |
+| 10.3 | 5h | Expanded backend to update individual goals based on sessions saved, added form to frontend to add new goals. |

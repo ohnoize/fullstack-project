@@ -47,16 +47,25 @@ ${USER_ITEMS}
 export const DELETE_SESSION = gql`
   mutation deleteSession($id: String!) {
     deleteSession(id: $id) {
-      ...sessionItems
+      ...SessionItems
     }
   }
 ${SESSION_ITEMS}
 `;
 
+export const DELETE_GOAL = gql`
+  mutation deleteGoal($userID: String!, $goalID: String!) {
+    deleteGoal(userID: $userID, goalID: $goalID) {
+      ...UserItems
+    }
+  }
+${USER_ITEMS}
+`;
+
 export const DELETE_SUBJECT = gql`
   mutation deleteSubject($name: String!) {
     deleteSubject(name: $name) {
-      ...subjectItems
+      ...SubjectItems
     }
   }
 ${SUBJECT_ITEMS}

@@ -67,11 +67,15 @@ const SessionHistory = ({ sessions }) => {
                 </Typography>
               </ul>
             ))}
-            <Typography className={classes.title}>
-              Notes:
-              {' '}
-              {s.notes}
-            </Typography>
+            {s.notes
+              ? (
+                <Typography className={classes.title}>
+                  Notes:
+                  {' '}
+                  {s.notes}
+                </Typography>
+              ) : null}
+
           </Card>
         ))}
     </Grid>
