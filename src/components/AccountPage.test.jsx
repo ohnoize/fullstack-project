@@ -249,7 +249,7 @@ const mocks = [
 
 describe('<AccountPage />', () => {
   it('Renders full page initally, random text here', async () => {
-    const { getByText, findByText } = render(
+    const component = render(
       <MockedProvider
         mocks={mocks}
         addTypename={false}
@@ -259,10 +259,14 @@ describe('<AccountPage />', () => {
     );
     // const tree = component.toJSON();
     // expect(getByText('Loading...')).toBeInTheDocument();
-    const sessionNotes = await findByText(/Member since/ig);
+    const sessionNotes = await component.findByText(/Member since/ig);
     expect(sessionNotes).toBeInTheDocument();
-    expect(getByText(/test session 1/ig)).toBeInTheDocument();
-    expect(getByText(/Member since/ig)).toBeInTheDocument();
-    expect(getByText(/test session 2/ig)).toBeInTheDocument();
+    expect(component.getByText(/test session 1/ig)).toBeInTheDocument();
+    expect(component.getByText(/test session 2/ig)).toBeInTheDocument();
+    expect(component.getByText(/Member since/ig)).toBeInTheDocument();
+    expect(component.getAllByText(/Sessions/ig)).not.toHaveLength(0);
+    expect(component.getAllByText(/Subjects practiced/ig)).not.toHaveLength(0);
+    expect(component.getByText(/Total time practiced/ig)).toBeInTheDocument();
+    expect(component.getByText(/My goals/ig)).toBeInTheDocument();
   });
 });

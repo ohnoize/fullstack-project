@@ -82,7 +82,7 @@ const AccountPage = () => {
         >
           <Grid item xs={6}>
             <Grid container direction="column" alignItems="center" justify="center">
-              <Button onClick={() => setPage('sessions')}>Sessions</Button>
+              <Button id="sessionbutton" onClick={() => setPage('sessions')}>Sessions</Button>
               <Button onClick={() => setPage('subjects')}>Subjects practiced</Button>
               <Button onClick={() => setPage('goals')}>My goals</Button>
             </Grid>
