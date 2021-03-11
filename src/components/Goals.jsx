@@ -3,14 +3,18 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
-  Card, Grid, makeStyles, Typography,
+  Card, Grid, IconButton, makeStyles, Typography,
 } from '@material-ui/core';
 import CheckSharpIcon from '@material-ui/icons/CheckSharp';
 import ClearSharpIcon from '@material-ui/icons/ClearSharp';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import DeleteIcon from '@material-ui/icons/Delete';
 import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
 import { timeParser } from '../utils';
 import AddGoalDialog from './AddGoalDialog';
+import ConfirmDialog from './Confirm';
+import { DELETE_GOAL } from '../graphql/mutations';
 
 const useStyles = makeStyles({
   root: {
@@ -52,6 +56,22 @@ const Goals = ({
 }) => {
   const classes = useStyles();
   const [addGoalOpen, setAddGoalOpen] = useState(false);
+  const [confirmText, setConfirmText] = useState('');
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [goalID, setGoalId] = useState('');
+  const [deleteGoal] = useMutation(DELETE_GOAL);
+
+  const handleConfirmDelete = (idToDelete) => {
+    setGoalId(idToDelete);
+    setConfirmText('Delete this goal?');
+    setConfirmOpen(true);
+  };
+
+  const handleDelete = () => {
+    setConfirmOpen(false);
+    deleteGoal({ variables: { goalID, userID: id } });
+  };
+
   return (
     <>
       <AddGoalDialog
@@ -60,6 +80,12 @@ const Goals = ({
         subjects={subjects}
         id={id}
         snack={snack}
+      />
+      <ConfirmDialog
+        confirmText={confirmText}
+        setOpen={setConfirmOpen}
+        open={confirmOpen}
+        action={handleDelete}
       />
 
       <Grid item>
@@ -99,6 +125,9 @@ const Goals = ({
                       {' '}
                       {new Date(g.deadline).toLocaleDateString()}
                     </Typography>
+                    <IconButton onClick={() => handleConfirmDelete(g.id)} aria-label="delete">
+                      <DeleteIcon />
+                    </IconButton>
                   </Card>
                 </AccordionDetails>
               </Accordion>

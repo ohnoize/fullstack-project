@@ -24,6 +24,7 @@ import { timeParser, totalTime } from '../utils';
 import AlertDialog from './Alert';
 import ConfirmDialog from './Confirm';
 import AddLinkDialog from './AddLinkDialog';
+import GoalsDialog from './GoalsDialog';
 
 // eslint-disable-next-line react/jsx-props-no-spreading
 const Alert = (props) => <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -93,6 +94,7 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarText, setSnackbarText] = useState('');
   const [addLinkOpen, setAddLinkOpen] = useState(false);
+  const [goalsDialogOpen, setGoalsDialogOpen] = useState(false);
   const [url, setUrl] = useState('');
   const [description, setDescription] = useState('');
   const subjects = useQuery(GET_SUBJECTS);
@@ -248,6 +250,14 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
     setSubjectNote(e.target.value);
   };
 
+  const startOnGoal = (goalSubject) => {
+    setSubject(goalSubject);
+    setGoalsDialogOpen(false);
+    const fullSubject = subjects.data.allSubjects.find((s) => s.name === goalSubject);
+    setNowPracticing(fullSubject);
+    start();
+  };
+
   return (
     <>
       <AlertDialog
@@ -256,6 +266,17 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
         open={alertOpen}
         action={() => null}
       />
+      {token
+        ? (
+          <GoalsDialog
+            goals={currentUser.data.me.goals}
+            open={goalsDialogOpen}
+            setSubject={setSubject}
+            setOpen={setGoalsDialogOpen}
+            handleStart={startOnGoal}
+          />
+        )
+        : null}
       <ConfirmDialog
         confirmText={confirmText}
         setOpen={setConfirmOpen}
@@ -397,7 +418,15 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
                   : null}
               </>
             )
-            : <Typography variant="h6">Pick a subject and click start!</Typography>}
+            : (
+              <>
+                <Typography variant="h6">Pick a subject and click start!</Typography>
+                <br />
+                {token
+                  ? <Button onClick={() => setGoalsDialogOpen(true)}>See your goals</Button>
+                  : null}
+              </>
+            )}
         </Grid>
       </Grid>
     </>
