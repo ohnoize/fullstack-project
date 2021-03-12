@@ -55,3 +55,4 @@
 | 10.3 | 2h | Configured a mutation to delete goals, updating frontend to display goals past and current goals, with symbols if they were met or not. 
 | 10.3 | 2,5h | Wrote unit tests for all the new components added in the last couple of weeks |
 | 11.3 | 154,5h | Total hours so far, 8.82op. |
+| 11.3 | 2,5h | Added the option to see your goals from the front page and start practicing one directly |
