@@ -24,6 +24,7 @@ import { timeParser, totalTime } from '../utils';
 import AlertDialog from './Alert';
 import ConfirmDialog from './Confirm';
 import AddLinkDialog from './AddLinkDialog';
+import GoalsDialog from './GoalsDialog';
 
 // eslint-disable-next-line react/jsx-props-no-spreading
 const Alert = (props) => <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -41,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     marginBottom: 20,
+  },
+  divStyle: {
+    marginTop: 50,
   },
   boxStyle: {
     marginTop: 20,
@@ -93,6 +97,7 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarText, setSnackbarText] = useState('');
   const [addLinkOpen, setAddLinkOpen] = useState(false);
+  const [goalsDialogOpen, setGoalsDialogOpen] = useState(false);
   const [url, setUrl] = useState('');
   const [description, setDescription] = useState('');
   const subjects = useQuery(GET_SUBJECTS);
@@ -248,6 +253,14 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
     setSubjectNote(e.target.value);
   };
 
+  const startOnGoal = (goalSubject) => {
+    setSubject(goalSubject);
+    setGoalsDialogOpen(false);
+    const fullSubject = subjects.data.allSubjects.find((s) => s.name === goalSubject);
+    setNowPracticing(fullSubject);
+    start();
+  };
+
   return (
     <>
       <AlertDialog
@@ -256,6 +269,17 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
         open={alertOpen}
         action={() => null}
       />
+      {token
+        ? (
+          <GoalsDialog
+            goals={currentUser.data.me.goals}
+            open={goalsDialogOpen}
+            setSubject={setSubject}
+            setOpen={setGoalsDialogOpen}
+            handleStart={startOnGoal}
+          />
+        )
+        : null}
       <ConfirmDialog
         confirmText={confirmText}
         setOpen={setConfirmOpen}
@@ -284,56 +308,57 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
         alignItems="center"
       >
         <Grid item>
+          <div className={classes.divStyle}>
+            <Typography variant="body1">Pick a subject to practice:</Typography>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="subject-label">Choose one</InputLabel>
+              <Select
+                labelId="subject-label"
+                id="subjectMenu"
+                value={subject}
+                onChange={handleDropDown}
+              >
+                {subjects.data.allSubjects
+                  .map((s) => <MenuItem key={s.id} value={s.name}>{s.name}</MenuItem>)}
+              </Select>
+            </FormControl>
+            <br />
+            {token ? <Link variant="body2" component={RouterLink} to="/addsubject">Add subject</Link> : null}
+            <Box className={classes.boxStyle}>
+              <Button variant="outlined" onClick={handleStartNew}>Start</Button>
+              <Button variant="outlined" onClick={handleStopNew}>Stop</Button>
+            </Box>
 
-          <Typography variant="body1">Pick a subject to practice:</Typography>
-          <FormControl className={classes.formControl}>
-            <InputLabel id="subject-label">Choose one</InputLabel>
-            <Select
-              labelId="subject-label"
-              id="subjectMenu"
-              value={subject}
-              onChange={handleDropDown}
-            >
-              {subjects.data.allSubjects
-                .map((s) => <MenuItem key={s.id} value={s.name}>{s.name}</MenuItem>)}
-            </Select>
-          </FormControl>
-          <br />
-          {token ? <Link variant="body2" component={RouterLink} to="/addsubject">Add subject</Link> : null}
-          <Box className={classes.boxStyle}>
-            <Button variant="outlined" onClick={handleStartNew}>Start</Button>
-            <Button variant="outlined" onClick={handleStopNew}>Stop</Button>
-          </Box>
-
-          <Box className={classes.boxStyle}>
-            <Typography variant="body1">Time spent:</Typography>
-            {Object.entries(practiceTime).map(([key, value]) => (
-              <Typography variant="body1" key={key}>
-                {key}
-                :
+            <Box className={classes.boxStyle}>
+              <Typography variant="body1">Time spent:</Typography>
+              {Object.entries(practiceTime).map(([key, value]) => (
+                <Typography variant="body1" key={key}>
+                  {key}
+                  :
+                  {' '}
+                  {timeParser(value)}
+                </Typography>
+              ))}
+              <Typography variant="body1">
+                Total:
                 {' '}
-                {timeParser(value)}
+                {timeParser(totalTime(practiceTime))}
               </Typography>
-            ))}
-            <Typography variant="body1">
-              Total:
-              {' '}
-              {timeParser(totalTime(practiceTime))}
-            </Typography>
-          </Box>
+            </Box>
 
-          { token
-            ? (
-              <>
-                <Box className={classes.boxStyle}>
-                  <TextField id="notes" value={notes} placeholder="Add notes (optional)" onChange={handleNotes} />
-                </Box>
-                <Box className={classes.boxStyle}>
-                  <Button onClick={handleFinishConfirm}>Finish session</Button>
-                </Box>
-              </>
-            )
-            : <Link variant="body2" component={RouterLink} to="/login">Log in to save sessions</Link>}
+            { token
+              ? (
+                <>
+                  <Box className={classes.boxStyle}>
+                    <TextField id="notes" value={notes} placeholder="Add notes (optional)" onChange={handleNotes} />
+                  </Box>
+                  <Box className={classes.boxStyle}>
+                    <Button onClick={handleFinishConfirm}>Finish session</Button>
+                  </Box>
+                </>
+              )
+              : <Link variant="body2" component={RouterLink} to="/login">Log in to save sessions</Link>}
+          </div>
         </Grid>
         <Grid item>
           { isRunning
@@ -372,7 +397,7 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
                   </div>
                 ))}
                 <br />
-                {token ? <Button variant="text" size="small" onClick={() => setAddLinkOpen(true)}>Add link</Button> : null}
+                {token ? <Button id="addLinkButton" variant="text" size="small" onClick={() => setAddLinkOpen(true)}>Add link</Button> : null}
                 <br />
                 <br />
                 {token
@@ -391,13 +416,21 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
                         )))}
                       <br />
                       <TextField onChange={handleNoteChange} id="subjectNotes" placeholder="Add note" />
-                      <Button onClick={addSubjectNote}>Add note</Button>
+                      <Button id="addNoteButton" onClick={addSubjectNote}>Add note</Button>
                     </>
                   )
                   : null}
               </>
             )
-            : <Typography variant="h6">Pick a subject and click start!</Typography>}
+            : (
+              <>
+                <Typography variant="h6">Pick a subject and click start!</Typography>
+                <br />
+                {token
+                  ? <Button onClick={() => setGoalsDialogOpen(true)}>See your goals</Button>
+                  : null}
+              </>
+            )}
         </Grid>
       </Grid>
     </>

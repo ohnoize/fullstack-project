@@ -39,6 +39,7 @@ const App = () => {
       <Grid
         container
         direction="column"
+        alignItems="center"
         margin="40"
       >
         <Header currentUser={currentUser} token={token} handleLogOut={handleLogOut} />

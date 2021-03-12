@@ -156,34 +156,40 @@ const loggedMocks = [
           __typename: 'User',
           id: '602ed9c12f630c7dfcbf384f',
           username: 'herbie',
-          goals: [{
-            deadline: 'Wed Mar 17 2021 16:03:00 GMT-0400 (Eastern Daylight Time)',
-            description: 'Practice Coltrane changes',
-            passed: false,
-            subject: 'Coltrane changes',
-            targetTime: 18000,
-            __typename: 'Goal',
-          }],
+          goals: [
+            {
+              deadline: 'Wed Mar 17 2021 16:03:00 GMT-0400 (Eastern Daylight Time)',
+              description: 'Practice Coltrane changes',
+              passed: false,
+              id: '604a3c129f42a70015e737e8',
+              subject: 'Coltrane changes',
+              targetTime: 18000,
+              elapsedTime: 5000,
+              __typename: 'Goal',
+            },
+          ],
           instrument: 'piano',
           joined: 'Thu Feb 18 2021 16:18:57 GMT-0500 (Eastern Standard Time)',
-          subjectNotes: [
+          mySubjects: [
             {
-              __typename: 'SubjectNote',
-              subjectID: '602db0d92290af5340dff611',
-              date: 'Mon Mar 01 2021 18:52:44 GMT+0000 (Coordinated Universal Time)',
-              notes: 'Bebop is hard',
+              __typename: 'MySubject',
+              subjectID: '6042a49e4fa0f40015d8e135',
+              subjectName: 'Songwriting',
+              timePracticed: 9,
+              subjectNotes: [],
             },
             {
-              __typename: 'SubjectNote',
-              subjectID: '602db47c2290af5340dff61a',
-              date: 'Mon Mar 01 2021 18:52:53 GMT+0000 (Coordinated Universal Time)',
-              notes: 'Triads are good!',
-            },
-            {
-              __typename: 'SubjectNote',
-              subjectID: '602db0d92290af5340dff611',
-              date: 'Mon Mar 01 2021 18:53:12 GMT+0000 (Coordinated Universal Time)',
-              notes: 'Bebop is good',
+              __typename: 'MySubject',
+              subjectID: '6022a2cf1e57471d3cdd4b1a',
+              subjectName: 'chords',
+              timePracticed: 20059,
+              subjectNotes: [
+                {
+                  __typename: 'SubjectNote',
+                  date: 'Fri Mar 05 2021 21:38:46 GMT+0000 (Coordinated Universal Time)',
+                  notes: 'Practiced some chords',
+                },
+              ],
             },
           ],
           sessions: [

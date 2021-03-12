@@ -52,3 +52,8 @@
 | 10.3 | 142h | Total hours so far, 8.11op
 | 10.3 | 3h | Finally fixed an eventually occurring error in backend tests, switched a forEach method to Map and Promise.all in addSession mutation |
 | 10.3 | 5h | Expanded backend to update individual goals based on sessions saved, added form to frontend to add new goals. |
+| 10.3 | 2h | Configured a mutation to delete goals, updating frontend to display goals past and current goals, with symbols if they were met or not. 
+| 10.3 | 2,5h | Wrote unit tests for all the new components added in the last couple of weeks |
+| 11.3 | 154,5h | Total hours so far, 8.82op. |
+| 11.3 | 2,5h | Added the option to see your goals from the front page and start practicing one directly |
+| 12.3 | 3h | Added a unit test for adding goals -dialog, added the missing cypress tests for the new features from last few weeks |

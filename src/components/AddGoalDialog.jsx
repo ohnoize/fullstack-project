@@ -76,7 +76,7 @@ const AddGoalDialog = ({
           <DialogContent>
             <TextField
               margin="dense"
-              id="description"
+              id="goalDescription"
               label="Description: (e.g. Practice chords for 10 hours this week)"
               value={description}
               onChange={handleDescription}
@@ -87,7 +87,7 @@ const AddGoalDialog = ({
               <InputLabel id="subject-label">Choose subject</InputLabel>
               <Select
                 labelId="subject-label"
-                id="subjectMenu"
+                id="goalSubjectMenu"
                 value={subject}
                 onChange={handleSubject}
               >
@@ -117,7 +117,7 @@ const AddGoalDialog = ({
             <Button onClick={handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={handleAddGoal} color="primary">
+            <Button id="addGoalButton" onClick={handleAddGoal} color="primary">
               Add goal
             </Button>
           </DialogActions>

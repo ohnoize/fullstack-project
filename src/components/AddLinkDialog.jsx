@@ -52,7 +52,7 @@ const AddLinkDialog = ({
           />
           <TextField
             margin="dense"
-            id="description"
+            id="linkDescription"
             label="Description"
             value={description}
             onChange={handleDescription}
@@ -64,7 +64,7 @@ const AddLinkDialog = ({
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleAddLink} color="primary">
+          <Button id="addLink" onClick={handleAddLink} color="primary">
             Add link
           </Button>
         </DialogActions>
