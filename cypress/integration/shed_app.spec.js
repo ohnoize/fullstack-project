@@ -14,7 +14,7 @@ describe('Shed app ', function() {
   it('Login page can be accessed', function() {
     cy.contains('Signup/Login').click()
   })
-  it('Creating new account works', function() {
+  it('Creating new account works, random text', function() {
     cy.contains('Signup/Login').click()
     cy.contains('Create account').click()
     cy.get('#username').type('cypressUser')
