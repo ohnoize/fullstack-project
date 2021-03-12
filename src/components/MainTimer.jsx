@@ -393,7 +393,7 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
                   </div>
                 ))}
                 <br />
-                {token ? <Button variant="text" size="small" onClick={() => setAddLinkOpen(true)}>Add link</Button> : null}
+                {token ? <Button id="addLinkButton" variant="text" size="small" onClick={() => setAddLinkOpen(true)}>Add link</Button> : null}
                 <br />
                 <br />
                 {token
@@ -412,7 +412,7 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
                         )))}
                       <br />
                       <TextField onChange={handleNoteChange} id="subjectNotes" placeholder="Add note" />
-                      <Button onClick={addSubjectNote}>Add note</Button>
+                      <Button id="addNoteButton" onClick={addSubjectNote}>Add note</Button>
                     </>
                   )
                   : null}
