@@ -267,6 +267,7 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
         alertText={alertText}
         setOpen={setAlertOpen}
         open={alertOpen}
+        title="Error"
         action={() => null}
       />
       {token

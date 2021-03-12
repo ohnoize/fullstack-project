@@ -42,29 +42,30 @@ const MySubjects = ({ mySubjects }) => {
     <Grid item>
       <Typography variant="h5">Subjects practiced:</Typography>
       <br />
-      {mySubjectsArr
-        .sort((a, b) => b.timePracticed - a.timePracticed)
-        .map((s) => (
-          <Card key={s.subjectID} className={classes.root}>
-            <Typography key={s.id} variant="h6">{s.subjectName}</Typography>
-            <br />
-            <Typography variant="button" className={classes.title}>
-              Total time:
-              {' '}
-              {timeParser(s.timePracticed)}
-            </Typography>
-            <br />
-            {s.subjectNotes
-              .map((n) => (
-                <Typography variant="body2" key={n.date} className={classes.title}>
-                  {new Date(n.date).toLocaleDateString()}
-                  :
-                  {' '}
-                  {n.notes}
-                </Typography>
-              ))}
-          </Card>
-        ))}
+      {mySubjectsArr.length > 1
+        ? (mySubjectsArr
+          .sort((a, b) => b.timePracticed - a.timePracticed)
+          .map((s) => (
+            <Card key={s.subjectID} className={classes.root}>
+              <Typography key={s.id} variant="h6">{s.subjectName}</Typography>
+              <br />
+              <Typography variant="button" className={classes.title}>
+                Total time:
+                {' '}
+                {timeParser(s.timePracticed)}
+              </Typography>
+              <br />
+              {s.subjectNotes
+                .map((n) => (
+                  <Typography variant="body2" key={n.date} className={classes.title}>
+                    {new Date(n.date).toLocaleDateString()}
+                    :
+                    {' '}
+                    {n.notes}
+                  </Typography>
+                ))}
+            </Card>
+          ))) : <Typography variant="caption">No subjects practiced yet</Typography>}
     </Grid>
   );
 };

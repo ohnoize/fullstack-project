@@ -7,7 +7,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default function AlertDialog({
-  alertText, setOpen, open, action,
+  alertText, setOpen, open, action, title,
 }) {
   const handleClose = () => {
     setOpen(false);
@@ -17,12 +17,13 @@ export default function AlertDialog({
   return (
     <div>
       <Dialog
+        fullWidth
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Alert</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description" className="alert">
             {alertText}

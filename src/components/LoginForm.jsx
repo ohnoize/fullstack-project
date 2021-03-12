@@ -92,6 +92,7 @@ const LoginForm = ({ setToken }) => {
         alertText={errorText}
         setOpen={setErrorOpen}
         open={errorOpen}
+        title="Error"
         action={() => null}
       />
       <Grid

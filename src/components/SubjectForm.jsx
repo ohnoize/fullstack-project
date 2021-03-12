@@ -130,6 +130,7 @@ const SubjectForm = () => {
       <AlertDialog
         alertText={errorText}
         setOpen={setErrorOpen}
+        title="Error"
         open={errorOpen}
         action={() => null}
       />

@@ -35,7 +35,7 @@ describe('<Goals />', () => {
     it('Renders correctly', () => {
       expect(component.getByText('My Goals')).toBeInTheDocument();
       expect(component.getByText(/add goal/ig)).toBeInTheDocument();
-      expect(component.getByText(/current/ig)).toBeInTheDocument();
+      expect(component.getByText(/active/ig)).toBeInTheDocument();
       expect(component.getByText(/past/ig)).toBeInTheDocument();
       expect(component.getAllByText(/testGoal/ig)).not.toHaveLength(0);
       expect(component.getAllByText(/testSubject/ig)).not.toHaveLength(0);
