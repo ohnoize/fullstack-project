@@ -166,6 +166,8 @@ describe('Shed app ', function() {
       cy.get('#addGoalButton').click()
       cy.contains('New goal added!')
       cy.contains('Goal for cypress')
+      cy.deleteTestSubject2()
+      cy.deleteTestUser()
     })
   })
 })
