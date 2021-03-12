@@ -43,7 +43,7 @@ const SessionHistory = ({ sessions }) => {
   return (
     <Grid item>
       <Typography variant="h5">Sessions:</Typography>
-      {sessionsArr.length > 1
+      {sessionsArr.length >= 1
         ? (sessionsArr
           .sort((a, b) => new Date(b.date) - new Date(a.date))
           .map((s) => (

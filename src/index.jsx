@@ -18,7 +18,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const httpLink = new HttpLink({
-  uri: 'https://shed-app-api.herokuapp.com',
+  uri: 'http://localhost:4000/graphql',
 });
 
 const client = new ApolloClient({

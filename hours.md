@@ -57,3 +57,4 @@
 | 11.3 | 154,5h | Total hours so far, 8.82op. |
 | 11.3 | 2,5h | Added the option to see your goals from the front page and start practicing one directly |
 | 12.3 | 3h | Added a unit test for adding goals -dialog, added the missing cypress tests for the new features from last few weeks |
+| 12.3 | 3h | Adding functionality to see if there are open goals on a subject you are currently practicing. Had some problems with github actions, found out their services were down for a little bit | 
