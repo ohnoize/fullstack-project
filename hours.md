@@ -56,3 +56,4 @@
 | 10.3 | 2,5h | Wrote unit tests for all the new components added in the last couple of weeks |
 | 11.3 | 154,5h | Total hours so far, 8.82op. |
 | 11.3 | 2,5h | Added the option to see your goals from the front page and start practicing one directly |
+| 12.3 | 3h | Added a unit test for adding goals -dialog, added the missing cypress tests for the new features from last few weeks |

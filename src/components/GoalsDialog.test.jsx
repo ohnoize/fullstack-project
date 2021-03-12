@@ -7,7 +7,7 @@ import GoalsDialog from './GoalsDialog';
 describe('<GoalsDialog />', () => {
   let component;
   let startButton;
-  let cancelButton;
+  let closeButton;
   let mockHandler;
   const goals = [
     {
@@ -28,7 +28,7 @@ describe('<GoalsDialog />', () => {
       <MockedProvider>
         <GoalsDialog
           goals={goals}
-          open={() => null}
+          open
           setSubject={() => null}
           setOpen={() => null}
           handleStart={mockHandler}
@@ -36,23 +36,23 @@ describe('<GoalsDialog />', () => {
       </MockedProvider>,
     );
     startButton = component.getByText('Start practicing');
-    cancelButton = component.getByText(/cancel/ig);
+    closeButton = component.getByText(/close/i);
   });
 
   it('Renders correctly', () => {
     expect(component.getByText('My goals')).toBeInTheDocument();
-    expect(component.getByText('Subject to practice:')).toBeInTheDocument();
-    expect(component.getByText('Amount of time left to practice:')).toBeInTheDocument();
-    expect(component.getByText('Deadline:')).toBeInTheDocument();
-    expect(component.getByText('Start practicing')).toBeInTheDocument();
-    expect(component.getByText('Cancel')).toBeInTheDocument();
+    expect(component.getByText(/subject to practice/ig)).toBeInTheDocument();
+    expect(component.getByText(/amount of time left to practice/ig)).toBeInTheDocument();
+    expect(component.getByText(/deadline/ig)).toBeInTheDocument();
+    expect(component.getByText(/start practicing/ig)).toBeInTheDocument();
+    expect(component.getByText('Close')).toBeInTheDocument();
   });
   it('Start button works', () => {
     fireEvent.click(startButton);
     expect(mockHandler.mock.calls).toHaveLength(1);
   });
-  it('Cancel button works', () => {
-    fireEvent.click(cancelButton);
+  it('Close button works', () => {
+    fireEvent.click(closeButton);
     expect(mockHandler.mock.calls).toHaveLength(0);
   });
 });
