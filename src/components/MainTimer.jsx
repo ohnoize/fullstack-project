@@ -103,7 +103,7 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
   const subjects = useQuery(GET_SUBJECTS);
   const currentUser = useQuery(CURRENT_USER);
   const [addSession] = useMutation(ADD_SESSION, {
-    refetchQueries: [{ query: GET_SESSIONS }],
+    refetchQueries: [{ query: GET_SESSIONS }, { query: CURRENT_USER }],
   });
   const [addLink] = useMutation(ADD_LINK, {
     refetchQueries: [{ query: GET_SUBJECTS }],
@@ -219,9 +219,6 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
         <CircularProgress />
       </div>
     );
-  }
-  if (currentUser.data) {
-    // console.log('User from query in maintimer', currentUser.data.me);
   }
 
   const handleError = (text) => {
@@ -418,6 +415,25 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
                       <br />
                       <TextField onChange={handleNoteChange} id="subjectNotes" placeholder="Add note" />
                       <Button id="addNoteButton" onClick={addSubjectNote}>Add note</Button>
+                      <br />
+                      {currentUser.data.me.goals
+                        .filter((g) => g.subject === nowPracticing.name).length > 0
+                        ? (
+                          <>
+                            <Typography variant="body1">Your goals on this subject:</Typography>
+                            {currentUser.data.me.goals
+                              .filter((g) => g.subject === nowPracticing.name)
+                              .map((g) => (
+                                <Typography variant="body2">
+                                  {g.description}
+                                  {' '}
+                                  Time left:
+                                  {timeParser(g.targetTime - g.elapsedTime)}
+                                </Typography>
+                              ))}
+                          </>
+                        )
+                        : null}
                     </>
                   )
                   : null}
