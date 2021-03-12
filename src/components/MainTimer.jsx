@@ -416,18 +416,21 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
                       <TextField onChange={handleNoteChange} id="subjectNotes" placeholder="Add note" />
                       <Button id="addNoteButton" onClick={addSubjectNote}>Add note</Button>
                       <br />
+                      <br />
                       {currentUser.data.me.goals
                         .filter((g) => g.subject === nowPracticing.name).length > 0
                         ? (
                           <>
                             <Typography variant="body1">Your goals on this subject:</Typography>
+                            <br />
                             {currentUser.data.me.goals
                               .filter((g) => g.subject === nowPracticing.name)
                               .map((g) => (
-                                <Typography variant="body2">
+                                <Typography key={g.id} variant="body2">
                                   {g.description}
                                   {' '}
-                                  Time left:
+                                  -
+                                  {' '}
                                   {timeParser(g.targetTime - g.elapsedTime)}
                                 </Typography>
                               ))}
