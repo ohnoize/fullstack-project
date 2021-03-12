@@ -43,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
   header: {
     marginBottom: 20,
   },
+  divStyle: {
+    marginTop: 50,
+  },
   boxStyle: {
     marginTop: 20,
     marginBottom: 20,
@@ -305,56 +308,57 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
         alignItems="center"
       >
         <Grid item>
+          <div className={classes.divStyle}>
+            <Typography variant="body1">Pick a subject to practice:</Typography>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="subject-label">Choose one</InputLabel>
+              <Select
+                labelId="subject-label"
+                id="subjectMenu"
+                value={subject}
+                onChange={handleDropDown}
+              >
+                {subjects.data.allSubjects
+                  .map((s) => <MenuItem key={s.id} value={s.name}>{s.name}</MenuItem>)}
+              </Select>
+            </FormControl>
+            <br />
+            {token ? <Link variant="body2" component={RouterLink} to="/addsubject">Add subject</Link> : null}
+            <Box className={classes.boxStyle}>
+              <Button variant="outlined" onClick={handleStartNew}>Start</Button>
+              <Button variant="outlined" onClick={handleStopNew}>Stop</Button>
+            </Box>
 
-          <Typography variant="body1">Pick a subject to practice:</Typography>
-          <FormControl className={classes.formControl}>
-            <InputLabel id="subject-label">Choose one</InputLabel>
-            <Select
-              labelId="subject-label"
-              id="subjectMenu"
-              value={subject}
-              onChange={handleDropDown}
-            >
-              {subjects.data.allSubjects
-                .map((s) => <MenuItem key={s.id} value={s.name}>{s.name}</MenuItem>)}
-            </Select>
-          </FormControl>
-          <br />
-          {token ? <Link variant="body2" component={RouterLink} to="/addsubject">Add subject</Link> : null}
-          <Box className={classes.boxStyle}>
-            <Button variant="outlined" onClick={handleStartNew}>Start</Button>
-            <Button variant="outlined" onClick={handleStopNew}>Stop</Button>
-          </Box>
-
-          <Box className={classes.boxStyle}>
-            <Typography variant="body1">Time spent:</Typography>
-            {Object.entries(practiceTime).map(([key, value]) => (
-              <Typography variant="body1" key={key}>
-                {key}
-                :
+            <Box className={classes.boxStyle}>
+              <Typography variant="body1">Time spent:</Typography>
+              {Object.entries(practiceTime).map(([key, value]) => (
+                <Typography variant="body1" key={key}>
+                  {key}
+                  :
+                  {' '}
+                  {timeParser(value)}
+                </Typography>
+              ))}
+              <Typography variant="body1">
+                Total:
                 {' '}
-                {timeParser(value)}
+                {timeParser(totalTime(practiceTime))}
               </Typography>
-            ))}
-            <Typography variant="body1">
-              Total:
-              {' '}
-              {timeParser(totalTime(practiceTime))}
-            </Typography>
-          </Box>
+            </Box>
 
-          { token
-            ? (
-              <>
-                <Box className={classes.boxStyle}>
-                  <TextField id="notes" value={notes} placeholder="Add notes (optional)" onChange={handleNotes} />
-                </Box>
-                <Box className={classes.boxStyle}>
-                  <Button onClick={handleFinishConfirm}>Finish session</Button>
-                </Box>
-              </>
-            )
-            : <Link variant="body2" component={RouterLink} to="/login">Log in to save sessions</Link>}
+            { token
+              ? (
+                <>
+                  <Box className={classes.boxStyle}>
+                    <TextField id="notes" value={notes} placeholder="Add notes (optional)" onChange={handleNotes} />
+                  </Box>
+                  <Box className={classes.boxStyle}>
+                    <Button onClick={handleFinishConfirm}>Finish session</Button>
+                  </Box>
+                </>
+              )
+              : <Link variant="body2" component={RouterLink} to="/login">Log in to save sessions</Link>}
+          </div>
         </Grid>
         <Grid item>
           { isRunning
