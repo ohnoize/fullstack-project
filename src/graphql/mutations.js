@@ -122,9 +122,8 @@ export const LOGIN = gql`
     ) {
       token
       user {
-        ...UserItems
+        username
       }
     }
   }
-${USER_ITEMS}
 `;

@@ -26,7 +26,9 @@ const AccountPage = () => {
       </div>
     );
   }
+
   const currentUser = userQuery.data.me;
+
   const {
     sessions, mySubjects, goals, id,
   } = userQuery.data.me;

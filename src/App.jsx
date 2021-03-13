@@ -14,19 +14,17 @@ import Header from './components/Header';
 import SubjectForm from './components/SubjectForm';
 import SignUp from './components/SignUp';
 import AccountPage from './components/AccountPage';
+import { getToken } from './tokenStorage';
 
 const App = () => {
   const [token, setToken] = useState(null);
   const [practiceTime, setPracticeTime] = useState({});
   const client = useApolloClient();
   const currentUser = JSON.parse(localStorage.getItem('shed-app-user'));
-  useEffect(() => {
-    const localToken = localStorage.getItem('shed-app-user-token');
-    if (localToken) {
-      setToken(localToken);
-    }
-  }, []);
 
+  useEffect(() => {
+    setToken(getToken());
+  }, []);
   const handleLogOut = () => {
     setToken(null);
     setPracticeTime({});

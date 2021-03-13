@@ -5,9 +5,10 @@ import {
 } from '@apollo/client';
 import { setContext } from 'apollo-link-context';
 import App from './App';
+import { getToken } from './tokenStorage';
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('shed-app-user-token');
+  const token = getToken();
   // console.log(token !== 'undefined' || 'null');
   return {
     headers: {
@@ -18,7 +19,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: 'https://shed-app-api.herokuapp.com/graphql',
 });
 
 const client = new ApolloClient({
