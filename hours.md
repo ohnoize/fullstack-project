@@ -59,3 +59,5 @@
 | 12.3 | 3h | Added a unit test for adding goals -dialog, added the missing cypress tests for the new features from last few weeks |
 | 12.3 | 3h | Adding functionality to see if there are open goals on a subject you are currently practicing. Had some problems with github actions, found out their services were down for a little bit | 
 | 12.3 | 4h | Switched backend apollo server to apollo-server-express and configured refreshing tokens through a POST endpoint with cookies |
+| 12.3 | 3h | Having a really hard time making cookie-based tokens to work. Backend seems to accept them fine, but frontend is not sending/saving any |
+| 13.3 | 4,5h | Finally figured out cookies, was missing credentials in apollo client. Logging in and out should work now |

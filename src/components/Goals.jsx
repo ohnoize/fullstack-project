@@ -104,7 +104,7 @@ const Goals = ({
               <Typography variant="h6">Active</Typography>
               <br />
               {goals
-                .filter((g) => (new Date(g.deadline) > new Date()))
+                .filter((g) => (new Date(g.deadline) > new Date()) && !g.passed)
                 .map((g) => (
                   <div key={g.description} className={classes.root}>
                     <Accordion>
@@ -148,7 +148,7 @@ const Goals = ({
                 <>
                   <Typography variant="h6">Past</Typography>
                   {goals
-                    .filter((g) => new Date(g.deadline) < new Date())
+                    .filter((g) => new Date(g.deadline) < new Date() || g.passed)
                     .map((g) => (
                       <div key={g.description} className={classes.root}>
                         <Accordion>
@@ -180,6 +180,10 @@ const Goals = ({
                                 {' '}
                                 {new Date(g.deadline).toLocaleDateString()}
                               </Typography>
+                              <br />
+                              <IconButton onClick={() => handleConfirmDelete(g.id)} aria-label="delete">
+                                <DeleteIcon />
+                              </IconButton>
                             </Card>
                           </AccordionDetails>
                         </Accordion>

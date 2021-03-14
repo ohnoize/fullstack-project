@@ -8,7 +8,6 @@ import * as yup from 'yup';
 import { useHistory, Link as RouterLink } from 'react-router-dom';
 import { LOGIN } from '../graphql/mutations';
 import AlertDialog from './Alert';
-import { saveToken } from '../tokenStorage';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -68,7 +67,7 @@ const LoginForm = ({ setToken }) => {
       const { token } = result.data.login;
       const { user } = result.data.login;
       setToken(token);
-      saveToken(token);
+      localStorage.setItem('shed-app-user-token', token);
       localStorage.setItem('shed-app-user', JSON.stringify(user));
       history.push('/');
     }

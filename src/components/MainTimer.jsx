@@ -18,7 +18,9 @@ import {
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import { useStopwatch } from 'react-timer-hook';
-import { ADD_LINK, ADD_NOTE, ADD_SESSION } from '../graphql/mutations';
+import {
+  ADD_LINK, ADD_NOTE, ADD_SESSION, EDIT_GOAL,
+} from '../graphql/mutations';
 import { CURRENT_USER, GET_SESSIONS, GET_SUBJECTS } from '../graphql/queries';
 import { timeParser, totalTime } from '../utils';
 import AlertDialog from './Alert';
@@ -109,7 +111,7 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
     refetchQueries: [{ query: GET_SUBJECTS }],
   });
   const [addNote] = useMutation(ADD_NOTE);
-
+  const [editGoal] = useMutation(EDIT_GOAL);
   const classes = useStyles();
 
   const handleDropDown = (event) => {
@@ -151,6 +153,18 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
     const finalSeconds = secondsParser({
       days, hours, minutes, seconds,
     });
+    if (currentUser && currentUser.data && currentUser.data.me) {
+      const goalToEdit = currentUser.data.me.goals.find((g) => g.subject === subject);
+      if (goalToEdit) {
+        editGoal({
+          variables: {
+            userID: currentUser.data.me.id,
+            goalID: goalToEdit.id,
+            time: finalSeconds,
+          },
+        });
+      }
+    }
     if (Object.prototype.hasOwnProperty.call(practiceTime, subject)) {
       setPracticeTime((prevState) => ({
         ...prevState,
@@ -431,7 +445,11 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
                                   {' '}
                                   -
                                   {' '}
-                                  {timeParser(g.targetTime - g.elapsedTime)}
+                                  {timeParser(
+                                    (g.targetTime - g.elapsedTime) - secondsParser({
+                                      hours, minutes, seconds,
+                                    }),
+                                  )}
                                 </Typography>
                               ))}
                           </>
