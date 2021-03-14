@@ -1,6 +1,7 @@
 node_modules/
 cypress/videos/
 cypress/screenshots/
+tech-details.md
 
 #amplify
 amplify/\#current-cloud-backend
