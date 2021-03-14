@@ -61,3 +61,6 @@
 | 12.3 | 4h | Switched backend apollo server to apollo-server-express and configured refreshing tokens through a POST endpoint with cookies |
 | 12.3 | 3h | Having a really hard time making cookie-based tokens to work. Backend seems to accept them fine, but frontend is not sending/saving any |
 | 13.3 | 4,5h | Finally figured out cookies, was missing credentials in apollo client. Logging in and out should work now |
+| 13.3 | 3h | Couldn't get cookies to work when deployed, reverted back to localstorage for now. Writing a README. |
+
+# TOTAL HOURS 177,5
