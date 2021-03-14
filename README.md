@@ -10,21 +10,17 @@ Log in as username _testUser_ password _testPassword_ to test an account with pr
 
 Backend repository: https://github.com/ohnoize/shed-app-backend-graphql
 
-[WORK LOG](./HOURS)
+[WORK LOG](./HOURS.md)
 
 # Technology
 
 ## Frontend
 
-**React**
-**GraphQL**
-**JavaScript**
+**React -- GraphQL**
 
 ## Backend
 
-**GraphQL**
-**TypeScript**
-**Node.JS**
+**TypeScript -- GraphQL - Node.JS**
 
 ## Database
 
