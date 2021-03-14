@@ -18,7 +18,7 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const httpLink = new HttpLink({
-  uri: 'http://shed-app-api.herokuapp.com/graphql',
+  uri: 'https://shed-app-api.herokuapp.com/graphql',
   credentials: 'include',
 });
 
