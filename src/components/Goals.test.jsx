@@ -23,6 +23,14 @@ describe('<Goals />', () => {
       deadline: new Date('10/13/2021'),
       passed: false,
     },
+    {
+      description: 'testGoal3',
+      subject: 'testSubject3',
+      targetTime: 200002,
+      elapsedTime: 50002,
+      deadline: new Date('10/13/2002'),
+      passed: false,
+    },
   ];
   describe('When logged in', () => {
     beforeEach(() => {
@@ -35,7 +43,7 @@ describe('<Goals />', () => {
     it('Renders correctly', () => {
       expect(component.getByText('My Goals')).toBeInTheDocument();
       expect(component.getByText(/add goal/ig)).toBeInTheDocument();
-      expect(component.getByText(/current/ig)).toBeInTheDocument();
+      expect(component.getByText(/active/ig)).toBeInTheDocument();
       expect(component.getByText(/past/ig)).toBeInTheDocument();
       expect(component.getAllByText(/testGoal/ig)).not.toHaveLength(0);
       expect(component.getAllByText(/testSubject/ig)).not.toHaveLength(0);

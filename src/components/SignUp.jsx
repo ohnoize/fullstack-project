@@ -101,6 +101,7 @@ const SignUp = () => {
       <AlertDialog
         alertText={alertText}
         setOpen={setAlertOpen}
+        title="Success"
         open={alertOpen}
         action={() => history.push('/login')}
       />

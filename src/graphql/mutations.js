@@ -53,6 +53,20 @@ export const DELETE_SESSION = gql`
 ${SESSION_ITEMS}
 `;
 
+export const EDIT_GOAL = gql`
+  mutation editGoal($userID: String!, $goalID: String!, $time: Int!) {
+    editGoal(userID: $userID, goalID: $goalID, time: $time) {
+    id
+    description
+    subject
+    targetTime
+    elapsedTime
+    deadline
+    passed
+  }
+}
+`;
+
 export const DELETE_GOAL = gql`
   mutation deleteGoal($userID: String!, $goalID: String!) {
     deleteGoal(userID: $userID, goalID: $goalID) {
@@ -78,6 +92,12 @@ export const DELETE_USER = gql`
       username
       instrument
     }
+  }
+`;
+
+export const LOG_OUT = gql`
+  mutation {
+    logOut
   }
 `;
 
@@ -122,9 +142,8 @@ export const LOGIN = gql`
     ) {
       token
       user {
-        ...UserItems
+        username
       }
     }
   }
-${USER_ITEMS}
 `;

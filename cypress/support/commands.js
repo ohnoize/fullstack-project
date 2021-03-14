@@ -37,7 +37,7 @@ const deleteTestSession = `
 }
 `
 
-const apiUrl = 'https://shed-app-api.herokuapp.com/'
+const apiUrl = 'https://shed-app-api.herokuapp.com/graphql'
 
 Cypress.Commands.add('deleteTestSubject', () => {
   cy.request({

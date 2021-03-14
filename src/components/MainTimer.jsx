@@ -18,7 +18,9 @@ import {
 } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import { useStopwatch } from 'react-timer-hook';
-import { ADD_LINK, ADD_NOTE, ADD_SESSION } from '../graphql/mutations';
+import {
+  ADD_LINK, ADD_NOTE, ADD_SESSION, EDIT_GOAL,
+} from '../graphql/mutations';
 import { CURRENT_USER, GET_SESSIONS, GET_SUBJECTS } from '../graphql/queries';
 import { timeParser, totalTime } from '../utils';
 import AlertDialog from './Alert';
@@ -103,13 +105,13 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
   const subjects = useQuery(GET_SUBJECTS);
   const currentUser = useQuery(CURRENT_USER);
   const [addSession] = useMutation(ADD_SESSION, {
-    refetchQueries: [{ query: GET_SESSIONS }],
+    refetchQueries: [{ query: GET_SESSIONS }, { query: CURRENT_USER }],
   });
   const [addLink] = useMutation(ADD_LINK, {
     refetchQueries: [{ query: GET_SUBJECTS }],
   });
   const [addNote] = useMutation(ADD_NOTE);
-
+  const [editGoal] = useMutation(EDIT_GOAL);
   const classes = useStyles();
 
   const handleDropDown = (event) => {
@@ -151,6 +153,18 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
     const finalSeconds = secondsParser({
       days, hours, minutes, seconds,
     });
+    if (currentUser && currentUser.data && currentUser.data.me) {
+      const goalToEdit = currentUser.data.me.goals.find((g) => g.subject === subject);
+      if (goalToEdit) {
+        editGoal({
+          variables: {
+            userID: currentUser.data.me.id,
+            goalID: goalToEdit.id,
+            time: finalSeconds,
+          },
+        });
+      }
+    }
     if (Object.prototype.hasOwnProperty.call(practiceTime, subject)) {
       setPracticeTime((prevState) => ({
         ...prevState,
@@ -220,9 +234,6 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
       </div>
     );
   }
-  if (currentUser.data) {
-    // console.log('User from query in maintimer', currentUser.data.me);
-  }
 
   const handleError = (text) => {
     setAlertText(text);
@@ -267,6 +278,7 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
         alertText={alertText}
         setOpen={setAlertOpen}
         open={alertOpen}
+        title="Error"
         action={() => null}
       />
       {token
@@ -417,6 +429,32 @@ const MainTimer = ({ token, practiceTime, setPracticeTime }) => {
                       <br />
                       <TextField onChange={handleNoteChange} id="subjectNotes" placeholder="Add note" />
                       <Button id="addNoteButton" onClick={addSubjectNote}>Add note</Button>
+                      <br />
+                      <br />
+                      {currentUser.data.me.goals
+                        .filter((g) => g.subject === nowPracticing.name).length > 0
+                        ? (
+                          <>
+                            <Typography variant="body1">Your goals on this subject:</Typography>
+                            <br />
+                            {currentUser.data.me.goals
+                              .filter((g) => g.subject === nowPracticing.name)
+                              .map((g) => (
+                                <Typography key={g.id} variant="body2">
+                                  {g.description}
+                                  {' '}
+                                  -
+                                  {' '}
+                                  {timeParser(
+                                    (g.targetTime - g.elapsedTime) - secondsParser({
+                                      hours, minutes, seconds,
+                                    }),
+                                  )}
+                                </Typography>
+                              ))}
+                          </>
+                        )
+                        : null}
                     </>
                   )
                   : null}

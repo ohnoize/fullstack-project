@@ -16,6 +16,7 @@ export default function ConfirmDialog({
   return (
     <div>
       <Dialog
+        fullWidth
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
