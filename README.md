@@ -1,6 +1,6 @@
 # Shed App - Full Stack Project
 
-An app for the serious musician to log their practicing hours, track different subjects they practice, and set up goals for themselves.
+An app for the practicing musician to log their hours, track different practice subjects, and set up goals.
 
 Demo at https://main.d3k7j0mq4yzbfz.amplifyapp.com/
 
