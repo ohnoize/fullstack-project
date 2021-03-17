@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack serve --mode=development",
     "test": "jest --verbose",
-    "build": "webpack --mode=development",
+    "build": "webpack --mode=production",
     "lint": "eslint .",
     "cypress:open": "cypress open",
     "test:e2e": "cypress run"
