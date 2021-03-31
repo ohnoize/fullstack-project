@@ -52,7 +52,7 @@ const AddGoalDialog = ({
     const goal = {
       description,
       subject,
-      deadline: deadline.toString(),
+      deadline: deadline.toISOString(),
       targetTime: parseInt(targetTime, 10) * 3600,
     };
     const entry = {

@@ -11,7 +11,7 @@ describe('<GoalsDialog />', () => {
   let mockHandler;
   const goals = [
     {
-      deadline: 'Wed Mar 17 2021 16:03:00 GMT-0400 (Eastern Daylight Time)',
+      deadline: 'Wed Mar 17 2023 16:03:00 GMT-0400 (Eastern Daylight Time)',
       description: 'Practice Coltrane changes',
       passed: false,
       id: '604a3c129f42a70015e737e8',
